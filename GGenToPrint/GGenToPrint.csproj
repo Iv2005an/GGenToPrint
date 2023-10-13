@@ -53,12 +53,17 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove="Resources\Views\" />
+	  <None Remove="Resources\Drawables\" />
+	  <None Remove="Resources\Drawables\Sheet\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Resources\Views\" />
+	  <Folder Include="Resources\Drawables\" />
+	  <Folder Include="Resources\Drawables\Sheet\" />
 	</ItemGroup>
 </Project>

@@ -1,12 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:GGenToPrint.Resources.ViewModels"
+             xmlns:sheet="clr-namespace:GGenToPrint.Resources.Drawables.Sheet"
              x:Class="GGenToPrint.Resources.Views.MainPage">
-
-    <ContentPage.Resources>
-        <ViewModels:SheetDrawable x:Key="SheetDrawable"/>
-    </ContentPage.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,12 +16,12 @@
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
                         <Label Text="Клеток/строк по вертикали"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="numCellsOfVertical" WidthRequest="250" Minimum="0" Maximum="100"/>
-                            <Label Text="{Binding Source={x:Reference numCellsOfVertical},
-                        Path=Value,
-                        StringFormat='{0:F0}'}"
-                               WidthRequest="50"
-                               HorizontalTextAlignment="Center"/>
+                            <Slider x:Name="numCellsOfVertical"
+                                    WidthRequest="250"
+                                    Minimum="0" Maximum="100"/>
+                            <Label Text="{Binding Source={x:Reference numCellsOfVertical}, Path=Value, StringFormat='{0:F0}'}"
+                                   WidthRequest="50"
+                                   HorizontalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
@@ -33,12 +29,12 @@
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
                         <Label Text="Клеток/строк по горизонтали"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="numCellsOfHorizontal" WidthRequest="250" Minimum="0" Maximum="100"/>
-                            <Label Text="{Binding Source={x:Reference numCellsOfHorizontal},
-                        Path=Value,
-                        StringFormat='{0:F0}'}"
-                               WidthRequest="50"
-                               HorizontalTextAlignment="Center"/>
+                            <Slider x:Name="numCellsOfHorizontal"
+                                    WidthRequest="250"
+                                    Minimum="0" Maximum="100"/>
+                            <Label Text="{Binding Source={x:Reference numCellsOfHorizontal}, Path=Value, StringFormat='{0:F0}'}"
+                                   WidthRequest="50"
+                                   HorizontalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
@@ -46,12 +42,12 @@
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
                         <Label Text="Количество клеток поля"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="numCellsOfMargin" WidthRequest="250" Minimum="0" Maximum="100"/>
-                            <Label Text="{Binding Source={x:Reference numCellsOfMargin},
-                        Path=Value,
-                        StringFormat='{0:F0}'}"
-                               WidthRequest="50"
-                               HorizontalTextAlignment="Center"/>
+                            <Slider x:Name="numCellsOfMargin"
+                                    WidthRequest="250"
+                                    Minimum="0" Maximum="100"/>
+                            <Label Text="{Binding Source={x:Reference numCellsOfMargin}, Path=Value, StringFormat='{0:F0}'}"
+                                   WidthRequest="50"
+                                   HorizontalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
@@ -59,12 +55,12 @@
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
                         <Label Text="Растояние между строк (мм)"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="offsetBetweenRows" WidthRequest="250" Minimum="0" Maximum="100"/>
-                            <Label Text="{Binding Source={x:Reference offsetBetweenRows},
-                        Path=Value,
-                        StringFormat='{0:F0}'}"
-                               WidthRequest="50"
-                               HorizontalTextAlignment="Center"/>
+                            <Slider x:Name="offsetBetweenRows"
+                                    WidthRequest="250"
+                                    Minimum="0" Maximum="100"/>
+                            <Label Text="{Binding Source={x:Reference offsetBetweenRows}, Path=Value, StringFormat='{0:F0}'}"
+                                   WidthRequest="50"
+                                   HorizontalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
@@ -92,12 +88,12 @@
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
                         <Label Text="Подъём при перемещении (мм)"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="liftForMoving" WidthRequest="250" Minimum="0" Maximum="100"/>
-                            <Label Text="{Binding Source={x:Reference liftForMoving},
-                        Path=Value,
-                        StringFormat='{0:F0}'}"
-                               WidthRequest="50"
-                               HorizontalTextAlignment="Center"/>
+                            <Slider x:Name="liftForMoving"
+                                    WidthRequest="250"
+                                    Minimum="0" Maximum="100"/>
+                            <Label Text="{Binding Source={x:Reference liftForMoving}, Path=Value, StringFormat='{0:F0}'}"
+                                   WidthRequest="50"
+                                   HorizontalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
@@ -107,14 +103,32 @@
                         <Switch/>
                     </FlexLayout>
                 </Frame>
+
                 <Label Text="Текст для генерации" FontSize="Large" Margin="0,10,0,0"/>
                 <Frame Margin="0,10,0,0">
-                    <Editor Placeholder="Текст для генерации" AutoSize="TextChanges"/>
+                    <Editor Placeholder="Текст для генерации"
+                            AutoSize="TextChanges"/>
                 </Frame>
             </VerticalStackLayout>
         </ScrollView>
-        <GraphicsView Grid.Column="1"
-                      Margin="50"
-                      Drawable="{StaticResource SheetDrawable}"/>
+        <GraphicsView x:Name="SheetView"
+                      Grid.Column="1"
+                      Margin="50">
+        </GraphicsView>
+        <sheet:SheetView Grid.Column="1"
+                         Margin="50"
+                         NumCellsOfVertical="{Binding
+                            Source={x:Reference numCellsOfVertical},
+                            Path=Value, StringFormat='{0:F0}'}"
+                         NumCellsOfHorizontal="{Binding
+                            Source={x:Reference numCellsOfHorizontal},
+                            Path=Value, StringFormat='{0:F0}'}"
+                         NumCellsOfMargin="{Binding
+                            Source={x:Reference numCellsOfMargin},
+                            Path=Value, StringFormat='{0:F0}'}">
+            <sheet:SheetView.Drawable>
+                <sheet:SheetDrawable/>
+            </sheet:SheetView.Drawable>
+        </sheet:SheetView>
     </Grid>
 </ContentPage>
