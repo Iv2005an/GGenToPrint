@@ -86,6 +86,19 @@
                 <Label Text="Генерация" FontSize="Large" Margin="0,10,0,0"/>
                 <Frame Margin="0,10,0,0">
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Сторона клетки(мм)"/>
+                        <HorizontalStackLayout>
+                            <Slider x:Name="cellSize"
+                                    WidthRequest="250"
+                                    Minimum="0" Maximum="100"/>
+                            <Label Text="{Binding Source={x:Reference cellSize}, Path=Value, StringFormat='{0:F0}'}"
+                                   WidthRequest="50"
+                                   HorizontalTextAlignment="Center"/>
+                        </HorizontalStackLayout>
+                    </FlexLayout>
+                </Frame>
+                <Frame Margin="0,10,0,0">
+                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
                         <Label Text="Подъём при перемещении (мм)"/>
                         <HorizontalStackLayout>
                             <Slider x:Name="liftForMoving"
