@@ -1,5 +1,4 @@
-﻿using GGenToPrint.Resources.Pages.MainPageFolder;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace GGenToPrint;
 

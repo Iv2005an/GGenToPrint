@@ -10,7 +10,7 @@
     </ContentPage.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="700"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <sheet:SheetView x:Name="sheetView"
@@ -38,39 +38,46 @@
         <ScrollView>
             <VerticalStackLayout Margin="50">
                 <Label Text="Общее" FontSize="Large" Margin="0,10,0,0"/>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Клеток/строк по вертикали"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Клеток/строк по вертикали" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="numCellsOfVertical"
+                            <HorizontalStackLayout VerticalOptions="Center">
+                                <Slider x:Name="numCellsOfVertical"
                                     WidthRequest="250"
                                     Minimum="1" Maximum="100"
                                     Value="40"/>
+                            </HorizontalStackLayout>
                             <Label Text="{Binding Source={x:Reference numCellsOfVertical}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
-                                   HorizontalTextAlignment="Center"/>
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Клеток/строк по горизонтали"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Клеток/строк по горизонтали" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="numCellsOfHorizontal"
+                            <HorizontalStackLayout VerticalOptions="Center">
+                                <Slider x:Name="numCellsOfHorizontal"
                                     WidthRequest="250"
                                     Minimum="1" Maximum="100"
                                     Value="34"/>
+                            </HorizontalStackLayout>
                             <Label Text="{Binding Source={x:Reference numCellsOfHorizontal}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
-                                   HorizontalTextAlignment="Center"/>
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Размер полей"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Размер полей" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="MarginSize"
+                            <HorizontalStackLayout VerticalOptions="Center">
+                                <Slider x:Name="MarginSize"
                                     WidthRequest="250"
                                     Minimum="0"
                                     Maximum="{Binding
@@ -79,21 +86,23 @@
                                         Converter={StaticResource marginCellsConverter},
                                         StringFormat='{0:F0}'}"
                                     Value="4"/>
+                            </HorizontalStackLayout>
                             <Label Text="{Binding Source={x:Reference MarginSize}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
-                                   HorizontalTextAlignment="Center"/>
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
 
                 <Label Text="Предпросмотр" FontSize="Large" Margin="0,10,0,0"/>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Тип листа"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Тип листа" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <Picker x:Name="sheetType"
                                     WidthRequest="300"
-                                    HeightRequest="25">
+                                    MinimumHeightRequest="25">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>В клетку</x:String>
@@ -105,13 +114,13 @@
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Позиция листа"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Позиция листа" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <Picker x:Name="sheetPosition"
                                     WidthRequest="300"
-                                    HeightRequest="25">
+                                    MinimumHeightRequest="25">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>Правый</x:String>
@@ -127,44 +136,49 @@
                 </Frame>
 
                 <Label Text="Генерация" FontSize="Large" Margin="0,10,0,0"/>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Сторона клетки/строки (мм)"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Сторона клетки/строки (мм)" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="cellSize"
+                            <HorizontalStackLayout>
+                                <Slider x:Name="cellSize"
                                     WidthRequest="250"
                                     Minimum="1" Maximum="100"/>
+                            </HorizontalStackLayout>
                             <Label Text="{Binding Source={x:Reference cellSize}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
-                                   HorizontalTextAlignment="Center"/>
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Подъём при перемещении (мм)"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Подъём при перемещении (мм)" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="liftForMoving"
+                            <HorizontalStackLayout>
+                                <Slider x:Name="liftForMoving"
                                     WidthRequest="250"
                                     Minimum="0" Maximum="100"/>
+                            </HorizontalStackLayout>
                             <Label Text="{Binding Source={x:Reference liftForMoving}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
-                                   HorizontalTextAlignment="Center"/>
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Неточность письма"/>
-                        <Switch/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Неточность письма" VerticalTextAlignment="Center"/>
+                        <AbsoluteLayout HorizontalOptions="Center">
+                            <Switch AbsoluteLayout.LayoutBounds="0,0,40,40"/>
+                        </AbsoluteLayout>
                     </FlexLayout>
                 </Frame>
 
                 <Label Text="Текст для генерации" FontSize="Large" Margin="0,10,0,0"/>
-                <Frame Margin="0,10,0,0">
-                    <Editor Placeholder="Текст для генерации"
-                            AutoSize="TextChanges"/>
-                </Frame>
+                <Editor  Margin="0,10,0,0" Placeholder="Текст для генерации" AutoSize="TextChanges"/>
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
