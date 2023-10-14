@@ -40,13 +40,13 @@
             sheetView.Invalidate();
         }
 
-        public double NumCellsOfMargin
+        public double MarginSize
         {
-            get => (double)GetValue(NumCellsOfMarginProperty);
-            set => SetValue(NumCellsOfMarginProperty, value);
+            get => (double)GetValue(MarginSizeProperty);
+            set => SetValue(MarginSizeProperty, value);
         }
-        public static readonly BindableProperty NumCellsOfMarginProperty = BindableProperty.Create(
-            nameof(NumCellsOfMargin), typeof(double), typeof(SheetView),
+        public static readonly BindableProperty MarginSizeProperty = BindableProperty.Create(
+            nameof(MarginSize), typeof(double), typeof(SheetView),
             propertyChanged: NumCellsOfMarginPropertyChanged);
         public static void NumCellsOfMarginPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
@@ -55,7 +55,45 @@
                 return;
             }
 
-            sheetDrawable.NumCellsOfMargin = (double)newValue;
+            sheetDrawable.MarginSize = (double)newValue;
+            sheetView.Invalidate();
+        }
+
+        public int SheetType
+        {
+            get => (int)GetValue(SheetTypeProperty);
+            set => SetValue(SheetTypeProperty, value);
+        }
+        public static readonly BindableProperty SheetTypeProperty = BindableProperty.Create(
+            nameof(SheetType), typeof(int), typeof(SheetView),
+            propertyChanged: SheetTypePropertyChanged);
+        public static void SheetTypePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
+            {
+                return;
+            }
+
+            sheetDrawable.SheetType = (int)newValue;
+            sheetView.Invalidate();
+        }
+
+        public int SheetPosition
+        {
+            get => (int)GetValue(SheetPositionProperty);
+            set => SetValue(SheetPositionProperty, value);
+        }
+        public static readonly BindableProperty SheetPositionProperty = BindableProperty.Create(
+            nameof(SheetPosition), typeof(int), typeof(SheetView),
+            propertyChanged: SheetPositionPropertyChanged);
+        public static void SheetPositionPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
+            {
+                return;
+            }
+
+            sheetDrawable.SheetPosition = (int)newValue;
             sheetView.Invalidate();
         }
     }

@@ -22,9 +22,15 @@
                          NumCellsOfHorizontal="{Binding
                             Source={x:Reference numCellsOfHorizontal},
                             Path=Value, StringFormat='{0:F0}'}"
-                         NumCellsOfMargin="{Binding
-                            Source={x:Reference numCellsOfMargin},
-                            Path=Value, StringFormat='{0:F0}'}">
+                         MarginSize="{Binding
+                            Source={x:Reference MarginSize},
+                            Path=Value, StringFormat='{0:F0}'}"
+                         SheetType="{Binding
+                            Source={x:Reference sheetType},
+                            Path=SelectedIndex}"
+                         SheetPosition="{Binding
+                            Source={x:Reference sheetPosition},
+                            Path=SelectedIndex}">
             <sheet:SheetView.Drawable>
                 <sheet:SheetDrawable/>
             </sheet:SheetView.Drawable>
@@ -62,9 +68,9 @@
                 </Frame>
                 <Frame Margin="0,10,0,0">
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Количество клеток поля"/>
+                        <Label Text="Размер полей"/>
                         <HorizontalStackLayout>
-                            <Slider x:Name="numCellsOfMargin"
+                            <Slider x:Name="MarginSize"
                                     WidthRequest="250"
                                     Minimum="0"
                                     Maximum="{Binding
@@ -73,20 +79,7 @@
                                         Converter={StaticResource marginCellsConverter},
                                         StringFormat='{0:F0}'}"
                                     Value="4"/>
-                            <Label Text="{Binding Source={x:Reference numCellsOfMargin}, Path=Value, StringFormat='{0:F0}'}"
-                                   WidthRequest="50"
-                                   HorizontalTextAlignment="Center"/>
-                        </HorizontalStackLayout>
-                    </FlexLayout>
-                </Frame>
-                <Frame Margin="0,10,0,0">
-                    <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Растояние между строк (мм)"/>
-                        <HorizontalStackLayout>
-                            <Slider x:Name="offsetBetweenRows"
-                                    WidthRequest="250"
-                                    Minimum="0" Maximum="100"/>
-                            <Label Text="{Binding Source={x:Reference offsetBetweenRows}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding Source={x:Reference MarginSize}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"/>
                         </HorizontalStackLayout>
@@ -98,7 +91,17 @@
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
                         <Label Text="Тип листа"/>
                         <HorizontalStackLayout>
-                            <Picker WidthRequest="300"/>
+                            <Picker x:Name="sheetType"
+                                    WidthRequest="300"
+                                    HeightRequest="25">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>В клетку</x:String>
+                                        <x:String>В линейку</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                                <Picker.SelectedItem>В клетку</Picker.SelectedItem>
+                            </Picker>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
@@ -106,7 +109,19 @@
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
                         <Label Text="Позиция листа"/>
                         <HorizontalStackLayout>
-                            <Picker WidthRequest="300"/>
+                            <Picker x:Name="sheetPosition"
+                                    WidthRequest="300"
+                                    HeightRequest="25">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Правый</x:String>
+                                        <x:String>Левый</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                                <Picker.SelectedItem>
+                                    Правый
+                                </Picker.SelectedItem>
+                            </Picker>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
@@ -114,7 +129,7 @@
                 <Label Text="Генерация" FontSize="Large" Margin="0,10,0,0"/>
                 <Frame Margin="0,10,0,0">
                     <FlexLayout AlignContent="Center" AlignItems="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Сторона клетки(мм)"/>
+                        <Label Text="Сторона клетки/строки (мм)"/>
                         <HorizontalStackLayout>
                             <Slider x:Name="cellSize"
                                     WidthRequest="250"
