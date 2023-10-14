@@ -3,16 +3,15 @@
     x:Class="GGenToPrint.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:GGenToPrint.Resources.Views"
+    xmlns:pages="clr-namespace:GGenToPrint.Resources.Pages"
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
         <Tab Title="Главная">
-            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate pages:MainPageFolder.MainPage}" />
         </Tab>
         <Tab Title="Шрифт">
-            <ShellContent ContentTemplate="{DataTemplate views:FontPage}" />
+            <ShellContent ContentTemplate="{DataTemplate pages:FontPageFolder.FontPage}" />
         </Tab>
     </TabBar>
 </Shell>
-

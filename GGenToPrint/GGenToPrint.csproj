@@ -57,13 +57,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Views\" />
 	  <None Remove="Resources\Drawables\" />
 	  <None Remove="Resources\Drawables\Sheet\" />
+	  <None Remove="Resources\Pages\" />
+	  <None Remove="Resources\Pages\MainPageFolder\" />
+	  <None Remove="Program\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Resources\Views\" />
 	  <Folder Include="Resources\Drawables\" />
 	  <Folder Include="Resources\Drawables\Sheet\" />
+	  <Folder Include="Resources\Pages\" />
+	  <Folder Include="Resources\Pages\MainPageFolder\" />
+	  <Folder Include="Program\" />
 	</ItemGroup>
 </Project>

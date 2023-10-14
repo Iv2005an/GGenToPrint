@@ -12,13 +12,13 @@
             propertyChanged: NumCellsOfVerticalPropertyChanged);
         public static void NumCellsOfVerticalPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (bindable is not SheetView { Drawable: SheetDrawable drawable } view)
+            if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
             {
                 return;
             }
 
-            drawable.NumCellsOfVertical = (double)newValue;
-            view.Invalidate();
+            sheetDrawable.NumCellsOfVertical = (double)newValue;
+            sheetView.Invalidate();
         }
 
         public double NumCellsOfHorizontal
@@ -31,13 +31,13 @@
             propertyChanged: NumCellsOfHorizontalPropertyChanged);
         public static void NumCellsOfHorizontalPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (bindable is not SheetView { Drawable: SheetDrawable drawable } view)
+            if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
             {
                 return;
             }
 
-            drawable.NumCellsOfHorizontal = (double)newValue;
-            view.Invalidate();
+            sheetDrawable.NumCellsOfHorizontal = (double)newValue;
+            sheetView.Invalidate();
         }
 
         public double NumCellsOfMargin
@@ -50,14 +50,13 @@
             propertyChanged: NumCellsOfMarginPropertyChanged);
         public static void NumCellsOfMarginPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (bindable is not SheetView { Drawable: SheetDrawable drawable } view)
+            if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
             {
                 return;
             }
 
-            drawable.NumCellsOfMargin = (double)newValue;
-            view.Invalidate();
+            sheetDrawable.NumCellsOfMargin = (double)newValue;
+            sheetView.Invalidate();
         }
     }
 }
-
