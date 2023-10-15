@@ -17,19 +17,19 @@
                          Grid.Column="1"
                          Margin="50"
                          NumCellsOfVertical="{Binding
-                            Source={x:Reference numCellsOfVertical},
+                            Source={x:Reference NumCellsOfVertical},
                             Path=Value, StringFormat='{0:F0}'}"
                          NumCellsOfHorizontal="{Binding
-                            Source={x:Reference numCellsOfHorizontal},
+                            Source={x:Reference NumCellsOfHorizontal},
                             Path=Value, StringFormat='{0:F0}'}"
                          MarginSize="{Binding
                             Source={x:Reference MarginSize},
                             Path=Value, StringFormat='{0:F0}'}"
                          SheetType="{Binding
-                            Source={x:Reference sheetType},
+                            Source={x:Reference SheetType},
                             Path=SelectedIndex}"
                          SheetPosition="{Binding
-                            Source={x:Reference sheetPosition},
+                            Source={x:Reference SheetPosition},
                             Path=SelectedIndex}">
             <sheet:SheetView.Drawable>
                 <sheet:SheetDrawable/>
@@ -58,12 +58,12 @@
                         <Label Text="Клеток/строк по вертикали" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <HorizontalStackLayout VerticalOptions="Center">
-                                <Slider x:Name="numCellsOfVertical"
+                                <Slider x:Name="NumCellsOfVertical"
                                     WidthRequest="250"
                                     Minimum="1" Maximum="100"
                                     Value="40"/>
                             </HorizontalStackLayout>
-                            <Label Text="{Binding Source={x:Reference numCellsOfVertical}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding Source={x:Reference NumCellsOfVertical}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
@@ -75,12 +75,12 @@
                         <Label Text="Клеток по горизонтали" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <HorizontalStackLayout VerticalOptions="Center">
-                                <Slider x:Name="numCellsOfHorizontal"
+                                <Slider x:Name="NumCellsOfHorizontal"
                                     WidthRequest="250"
                                     Minimum="1" Maximum="100"
                                     Value="34"/>
                             </HorizontalStackLayout>
-                            <Label Text="{Binding Source={x:Reference numCellsOfHorizontal}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding Source={x:Reference NumCellsOfHorizontal}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
@@ -96,7 +96,7 @@
                                     WidthRequest="250"
                                     Minimum="0"
                                     Maximum="{Binding
-                                        Source={x:Reference numCellsOfHorizontal},
+                                        Source={x:Reference NumCellsOfHorizontal},
                                         Path=Value,
                                         Converter={StaticResource marginCellsConverter},
                                         StringFormat='{0:F0}'}"
@@ -115,7 +115,7 @@
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Label Text="Тип листа" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
-                            <Picker x:Name="sheetType"
+                            <Picker x:Name="SheetType"
                                     WidthRequest="300"
                                     MinimumHeightRequest="25"
                                     VerticalOptions="Center">
@@ -134,7 +134,7 @@
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Label Text="Позиция листа" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
-                            <Picker x:Name="sheetPosition"
+                            <Picker x:Name="SheetPosition"
                                     WidthRequest="300"
                                     MinimumHeightRequest="25"
                                     VerticalOptions="Center">
@@ -174,11 +174,11 @@
                         <Label Text="Подъём при перемещении (мм)" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <HorizontalStackLayout>
-                                <Slider x:Name="liftForMoving"
+                                <Slider x:Name="LiftForMoving"
                                     WidthRequest="250"
                                     Minimum="0" Maximum="100"/>
                             </HorizontalStackLayout>
-                            <Label Text="{Binding Source={x:Reference liftForMoving}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding Source={x:Reference LiftForMoving}, Path=Value, StringFormat='{0:F0}'}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
