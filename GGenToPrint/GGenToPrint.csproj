@@ -34,12 +34,22 @@
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 		<!-- Custom Fonts -->
-		<MauiFont Include="Resources\Fonts\*" />
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <AndroidResource Remove="Resources\Database\**" />
+	  <AndroidResource Remove="Resources\Fonts\**" />
+	  <Compile Remove="Resources\Database\**" />
+	  <Compile Remove="Resources\Fonts\**" />
+	  <EmbeddedResource Remove="Resources\Database\**" />
+	  <EmbeddedResource Remove="Resources\Fonts\**" />
+	  <MauiCss Remove="Resources\Database\**" />
+	  <MauiCss Remove="Resources\Fonts\**" />
+	  <MauiXaml Remove="Resources\Database\**" />
+	  <MauiXaml Remove="Resources\Fonts\**" />
+	  <None Remove="Resources\Database\**" />
+	  <None Remove="Resources\Fonts\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
@@ -56,8 +66,6 @@
 	<ItemGroup>
 		<Folder Include="Resources\Drawables\" />
 		<Folder Include="Resources\Drawables\Sheet\" />
-		<Folder Include="Resources\Fonts\" />
 		<Folder Include="Resources\Pages\MainPage\" />
-		<Folder Include="Resources\Database\" />
 	</ItemGroup>
 </Project>
