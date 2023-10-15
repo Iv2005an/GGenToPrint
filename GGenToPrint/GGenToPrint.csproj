@@ -37,6 +37,7 @@
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
@@ -55,6 +56,8 @@
 	<ItemGroup>
 		<Folder Include="Resources\Drawables\" />
 		<Folder Include="Resources\Drawables\Sheet\" />
+		<Folder Include="Resources\Fonts\" />
 		<Folder Include="Resources\Pages\MainPage\" />
+		<Folder Include="Resources\Database\" />
 	</ItemGroup>
 </Project>
