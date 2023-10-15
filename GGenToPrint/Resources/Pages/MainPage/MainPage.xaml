@@ -57,7 +57,7 @@
                 </Frame>
                 <Frame Margin="0,10,0,0" HeightRequest="75">
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Клеток/строк по горизонтали" VerticalTextAlignment="Center"/>
+                        <Label Text="Клеток по горизонтали" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <HorizontalStackLayout VerticalOptions="Center">
                                 <Slider x:Name="numCellsOfHorizontal"
