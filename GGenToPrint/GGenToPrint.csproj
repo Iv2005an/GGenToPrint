@@ -61,11 +61,10 @@
 		<None Remove="Resources\Drawables\" />
 		<None Remove="Resources\Drawables\Sheet\" />
 		<None Remove="Resources\Pages\" />
-		<None Remove="Resources\Pages\MainPageFolder\" />
+		<None Remove="Resources\Views\MainPageFolder\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Resources\Drawables\" />
 		<Folder Include="Resources\Drawables\Sheet\" />
-		<Folder Include="Resources\Pages\MainPage\" />
 	</ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace GGenToPrint.Resources.Pages.FontPage;
+﻿namespace GGenToPrint.Resources.Views.FontPage;
 
 public partial class FontPage : ContentPage
 {

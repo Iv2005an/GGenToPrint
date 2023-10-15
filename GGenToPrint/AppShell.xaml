@@ -3,8 +3,8 @@
     x:Class="GGenToPrint.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:main_age="clr-namespace:GGenToPrint.Resources.Pages.MainPage"
-    xmlns:font_page="clr-namespace:GGenToPrint.Resources.Pages.FontPage"
+    xmlns:main_age="clr-namespace:GGenToPrint.Resources.Views.MainPage"
+    xmlns:font_page="clr-namespace:GGenToPrint.Resources.Views.FontPage"
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>

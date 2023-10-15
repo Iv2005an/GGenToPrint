@@ -1,6 +1,7 @@
-﻿using GGenToPrint.Resources.Pages.MainPage;
+﻿using GGenToPrint.Resources.Views.MainPage;
 using GGenToPrint.Resources.ViewModels;
 using Microsoft.Extensions.Logging;
+using GGenToPrint.Resources.Services;
 
 namespace GGenToPrint;
 
