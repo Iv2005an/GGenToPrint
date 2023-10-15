@@ -102,7 +102,8 @@
                         <HorizontalStackLayout>
                             <Picker x:Name="sheetType"
                                     WidthRequest="300"
-                                    MinimumHeightRequest="25">
+                                    MinimumHeightRequest="25"
+                                    VerticalOptions="Center">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>В клетку</x:String>
@@ -120,7 +121,8 @@
                         <HorizontalStackLayout>
                             <Picker x:Name="sheetPosition"
                                     WidthRequest="300"
-                                    MinimumHeightRequest="25">
+                                    MinimumHeightRequest="25"
+                                    VerticalOptions="Center">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>Правый</x:String>
