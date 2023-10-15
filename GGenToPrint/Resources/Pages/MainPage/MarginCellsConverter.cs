@@ -6,7 +6,7 @@ namespace GGenToPrint.Resources.Pages.MainPage
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value - 1;
+            return (byte)value - 1;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

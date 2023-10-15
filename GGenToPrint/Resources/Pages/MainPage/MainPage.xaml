@@ -2,35 +2,26 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:GGenToPrint.Resources.Pages.MainPage"
+             xmlns:view_models="clr-namespace:GGenToPrint.Resources.ViewModels"
              xmlns:sheet="clr-namespace:GGenToPrint.Resources.Drawables.Sheet"
+             x:DataType="view_models:MainPageViewModel"
              x:Class="GGenToPrint.Resources.Pages.MainPage.MainPage">
 
     <ContentPage.Resources>
-        <local:MarginCellsConverter x:Key="marginCellsConverter"/>
+        <local:MarginCellsConverter x:Key="MarginCellsConverter"/>
     </ContentPage.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="700"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <sheet:SheetView x:Name="sheetView"
-                         Grid.Column="1"
+        <sheet:SheetView Grid.Column="1"
                          Margin="50"
-                         NumCellsOfVertical="{Binding
-                            Source={x:Reference NumCellsOfVertical},
-                            Path=Value, StringFormat='{0:F0}'}"
-                         NumCellsOfHorizontal="{Binding
-                            Source={x:Reference NumCellsOfHorizontal},
-                            Path=Value, StringFormat='{0:F0}'}"
-                         MarginSize="{Binding
-                            Source={x:Reference MarginSize},
-                            Path=Value, StringFormat='{0:F0}'}"
-                         SheetType="{Binding
-                            Source={x:Reference SheetType},
-                            Path=SelectedIndex}"
-                         SheetPosition="{Binding
-                            Source={x:Reference SheetPosition},
-                            Path=SelectedIndex}">
+                         NumCellsOfVertical="{Binding NumCellsOfVertical}"
+                         NumCellsOfHorizontal="{Binding NumCellsOfHorizontal}"
+                         NumCellsOfMargin="{Binding NumCellsOfMargin}"
+                         SheetTypeIndex="{Binding SheetTypeIndex}"
+                         SheetPositionIndex="{Binding SheetPositionIndex}">
             <sheet:SheetView.Drawable>
                 <sheet:SheetDrawable/>
             </sheet:SheetView.Drawable>
@@ -42,10 +33,11 @@
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Label Text="Профиль" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout Spacing="20">
-                            <Picker x:Name="profiles"
-                                    WidthRequest="300"
+                            <Picker WidthRequest="300"
                                     MinimumHeightRequest="25"
-                                    VerticalOptions="Center">
+                                    VerticalOptions="Center"
+                                    ItemsSource="{Binding Profiles}"
+                                    SelectedIndex="{Binding SelectedProfileIndex}">
                             </Picker>
                             <Button Text="Добавить"/>
                         </HorizontalStackLayout>
@@ -61,9 +53,9 @@
                                 <Slider x:Name="NumCellsOfVertical"
                                     WidthRequest="250"
                                     Minimum="1" Maximum="100"
-                                    Value="40"/>
+                                    Value="{Binding NumCellsOfVertical}"/>
                             </HorizontalStackLayout>
-                            <Label Text="{Binding Source={x:Reference NumCellsOfVertical}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding NumCellsOfVertical}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
@@ -75,12 +67,11 @@
                         <Label Text="Клеток по горизонтали" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <HorizontalStackLayout VerticalOptions="Center">
-                                <Slider x:Name="NumCellsOfHorizontal"
-                                    WidthRequest="250"
-                                    Minimum="1" Maximum="100"
-                                    Value="34"/>
+                                <Slider WidthRequest="250"
+                                        Minimum="1" Maximum="100"
+                                        Value="{Binding NumCellsOfHorizontal}"/>
                             </HorizontalStackLayout>
-                            <Label Text="{Binding Source={x:Reference NumCellsOfHorizontal}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding NumCellsOfHorizontal}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
@@ -92,17 +83,13 @@
                         <Label Text="Размер полей" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <HorizontalStackLayout VerticalOptions="Center">
-                                <Slider x:Name="MarginSize"
-                                    WidthRequest="250"
-                                    Minimum="0"
-                                    Maximum="{Binding
-                                        Source={x:Reference NumCellsOfHorizontal},
-                                        Path=Value,
-                                        Converter={StaticResource marginCellsConverter},
-                                        StringFormat='{0:F0}'}"
-                                    Value="4"/>
+                                <Slider WidthRequest="250"
+                                        Minimum="0"
+                                        Maximum="{Binding NumCellsOfHorizontal, Converter={StaticResource MarginCellsConverter}}"
+                                        Value="{Binding NumCellsOfMargin}">
+                                </Slider>
                             </HorizontalStackLayout>
-                            <Label Text="{Binding Source={x:Reference MarginSize}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding NumCellsOfMargin}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
@@ -118,7 +105,8 @@
                             <Picker x:Name="SheetType"
                                     WidthRequest="300"
                                     MinimumHeightRequest="25"
-                                    VerticalOptions="Center">
+                                    VerticalOptions="Center"
+                                    SelectedIndex="{Binding SheetTypeIndex}">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>В клетку</x:String>
@@ -134,10 +122,10 @@
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Label Text="Позиция листа" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
-                            <Picker x:Name="SheetPosition"
-                                    WidthRequest="300"
+                            <Picker WidthRequest="300"
                                     MinimumHeightRequest="25"
-                                    VerticalOptions="Center">
+                                    VerticalOptions="Center"
+                                    SelectedIndex="{Binding SheetPositionIndex}">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>Правый</x:String>
@@ -158,11 +146,11 @@
                         <Label Text="Сторона клетки/строки (мм)" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <HorizontalStackLayout>
-                                <Slider x:Name="cellSize"
-                                    WidthRequest="250"
-                                    Minimum="1" Maximum="100"/>
+                                <Slider WidthRequest="250"
+                                        Minimum="1" Maximum="100"
+                                        Value="{Binding CellSize}"/>
                             </HorizontalStackLayout>
-                            <Label Text="{Binding Source={x:Reference cellSize}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding CellSize}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
@@ -174,11 +162,11 @@
                         <Label Text="Подъём при перемещении (мм)" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout>
                             <HorizontalStackLayout>
-                                <Slider x:Name="LiftForMoving"
-                                    WidthRequest="250"
-                                    Minimum="0" Maximum="100"/>
+                                <Slider WidthRequest="250"
+                                        Minimum="0" Maximum="100"
+                                        Value="{Binding LiftForMoving}"/>
                             </HorizontalStackLayout>
-                            <Label Text="{Binding Source={x:Reference LiftForMoving}, Path=Value, StringFormat='{0:F0}'}"
+                            <Label Text="{Binding LiftForMoving}"
                                    WidthRequest="50"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
@@ -189,7 +177,7 @@
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Label Text="Неточность письма" VerticalTextAlignment="Center"/>
                         <AbsoluteLayout HorizontalOptions="Center">
-                            <Switch AbsoluteLayout.LayoutBounds="0,0,40,40"/>
+                            <Switch AbsoluteLayout.LayoutBounds="0,0,40,40" IsToggled="{Binding UnevennessOfWriting}"/>
                         </AbsoluteLayout>
                     </FlexLayout>
                 </Frame>

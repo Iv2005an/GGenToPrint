@@ -2,11 +2,11 @@
 {
     public class SheetDrawable : IDrawable
     {
-        public double NumCellsOfVertical { get; set; }
-        public double NumCellsOfHorizontal { get; set; }
-        public double MarginSize { get; set; }
-        public int SheetType { get; set; }
-        public int SheetPosition { get; set; }
+        public byte NumCellsOfVertical { get; set; }
+        public byte NumCellsOfHorizontal { get; set; }
+        public byte NumCellsOfMargin { get; set; }
+        public byte SheetTypeIndex { get; set; }
+        public byte SheetPositionIndex { get; set; }
 
         public void Draw(ICanvas canvas, RectF rectF)
         {
@@ -29,7 +29,7 @@
             canvas.DrawLine(rectF.Left, cellSize * (float)NumCellsOfVertical, rectF.Left, rectF.Top);
 
             // Cells and rows
-            if (SheetType == 0)
+            if (SheetTypeIndex == 0)
             {
                 for (int i = 1; i < NumCellsOfHorizontal; i++)
                 {
@@ -40,7 +40,7 @@
                     canvas.DrawLine(rectF.Left, cellSize * i, cellSize * (float)NumCellsOfHorizontal, cellSize * i);
                 }
             }
-            else if (SheetType == 1)
+            else if (SheetTypeIndex == 1)
             {
                 for (int i = 1; i < NumCellsOfVertical; i++)
                 {
@@ -49,26 +49,28 @@
             }
 
             // Margin
-            if (MarginSize > 0)
+            if (NumCellsOfMargin > 0)
             {
                 canvas.StrokeSize = 3;
                 canvas.StrokeColor = Colors.Red;
-                if (SheetPosition == 0)
+                if (SheetPositionIndex == 0)
                 {
                     canvas.DrawLine(
-                        cellSize * (float)NumCellsOfHorizontal - cellSize * (float)MarginSize,
+                        cellSize * (float)NumCellsOfHorizontal - cellSize * (float)NumCellsOfMargin,
                         rectF.Top,
-                        cellSize * (float)NumCellsOfHorizontal - cellSize * (float)MarginSize,
+                        cellSize * (float)NumCellsOfHorizontal - cellSize * (float)NumCellsOfMargin,
                         cellSize * (float)NumCellsOfVertical);
                 }
-                else if (SheetPosition == 1)
+                else if (SheetPositionIndex == 1)
                 {
                     canvas.DrawLine(
-                        cellSize * (float)MarginSize,
+                        cellSize * (float)NumCellsOfMargin,
                         rectF.Top,
-                        cellSize * (float)MarginSize,
+                        cellSize * (float)NumCellsOfMargin,
                         cellSize * (float)NumCellsOfVertical);
                 }
+                canvas.StrokeSize = 1;
+                canvas.StrokeColor = drawColor;
             }
         }
     }
