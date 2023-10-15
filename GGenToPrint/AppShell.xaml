@@ -8,10 +8,10 @@
 
     <TabBar>
         <Tab Title="Главная">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPageFolder.MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate pages:MainPage.MainPage}" />
         </Tab>
         <Tab Title="Шрифт">
-            <ShellContent ContentTemplate="{DataTemplate pages:FontPageFolder.FontPage}" />
+            <ShellContent ContentTemplate="{DataTemplate pages:FontPage.FontPage}" />
         </Tab>
     </TabBar>
 </Shell>

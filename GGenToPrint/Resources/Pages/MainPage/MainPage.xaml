@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:GGenToPrint.Resources.Pages.MainPageFolder"
+             xmlns:local="clr-namespace:GGenToPrint.Resources.Pages.MainPage"
              xmlns:sheet="clr-namespace:GGenToPrint.Resources.Drawables.Sheet"
-             x:Class="GGenToPrint.Resources.Pages.MainPageFolder.MainPage">
+             x:Class="GGenToPrint.Resources.Pages.MainPage.MainPage">
 
     <ContentPage.Resources>
         <local:MarginCellsConverter x:Key="marginCellsConverter"/>

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace GGenToPrint.Resources.Pages.MainPageFolder
+namespace GGenToPrint.Resources.Pages.MainPage
 {
     public class MarginCellsConverter : IValueConverter
     {

@@ -1,4 +1,4 @@
-﻿namespace GGenToPrint.Resources.Pages.MainPageFolder;
+﻿namespace GGenToPrint.Resources.Pages.MainPage;
 
 public partial class MainPage : ContentPage
 {

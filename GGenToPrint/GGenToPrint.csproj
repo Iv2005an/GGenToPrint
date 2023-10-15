@@ -57,8 +57,7 @@
 		<Folder Include="Resources\Drawables\" />
 		<Folder Include="Resources\Drawables\Sheet\" />
 		<Folder Include="Resources\Fonts\" />
-		<Folder Include="Resources\Pages\" />
-		<Folder Include="Resources\Pages\MainPageFolder\" />
+		<Folder Include="Resources\Pages\MainPage\" />
 		<Folder Include="Resources\Database\" />
 	</ItemGroup>
 </Project>
