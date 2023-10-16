@@ -13,27 +13,62 @@ public static class ProfileService
         {
             return;
         }
-        _db = new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, "profiles.db"), SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+        _db = new SQLiteAsyncConnection(
+            Path.Combine(FileSystem.AppDataDirectory, "GGenToPrint_profiles.db"));
         await _db.CreateTableAsync<Profile>();
-        await AddProfile(new()
+        if (!(await GetProfiles()).Any())
         {
-            ProfileName = "Профиль",
-            NumCellsOfVertical = 40,
-            NumCellsOfHorizontal = 34,
-            NumCellsOfMargin = 4,
-            SheetTypeIndex = 0,
-            SheetPositionIndex = 0,
-            CellSize = 5,
-            LiftForMoving = 10,
-            UnevennessOfWriting = true
-        });
+            await AddProfile(new()
+            {
+                ProfileName = "Профиль 1",
+                CurrentProfile = true,
+                NumCellsOfVertical = 40,
+                NumCellsOfHorizontal = 34,
+                NumCellsOfMargin = 4,
+                SheetTypeIndex = 0,
+                SheetPositionIndex = 0,
+                CellSize = 5,
+                LiftForMoving = 10,
+                UnevennessOfWriting = false
+            });
+        }
     }
 
     public static async Task AddProfile(Profile profile)
     {
         await Init();
 
+        await DisableCurrentProfile();
         await _db.InsertAsync(profile);
+    }
+
+    public static async Task DisableCurrentProfile()
+    {
+        await Init();
+
+        var profiles = await GetProfiles();
+        var oldCurrentProfile = profiles.Where(profile => profile.CurrentProfile).FirstOrDefault();
+        if (oldCurrentProfile is not null)
+        {
+            oldCurrentProfile.CurrentProfile = false;
+            await _db.UpdateAsync(oldCurrentProfile);
+        }
+    }
+
+    public static async Task ChangeCurrentProfile(byte profileId)
+    {
+        await Init();
+
+        await DisableCurrentProfile();
+
+        var profiles = await GetProfiles();
+        var newCurrentProfile = profiles.Where(
+            profile => profile.ProfileId == profileId + 1).FirstOrDefault();
+        if (newCurrentProfile is not null)
+        {
+            newCurrentProfile.CurrentProfile = true;
+            await _db.UpdateAsync(newCurrentProfile);
+        }
     }
 
     public static async Task<IEnumerable<Profile>> GetProfiles()

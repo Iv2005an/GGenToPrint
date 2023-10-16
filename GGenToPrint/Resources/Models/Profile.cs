@@ -9,6 +9,9 @@ public class Profile
     [Column("profile_id")]
     public byte ProfileId { get; set; }
 
+    [Column("current_profile")]
+    public bool CurrentProfile { get; set; }
+
     [Column("profile_name")]
     public string ProfileName { get; set; }
 

@@ -33,13 +33,16 @@
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Label Text="Профиль" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout Spacing="20">
-                            <Picker WidthRequest="300"
+                            <Picker x:Name="Profiles"
+                                    WidthRequest="300"
                                     MinimumHeightRequest="25"
                                     VerticalOptions="Center"
                                     ItemsSource="{Binding Profiles}"
-                                    SelectedIndex="{Binding SelectedProfileIndex}">
+                                    ItemDisplayBinding="{Binding ProfileName}"
+                                    SelectedIndex="{Binding SelectedProfileIndex}"
+                                    SelectedItem="{Binding CurrentProfile}">
                             </Picker>
-                            <Button Text="Добавить"/>
+                            <Button Text="Добавить" Clicked="AddProfile"/>
                         </HorizontalStackLayout>
                     </FlexLayout>
                 </Frame>
