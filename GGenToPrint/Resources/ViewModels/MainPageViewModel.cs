@@ -79,8 +79,15 @@ public partial class MainPageViewModel : ObservableObject
         await RefreshSettingsCommand.ExecuteAsync(null);
     }
 
+    [RelayCommand]
+    async Task ChangeProfile(byte newIdProfile)
+    {
+        await ProfileService.ChangeCurrentProfile(newIdProfile);
+        await RefreshSettingsCommand.ExecuteAsync(null);
+    }
+
     async partial void OnSelectedProfileIndexChanged(byte value)
     {
-        await ProfileService.ChangeCurrentProfile(value);
+        await ChangeProfileCommand.ExecuteAsync(value);
     }
 }
