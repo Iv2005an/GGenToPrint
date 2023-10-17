@@ -90,4 +90,45 @@ public partial class MainPageViewModel : ObservableObject
     {
         await ChangeProfileCommand.ExecuteAsync(value);
     }
+
+    async partial void OnNumCellsOfVerticalChanged(byte value)
+    {
+        CurrentProfile.NumCellsOfVertical = value;
+        await ProfileService.UpdateProfile(CurrentProfile);
+    }
+    async partial void OnNumCellsOfHorizontalChanged(byte value)
+    {
+        CurrentProfile.NumCellsOfHorizontal = value;
+        await ProfileService.UpdateProfile(CurrentProfile);
+    }
+    async partial void OnNumCellsOfMarginChanged(byte value)
+    {
+        CurrentProfile.NumCellsOfMargin = value;
+        await ProfileService.UpdateProfile(CurrentProfile);
+    }
+    async partial void OnSheetTypeIndexChanged(byte value)
+    {
+        CurrentProfile.SheetTypeIndex = value;
+        await ProfileService.UpdateProfile(CurrentProfile);
+    }
+    async partial void OnSheetPositionIndexChanged(byte value)
+    {
+        CurrentProfile.SheetPositionIndex = value;
+        await ProfileService.UpdateProfile(CurrentProfile);
+    }
+    async partial void OnCellSizeChanged(byte value)
+    {
+        CurrentProfile.CellSize = value;
+        await ProfileService.UpdateProfile(CurrentProfile);
+    }
+    async partial void OnLiftForMovingChanged(byte value)
+    {
+        CurrentProfile.LiftForMoving = value;
+        await ProfileService.UpdateProfile(CurrentProfile);
+    }
+    async partial void OnUnevennessOfWritingChanged(bool value)
+    {
+        CurrentProfile.UnevennessOfWriting = value;
+        await ProfileService.UpdateProfile(CurrentProfile);
+    }
 }

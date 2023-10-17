@@ -34,6 +34,13 @@ public static class ProfileService
         }
     }
 
+    public static async Task<IEnumerable<Profile>> GetProfiles()
+    {
+        await Init();
+
+        return await _db.Table<Profile>().ToListAsync();
+    }
+
     public static async Task AddProfile(Profile profile)
     {
         await Init();
@@ -71,10 +78,8 @@ public static class ProfileService
         }
     }
 
-    public static async Task<IEnumerable<Profile>> GetProfiles()
+    public static async Task UpdateProfile(Profile updatedProfile)
     {
-        await Init();
-
-        return await _db.Table<Profile>().ToListAsync();
+        await _db.UpdateAsync(updatedProfile);
     }
 }
