@@ -82,7 +82,7 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     async Task ChangeProfile(byte newIdProfile)
     {
-        await ProfileService.ChangeCurrentProfile(newIdProfile);
+        await ProfileService.ChangeCurrentProfile(Profiles[newIdProfile].ProfileId);
         await RefreshSettingsCommand.ExecuteAsync(null);
     }
 

@@ -5,7 +5,7 @@ namespace GGenToPrint.Resources.Models;
 [Table("profiles")]
 public class Profile
 {
-    [PrimaryKey, AutoIncrement]
+    [PrimaryKey]
     [Column("profile_id")]
     public byte ProfileId { get; set; }
 

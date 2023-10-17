@@ -45,7 +45,9 @@ public static class ProfileService
     {
         await Init();
 
+        var profiles = await GetProfiles();
         await DisableCurrentProfile();
+        profile.ProfileId = (byte)(profiles.Count() + 1);
         await _db.InsertAsync(profile);
     }
 
@@ -70,7 +72,7 @@ public static class ProfileService
 
         var profiles = await GetProfiles();
         var newCurrentProfile = profiles.Where(
-            profile => profile.ProfileId == profileId + 1).FirstOrDefault();
+            profile => profile.ProfileId == profileId).FirstOrDefault();
         if (newCurrentProfile is not null)
         {
             newCurrentProfile.CurrentProfile = true;
