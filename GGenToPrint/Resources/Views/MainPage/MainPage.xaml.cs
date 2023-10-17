@@ -26,6 +26,9 @@ public partial class MainPage : ContentPage
             50,
             initialValue: $"Профиль {profiles_count + 1}"
             );
-        await vm.AddProfileCommand.ExecuteAsync(profileName);
+        if (profileName is not null)
+        {
+            await vm.AddProfileCommand.ExecuteAsync(profileName);
+        }
     }
 }
