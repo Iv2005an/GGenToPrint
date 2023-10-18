@@ -55,7 +55,7 @@ public partial class MainPageViewModel : ObservableObject
         {
             CurrentProfile = currentProfile;
             ProfileName = currentProfile.ProfileName;
-            SelectedProfileIndex = (byte)(currentProfile.ProfileId - 1);
+            SelectedProfileIndex = (byte)(currentProfile.ProfileId);
             NumCellsOfVertical = currentProfile.NumCellsOfVertical;
             NumCellsOfHorizontal = currentProfile.NumCellsOfHorizontal;
             NumCellsOfMargin = currentProfile.NumCellsOfMargin;
@@ -76,6 +76,13 @@ public partial class MainPageViewModel : ObservableObject
         newProfile.ProfileName = profileName;
         newProfile.CurrentProfile = true;
         await ProfileService.AddProfile(newProfile);
+        await RefreshSettingsCommand.ExecuteAsync(null);
+    }
+
+    [RelayCommand]
+    async Task DeleteProfile()
+    {
+        await ProfileService.DeleteProfile(CurrentProfile);
         await RefreshSettingsCommand.ExecuteAsync(null);
     }
 

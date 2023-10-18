@@ -46,9 +46,50 @@ public static class ProfileService
         await Init();
 
         var profiles = await GetProfiles();
+        if (profiles.Any())
+        {
+            profile.ProfileId = (byte)(profiles.LastOrDefault().ProfileId + 1);
+        }
+        else
+        {
+            profile.ProfileId = 0;
+        }
         await DisableCurrentProfile();
-        profile.ProfileId = (byte)(profiles.Count() + 1);
         await _db.InsertAsync(profile);
+    }
+
+    public static async Task DeleteProfile(Profile profile)
+    {
+        await Init();
+
+        await _db.DeleteAsync(profile);
+        var profiles = (await GetProfiles()).ToList();
+        if (profiles.Any())
+        {
+            for (byte profileIndex = 0; profileIndex < profiles.Count; profileIndex++)
+            {
+                profiles[profileIndex].ProfileId = profileIndex;
+            }
+            await _db.DeleteAllAsync<Profile>();
+            profiles[0].CurrentProfile = true;
+            await _db.InsertAllAsync(profiles);
+        }
+        else
+        {
+            await AddProfile(new()
+            {
+                ProfileName = "Профиль 1",
+                CurrentProfile = true,
+                NumCellsOfVertical = 40,
+                NumCellsOfHorizontal = 34,
+                NumCellsOfMargin = 4,
+                SheetTypeIndex = 0,
+                SheetPositionIndex = 0,
+                CellSize = 5,
+                LiftForMoving = 10,
+                UnevennessOfWriting = false
+            });
+        }
     }
 
     public static async Task DisableCurrentProfile()

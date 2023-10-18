@@ -31,4 +31,13 @@ public partial class MainPage : ContentPage
             await vm.AddProfileCommand.ExecuteAsync(profileName);
         }
     }
+
+    async void DeleteProfile(object sender, EventArgs args)
+    {
+        var result = await DisplayAlert("Удаление профиля", $"Удалить {vm.CurrentProfile.ProfileName}?", "Да", "Нет");
+        if (result)
+        {
+            await vm.DeleteProfileCommand.ExecuteAsync(null);
+        }
+    }
 }
