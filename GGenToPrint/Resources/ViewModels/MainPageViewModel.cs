@@ -63,8 +63,7 @@ public partial class MainPageViewModel : ObservableObject
             SheetPositionIndex = currentProfile.SheetPositionIndex;
             CellSize = currentProfile.CellSize;
             LiftForMoving = currentProfile.LiftForMoving;
-            bool unevennessOfWriting = currentProfile.UnevennessOfWriting;
-            UnevennessOfWriting = unevennessOfWriting;
+            UnevennessOfWriting = currentProfile.UnevennessOfWriting;
         }
     }
 
