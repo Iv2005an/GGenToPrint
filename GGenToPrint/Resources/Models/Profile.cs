@@ -5,6 +5,22 @@ namespace GGenToPrint.Resources.Models;
 [Table("profiles")]
 public class Profile
 {
+    public Profile()
+    {
+        ProfileId = 0;
+        ProfileName = "Профиль 1";
+        CurrentProfile = true;
+        NumCellsOfVertical = 40;
+        NumCellsOfHorizontal = 34;
+        NumCellsOfMargin = 4;
+        SheetTypeIndex = 0;
+        SheetPositionIndex = 0;
+        CellSize = 5;
+        LiftForMoving = 10;
+        UnevennessOfWriting = false;
+    }
+
+
     [PrimaryKey]
     [Column("profile_id")]
     public byte ProfileId { get; set; }

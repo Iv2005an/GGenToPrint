@@ -18,19 +18,7 @@ public static class ProfileService
         await Database.CreateTableAsync<Profile>();
         if (!(await GetProfiles()).Any())
         {
-            await AddProfile(new()
-            {
-                ProfileName = "Профиль 1",
-                CurrentProfile = true,
-                NumCellsOfVertical = 40,
-                NumCellsOfHorizontal = 34,
-                NumCellsOfMargin = 4,
-                SheetTypeIndex = 0,
-                SheetPositionIndex = 0,
-                CellSize = 5,
-                LiftForMoving = 10,
-                UnevennessOfWriting = false
-            });
+            await AddProfile(new());
         }
     }
 
@@ -54,7 +42,6 @@ public static class ProfileService
         {
             profile.ProfileId = 0;
         }
-        await DisableCurrentProfile();
         await Database.InsertAsync(profile);
     }
 
@@ -70,25 +57,13 @@ public static class ProfileService
             {
                 profiles[profileIndex].ProfileId = profileIndex;
             }
-            await Database.DeleteAllAsync<Profile>();
             profiles[0].CurrentProfile = true;
+            await Database.DeleteAllAsync<Profile>();
             await Database.InsertAllAsync(profiles);
         }
         else
         {
-            await AddProfile(new()
-            {
-                ProfileName = "Профиль 1",
-                CurrentProfile = true,
-                NumCellsOfVertical = 40,
-                NumCellsOfHorizontal = 34,
-                NumCellsOfMargin = 4,
-                SheetTypeIndex = 0,
-                SheetPositionIndex = 0,
-                CellSize = 5,
-                LiftForMoving = 10,
-                UnevennessOfWriting = false
-            });
+            await AddProfile(new());
         }
     }
 
@@ -105,20 +80,13 @@ public static class ProfileService
         }
     }
 
-    public static async Task ChangeCurrentProfile(byte profileId)
+    public static async Task ChangeCurrentProfile(Profile newCurrentProfile)
     {
         await Init();
 
         await DisableCurrentProfile();
-
-        var profiles = await GetProfiles();
-        var newCurrentProfile = profiles.Where(
-            profile => profile.ProfileId == profileId).FirstOrDefault();
-        if (newCurrentProfile is not null)
-        {
-            newCurrentProfile.CurrentProfile = true;
-            await Database.UpdateAsync(newCurrentProfile);
-        }
+        newCurrentProfile.CurrentProfile = true;
+        await Database.UpdateAsync(newCurrentProfile);
     }
 
     public static async Task UpdateProfile(Profile updatedProfile)

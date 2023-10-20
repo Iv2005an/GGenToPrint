@@ -9,8 +9,8 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         BindingContext = viewModel;
-        viewModel.RefreshSettingsCommand.Execute(null);
         this.ViewModel = viewModel;
+        ViewModel.RefreshCommand.Execute(null);
     }
 
     async void AddProfile(object sender, EventArgs args)
@@ -34,8 +34,7 @@ public partial class MainPage : ContentPage
 
     async void DeleteProfile(object sender, EventArgs args)
     {
-        var result = await DisplayAlert("Удаление профиля", $"Удалить {ViewModel.CurrentProfile.ProfileName}?", "Да", "Нет");
-        if (result)
+        if (await DisplayAlert("Удаление профиля", $"Удалить {ViewModel.CurrentProfile.ProfileName}?", "Да", "Нет"))
         {
             await ViewModel.DeleteProfileCommand.ExecuteAsync(null);
         }

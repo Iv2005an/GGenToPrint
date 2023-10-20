@@ -39,7 +39,6 @@
                                     VerticalOptions="Center"
                                     ItemsSource="{Binding Profiles}"
                                     ItemDisplayBinding="{Binding ProfileName}"
-                                    SelectedIndex="{Binding SelectedProfileIndex}"
                                     SelectedItem="{Binding CurrentProfile}">
                             </Picker>
                             <Button Text="Добавить" Clicked="AddProfile"/>
@@ -56,7 +55,7 @@
                             <HorizontalStackLayout VerticalOptions="Center">
                                 <Slider x:Name="NumCellsOfVertical"
                                     WidthRequest="250"
-                                    Minimum="1" Maximum="100"
+                                    Minimum="1" Maximum="50"
                                     Value="{Binding NumCellsOfVertical}"/>
                             </HorizontalStackLayout>
                             <Label Text="{Binding NumCellsOfVertical}"
@@ -72,7 +71,7 @@
                         <HorizontalStackLayout>
                             <HorizontalStackLayout VerticalOptions="Center">
                                 <Slider WidthRequest="250"
-                                        Minimum="1" Maximum="100"
+                                        Minimum="1" Maximum="50"
                                         Value="{Binding NumCellsOfHorizontal}"/>
                             </HorizontalStackLayout>
                             <Label Text="{Binding NumCellsOfHorizontal}"
@@ -151,7 +150,7 @@
                         <HorizontalStackLayout>
                             <HorizontalStackLayout>
                                 <Slider WidthRequest="250"
-                                        Minimum="1" Maximum="100"
+                                        Minimum="1" Maximum="50"
                                         Value="{Binding CellSize}"/>
                             </HorizontalStackLayout>
                             <Label Text="{Binding CellSize}"
@@ -167,7 +166,7 @@
                         <HorizontalStackLayout>
                             <HorizontalStackLayout>
                                 <Slider WidthRequest="250"
-                                        Minimum="0" Maximum="100"
+                                        Minimum="0" Maximum="50"
                                         Value="{Binding LiftForMoving}"/>
                             </HorizontalStackLayout>
                             <Label Text="{Binding LiftForMoving}"

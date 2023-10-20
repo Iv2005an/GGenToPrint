@@ -2,7 +2,7 @@
 {
     public class SheetView : GraphicsView
     {
-        public double NumCellsOfVertical
+        public byte NumCellsOfVertical
         {
             get => (byte)GetValue(NumCellsOfVerticalProperty);
             set => SetValue(NumCellsOfVerticalProperty, value);
@@ -21,7 +21,7 @@
             sheetView.Invalidate();
         }
 
-        public double NumCellsOfHorizontal
+        public byte NumCellsOfHorizontal
         {
             get => (byte)GetValue(NumCellsOfHorizontalProperty);
             set => SetValue(NumCellsOfHorizontalProperty, value);
@@ -40,7 +40,7 @@
             sheetView.Invalidate();
         }
 
-        public double NumCellsOfMargin
+        public byte NumCellsOfMargin
         {
             get => (byte)GetValue(NumCellsOfMarginProperty);
             set => SetValue(NumCellsOfMarginProperty, value);
@@ -59,7 +59,7 @@
             sheetView.Invalidate();
         }
 
-        public int SheetTypeIndex
+        public byte SheetTypeIndex
         {
             get => (byte)GetValue(SheetTypeIndexProperty);
             set => SetValue(SheetTypeIndexProperty, value);
@@ -78,7 +78,7 @@
             sheetView.Invalidate();
         }
 
-        public int SheetPositionIndex
+        public byte SheetPositionIndex
         {
             get => (byte)GetValue(SheetPositionIndexProperty);
             set => SetValue(SheetPositionIndexProperty, value);

@@ -18,9 +18,6 @@ public partial class MainPageViewModel : ObservableObject
     string profileName;
 
     [ObservableProperty]
-    byte selectedProfileIndex;
-
-    [ObservableProperty]
     byte numCellsOfVertical;
 
     [ObservableProperty]
@@ -45,58 +42,44 @@ public partial class MainPageViewModel : ObservableObject
     bool unevennessOfWriting;
 
     [RelayCommand]
-    async Task RefreshSettings()
+    async Task Refresh()
     {
-        var profiles = await ProfileService.GetProfiles();
-        Profiles = new ObservableCollection<Profile>(profiles);
-        var currentProfile = profiles.Where(
-            profile => profile.CurrentProfile).FirstOrDefault();
-        if (currentProfile is not null)
-        {
-            CurrentProfile = currentProfile;
-            ProfileName = currentProfile.ProfileName;
-            SelectedProfileIndex = (byte)(currentProfile.ProfileId);
-            NumCellsOfVertical = currentProfile.NumCellsOfVertical;
-            NumCellsOfHorizontal = currentProfile.NumCellsOfHorizontal;
-            NumCellsOfMargin = currentProfile.NumCellsOfMargin;
-            SheetTypeIndex = currentProfile.SheetTypeIndex;
-            SheetPositionIndex = currentProfile.SheetPositionIndex;
-            CellSize = currentProfile.CellSize;
-            LiftForMoving = currentProfile.LiftForMoving;
-            UnevennessOfWriting = currentProfile.UnevennessOfWriting;
-        }
+        Profiles = new(await ProfileService.GetProfiles());
+        CurrentProfile = Profiles.Where(profile => profile.CurrentProfile).FirstOrDefault();
     }
 
     [RelayCommand]
     async Task AddProfile(string profileName)
     {
-        CurrentProfile.CurrentProfile = false;
-        var newProfile = CurrentProfile;
-        newProfile.ProfileName = profileName;
-        newProfile.CurrentProfile = true;
-        await ProfileService.AddProfile(newProfile);
-        await RefreshSettingsCommand.ExecuteAsync(null);
+        CurrentProfile.ProfileName = profileName;
+        await ProfileService.DisableCurrentProfile();
+        await ProfileService.AddProfile(CurrentProfile);
+        await RefreshCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]
     async Task DeleteProfile()
     {
         await ProfileService.DeleteProfile(CurrentProfile);
-        await RefreshSettingsCommand.ExecuteAsync(null);
+        await RefreshCommand.ExecuteAsync(null);
     }
 
-    [RelayCommand]
-    async Task ChangeProfile(byte newIdProfile)
+    async partial void OnCurrentProfileChanged(Profile value)
     {
-        await ProfileService.ChangeCurrentProfile(Profiles[newIdProfile].ProfileId);
-        await RefreshSettingsCommand.ExecuteAsync(null);
+        if (value is not null)
+        {
+            ProfileName = value.ProfileName;
+            NumCellsOfVertical = value.NumCellsOfVertical;
+            NumCellsOfHorizontal = value.NumCellsOfHorizontal;
+            NumCellsOfMargin = value.NumCellsOfMargin;
+            SheetTypeIndex = value.SheetTypeIndex;
+            SheetPositionIndex = value.SheetPositionIndex;
+            CellSize = value.CellSize;
+            LiftForMoving = value.LiftForMoving;
+            UnevennessOfWriting = value.UnevennessOfWriting;
+            await ProfileService.ChangeCurrentProfile(value);
+        }
     }
-
-    async partial void OnSelectedProfileIndexChanged(byte value)
-    {
-        await ChangeProfileCommand.ExecuteAsync(value);
-    }
-
     async partial void OnNumCellsOfVerticalChanged(byte value)
     {
         CurrentProfile.NumCellsOfVertical = value;

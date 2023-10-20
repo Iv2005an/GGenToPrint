@@ -31,18 +31,18 @@
             // Cells and rows
             if (SheetTypeIndex == 0)
             {
-                for (int i = 1; i < NumCellsOfHorizontal; i++)
+                for (byte i = 1; i < NumCellsOfHorizontal; i++)
                 {
                     canvas.DrawLine(cellSize * i, rectF.Top, cellSize * i, cellSize * NumCellsOfVertical);
                 }
-                for (int i = 1; i < NumCellsOfVertical; i++)
+                for (byte i = 1; i < NumCellsOfVertical; i++)
                 {
                     canvas.DrawLine(rectF.Left, cellSize * i, cellSize * NumCellsOfHorizontal, cellSize * i);
                 }
             }
             else if (SheetTypeIndex == 1)
             {
-                for (int i = 1; i < NumCellsOfVertical; i++)
+                for (byte i = 1; i < NumCellsOfVertical; i++)
                 {
                     canvas.DrawLine(rectF.Left, cellSize * i, cellSize * NumCellsOfHorizontal, cellSize * i);
                 }
