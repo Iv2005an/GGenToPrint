@@ -23,7 +23,7 @@ public partial class MainPage : ContentPage
             "Добавить",
             "Отмена",
             "Имя профиля",
-            50,
+            25,
             initialValue: $"Профиль {profiles_count + 1}"
             );
         if (profileName is not null)
