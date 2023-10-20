@@ -25,7 +25,7 @@ public partial class MainPage : ContentPage
                 "Добавить",
                 "Отмена",
                 "Имя профиля",
-                25,
+                30,
                 initialValue: $"Профиль {profilesCount + 1}"
                 );
             if (profileName is not null)

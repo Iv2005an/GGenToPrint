@@ -34,16 +34,15 @@
                         <Label Text="Профиль" VerticalTextAlignment="Center"/>
                         <HorizontalStackLayout Spacing="20">
                             <Picker x:Name="Profiles"
-                                    WidthRequest="250"
+                                WidthRequest="300"
                                     MinimumHeightRequest="25"
                                     VerticalOptions="Center"
                                     ItemsSource="{Binding Profiles}"
                                     ItemDisplayBinding="{Binding ProfileName}"
                                     SelectedItem="{Binding CurrentProfile}">
                             </Picker>
-                            <Button Text="Добавить" Clicked="AddProfile"/>
-                            <Button Text="Удалить" Clicked="DeleteProfile"/>
-                        </HorizontalStackLayout>
+                        <Button Text="Добавить" MinimumWidthRequest="100" Clicked="AddProfile"/>
+                        <Button Text="Удалить" MinimumWidthRequest="100" Clicked="DeleteProfile"/>
                     </FlexLayout>
                 </Frame>
 
