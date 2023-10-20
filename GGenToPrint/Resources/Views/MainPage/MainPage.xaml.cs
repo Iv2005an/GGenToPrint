@@ -15,20 +15,27 @@ public partial class MainPage : ContentPage
 
     async void AddProfile(object sender, EventArgs args)
     {
-        var profiles_count = ViewModel.Profiles.Count;
-
-        var profileName = await DisplayPromptAsync(
-            "Добавление профиля",
-            "Введите имя профиля",
-            "Добавить",
-            "Отмена",
-            "Имя профиля",
-            25,
-            initialValue: $"Профиль {profiles_count + 1}"
-            );
-        if (profileName is not null)
+        var profilesCount = ViewModel.Profiles.Count;
+        if (profilesCount < 256)
         {
-            await ViewModel.AddProfileCommand.ExecuteAsync(profileName);
+
+            var profileName = await DisplayPromptAsync(
+                "Добавление профиля",
+                "Введите имя профиля",
+                "Добавить",
+                "Отмена",
+                "Имя профиля",
+                25,
+                initialValue: $"Профиль {profilesCount + 1}"
+                );
+            if (profileName is not null)
+            {
+                await ViewModel.AddProfileCommand.ExecuteAsync(profileName);
+            }
+        }
+        else
+        {
+            await DisplayAlert("Ошибка", "Превышено количество пользователей", "ОК");
         }
     }
 
