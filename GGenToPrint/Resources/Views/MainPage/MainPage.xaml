@@ -2,14 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:GGenToPrint.Resources.Views.MainPage"
-             xmlns:view_models="clr-namespace:GGenToPrint.Resources.ViewModels"
+             xmlns:viewModels="clr-namespace:GGenToPrint.Resources.ViewModels"
+             xmlns:controls="clr-namespace:GGenToPrint.Resources.Controls"
              xmlns:sheet="clr-namespace:GGenToPrint.Resources.Drawables.Sheet"
-             x:DataType="view_models:MainPageViewModel"
+             x:DataType="viewModels:MainPageViewModel"
              x:Class="GGenToPrint.Resources.Views.MainPage.MainPage">
-
     <ContentPage.Resources>
         <local:MarginCellsConverter x:Key="MarginCellsConverter"/>
     </ContentPage.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="700"/>
@@ -52,57 +53,18 @@
                 </FlexLayout>
 
                 <Label Text="Общее" FontSize="Large" Margin="0,10,0,0"/>
-                <Frame Margin="0,10,0,0" HeightRequest="75">
-                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Клеток/строк по вертикали" VerticalTextAlignment="Center"/>
-                        <HorizontalStackLayout>
-                            <HorizontalStackLayout VerticalOptions="Center">
-                                <Slider x:Name="NumCellsOfVertical"
-                                    WidthRequest="250"
-                                    Minimum="1" Maximum="50"
-                                    Value="{Binding NumCellsOfVertical}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="{Binding NumCellsOfVertical}"
-                                   WidthRequest="50"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
-                        </HorizontalStackLayout>
-                    </FlexLayout>
-                </Frame>
-                <Frame Margin="0,10,0,0" HeightRequest="75">
-                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Клеток по горизонтали" VerticalTextAlignment="Center"/>
-                        <HorizontalStackLayout>
-                            <HorizontalStackLayout VerticalOptions="Center">
-                                <Slider WidthRequest="250"
-                                        Minimum="1" Maximum="50"
-                                        Value="{Binding NumCellsOfHorizontal}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="{Binding NumCellsOfHorizontal}"
-                                   WidthRequest="50"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
-                        </HorizontalStackLayout>
-                    </FlexLayout>
-                </Frame>
-                <Frame Margin="0,10,0,0" HeightRequest="75">
-                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Размер полей" VerticalTextAlignment="Center"/>
-                        <HorizontalStackLayout>
-                            <HorizontalStackLayout VerticalOptions="Center">
-                                <Slider WidthRequest="250"
-                                        Minimum="0"
-                                        Maximum="{Binding NumCellsOfHorizontal, Converter={StaticResource MarginCellsConverter}}"
-                                        Value="{Binding NumCellsOfMargin}">
-                                </Slider>
-                            </HorizontalStackLayout>
-                            <Label Text="{Binding NumCellsOfMargin}"
-                                   WidthRequest="50"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
-                        </HorizontalStackLayout>
-                    </FlexLayout>
-                </Frame>
+                <controls:SliderOption OptionName="Клеток/строк по вертикали"
+                                       SliderMinimum="1"
+                                       SliderMaximum="50"
+                                       SliderValue="{Binding NumCellsOfVertical}"/>
+                <controls:SliderOption OptionName="Клеток по горизонтали"
+                                       SliderMinimum="1"
+                                       SliderMaximum="50"
+                                       SliderValue="{Binding NumCellsOfHorizontal}"/>
+                <controls:SliderOption OptionName="Размер полей"
+                                       SliderMinimum="1"
+                                       SliderMaximum="{Binding NumCellsOfHorizontal, Converter={StaticResource MarginCellsConverter}}"
+                                       SliderValue="{Binding NumCellsOfMargin}"/>
 
                 <Label Text="Предпросмотр" FontSize="Large" Margin="0,10,0,0"/>
                 <Frame Margin="0,10,0,0" HeightRequest="75">
@@ -148,38 +110,14 @@
                 </Frame>
 
                 <Label Text="Генерация" FontSize="Large" Margin="0,10,0,0"/>
-                <Frame Margin="0,10,0,0" HeightRequest="75">
-                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Сторона клетки/строки (мм)" VerticalTextAlignment="Center"/>
-                        <HorizontalStackLayout>
-                            <HorizontalStackLayout>
-                                <Slider WidthRequest="250"
-                                        Minimum="1" Maximum="50"
-                                        Value="{Binding CellSize}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="{Binding CellSize}"
-                                   WidthRequest="50"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
-                        </HorizontalStackLayout>
-                    </FlexLayout>
-                </Frame>
-                <Frame Margin="0,10,0,0" HeightRequest="75">
-                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Подъём при перемещении (мм)" VerticalTextAlignment="Center"/>
-                        <HorizontalStackLayout>
-                            <HorizontalStackLayout>
-                                <Slider WidthRequest="250"
-                                        Minimum="0" Maximum="50"
-                                        Value="{Binding LiftForMoving}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="{Binding LiftForMoving}"
-                                   WidthRequest="50"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
-                        </HorizontalStackLayout>
-                    </FlexLayout>
-                </Frame>
+                <controls:SliderOption OptionName="Сторона клетки/строки (мм)"
+                                       SliderMinimum="1"
+                                       SliderMaximum="50"
+                                       SliderValue="{Binding CellSize}"/>
+                <controls:SliderOption OptionName="Подъём при перемещении (мм)"
+                                       SliderMinimum="0"
+                                       SliderMaximum="50"
+                                       SliderValue="{Binding LiftForMoving}"/>
                 <Frame Margin="0,10,0,0" HeightRequest="75">
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Label Text="Неточность письма" VerticalTextAlignment="Center"/>

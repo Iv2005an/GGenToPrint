@@ -68,4 +68,15 @@
 		<Folder Include="Resources\Drawables\" />
 		<Folder Include="Resources\Drawables\Sheet\" />
 	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Resources\Controls\Controls.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Styles.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Views\MainPage\MainPage.xaml">
+	    <Generator></Generator>
+	  </MauiXaml>
+	</ItemGroup>
 </Project>
