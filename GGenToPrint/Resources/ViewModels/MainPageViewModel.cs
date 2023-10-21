@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 using GGenToPrint.Resources.Models;
 using GGenToPrint.Resources.Services;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Maui.Core.Primitives;
+using System.Text;
 
 namespace GGenToPrint.Resources.ViewModels;
 
@@ -64,11 +67,34 @@ public partial class MainPageViewModel : ObservableObject
         await RefreshCommand.ExecuteAsync(null);
     }
 
+
+    [ObservableProperty]
+    string savePath;
+
+    [RelayCommand]
+    async Task SelectFolder()
+    {
+        Folder folder;
+        if (SavePath is not null)
+        {
+            folder = (await FolderPicker.PickAsync(SavePath, new CancellationTokenSource().Token)).Folder;
+        }
+        else
+        {
+            folder = (await FolderPicker.PickAsync(new CancellationTokenSource().Token)).Folder;
+        }
+        if (folder is not null)
+        {
+            SavePath = folder.Path;
+        }
+    }
+
     async partial void OnCurrentProfileChanged(Profile value)
     {
         if (value is not null)
         {
             ProfileName = value.ProfileName;
+            SavePath = value.SavePath;
             NumCellsOfVertical = value.NumCellsOfVertical;
             NumCellsOfHorizontal = value.NumCellsOfHorizontal;
             NumCellsOfMargin = value.NumCellsOfMargin;
@@ -79,6 +105,12 @@ public partial class MainPageViewModel : ObservableObject
             UnevennessOfWriting = value.UnevennessOfWriting;
             await ProfileService.ChangeCurrentProfile(value);
         }
+    }
+    async partial void OnSavePathChanged(string value)
+    {
+        SavePath = value.TrimStart();
+        CurrentProfile.SavePath = SavePath;
+        await ProfileService.UpdateProfile(CurrentProfile);
     }
     async partial void OnNumCellsOfVerticalChanged(byte value)
     {

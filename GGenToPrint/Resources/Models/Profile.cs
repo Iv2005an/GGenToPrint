@@ -9,6 +9,7 @@ public class Profile
     {
         ProfileId = 0;
         ProfileName = "Профиль 1";
+        SavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         CurrentProfile = true;
         NumCellsOfVertical = 40;
         NumCellsOfHorizontal = 34;
@@ -30,6 +31,9 @@ public class Profile
 
     [Column("profile_name")]
     public string ProfileName { get; set; }
+
+    [Column("save_path")]
+    public string SavePath { get; set; }
 
     [Column("num_cells_of_vertical")]
     public byte NumCellsOfVertical { get; set; }

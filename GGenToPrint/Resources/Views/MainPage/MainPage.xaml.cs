@@ -33,12 +33,12 @@ public partial class MainPage : ContentPage
                 profileName = profileName.Trim();
                 if (profileName.Length > 0)
                 {
-                await ViewModel.AddProfileCommand.ExecuteAsync(profileName);
-            }
+                    await ViewModel.AddProfileCommand.ExecuteAsync(profileName);
+                }
                 else
                 {
                     await DisplayAlert("Ошибка", "Пустое имя пользователя", "ОК");
-        }
+                }
             }
         }
         else

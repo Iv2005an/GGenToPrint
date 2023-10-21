@@ -1,7 +1,7 @@
 ﻿using GGenToPrint.Resources.Views.MainPage;
 using GGenToPrint.Resources.ViewModels;
 using Microsoft.Extensions.Logging;
-using GGenToPrint.Resources.Services;
+using CommunityToolkit.Maui;
 
 namespace GGenToPrint;
 
@@ -9,7 +9,7 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        var builder = MauiApp.CreateBuilder().UseMauiApp<App>();
+        var builder = MauiApp.CreateBuilder().UseMauiApp<App>().UseMauiCommunityToolkit();
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<MainPageViewModel>();
 #if DEBUG
