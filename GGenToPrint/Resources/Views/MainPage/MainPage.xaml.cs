@@ -30,7 +30,15 @@ public partial class MainPage : ContentPage
                 );
             if (profileName is not null)
             {
+                profileName = profileName.Trim();
+                if (profileName.Length > 0)
+                {
                 await ViewModel.AddProfileCommand.ExecuteAsync(profileName);
+            }
+                else
+                {
+                    await DisplayAlert("Ошибка", "Пустое имя пользователя", "ОК");
+        }
             }
         }
         else
