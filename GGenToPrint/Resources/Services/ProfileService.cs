@@ -5,17 +5,16 @@ namespace GGenToPrint.Resources.Services;
 
 public static class ProfileService
 {
-    static SQLiteAsyncConnection Database;
+    static SQLiteAsyncConnection Connection;
 
     static async Task Init()
     {
-        if (Database is not null)
+        if (Connection is not null)
         {
             return;
         }
-        Database = new SQLiteAsyncConnection(
-            Path.Combine(FileSystem.AppDataDirectory, "GGenToPrint_profiles.db"));
-        await Database.CreateTableAsync<Profile>();
+        Connection = Database.Connection;
+        await Connection.CreateTableAsync<Profile>();
         if (!(await GetProfiles()).Any())
         {
             await AddProfile(new());
@@ -26,7 +25,7 @@ public static class ProfileService
     {
         await Init();
 
-        return await Database.Table<Profile>().ToListAsync();
+        return await Connection.Table<Profile>().ToListAsync();
     }
 
     public static async Task AddProfile(Profile profile)
@@ -42,14 +41,19 @@ public static class ProfileService
         {
             profile.ProfileId = 0;
         }
-        await Database.InsertAsync(profile);
+        await Connection.InsertAsync(profile);
+    }
+    
+    public static async Task UpdateProfile(Profile updatedProfile)
+    {
+        await Connection.UpdateAsync(updatedProfile);
     }
 
     public static async Task DeleteProfile(Profile profile)
     {
         await Init();
 
-        await Database.DeleteAsync(profile);
+        await Connection.DeleteAsync(profile);
         var profiles = (await GetProfiles()).ToList();
         if (profiles.Any())
         {
@@ -58,8 +62,8 @@ public static class ProfileService
                 profiles[profileIndex].ProfileId = profileIndex;
             }
             profiles[0].CurrentProfile = true;
-            await Database.DeleteAllAsync<Profile>();
-            await Database.InsertAllAsync(profiles);
+            await Connection.DeleteAllAsync<Profile>();
+            await Connection.InsertAllAsync(profiles);
         }
         else
         {
@@ -76,7 +80,7 @@ public static class ProfileService
         if (oldCurrentProfile is not null)
         {
             oldCurrentProfile.CurrentProfile = false;
-            await Database.UpdateAsync(oldCurrentProfile);
+            await Connection.UpdateAsync(oldCurrentProfile);
         }
     }
 
@@ -86,11 +90,6 @@ public static class ProfileService
 
         await DisableCurrentProfile();
         newCurrentProfile.CurrentProfile = true;
-        await Database.UpdateAsync(newCurrentProfile);
-    }
-
-    public static async Task UpdateProfile(Profile updatedProfile)
-    {
-        await Database.UpdateAsync(updatedProfile);
+        await Connection.UpdateAsync(newCurrentProfile);
     }
 }
