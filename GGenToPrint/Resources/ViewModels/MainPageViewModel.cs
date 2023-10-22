@@ -5,7 +5,6 @@ using GGenToPrint.Resources.Services;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Maui.Core.Primitives;
-using System.Text;
 
 namespace GGenToPrint.Resources.ViewModels;
 

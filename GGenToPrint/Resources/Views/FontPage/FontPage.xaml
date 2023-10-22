@@ -1,8 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Models="clr-namespace:GGenToPrint.Resources.Models"
+             xmlns:viewModels="clr-namespace:GGenToPrint.Resources.ViewModels"
+             x:DataType="viewModels:FontPageViewModel"
              x:Class="GGenToPrint.Resources.Views.FontPage.FontPage">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="700"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ScrollView>
+            <VerticalStackLayout Margin="50">
+                <Label Text="Шрифты" FontSize="Large" Margin="0,10,0,0"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Picker WidthRequest="300"
+                                MinimumHeightRequest="25"
+                                VerticalOptions="Center"
+                                ItemsSource="{Binding Fonts}"
+                                ItemDisplayBinding="{Binding FontName}"
+                                SelectedItem="{Binding CurrentFont}">
+                        </Picker>
+                        <Button Text="Добавить" MinimumWidthRequest="100" Clicked="AddFont"/>
+                        <Button Text="Удалить" MinimumWidthRequest="100" Clicked="DeleteFont"/>
+                    </FlexLayout>
+                </Frame>
 
-
-
+                <Label Text="Символы" FontSize="Large" Margin="0,10,0,0"/>
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Символы" VerticalTextAlignment="Center"/>
+                        <Button Text="Добавить символ" Clicked="AddCharacter"/>
+                    </FlexLayout>
+                </Frame>
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Letters}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="Models:Letter">
+                            <Frame Margin="0,10,0,0" HeightRequest="75">
+                                <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                                    <Label Text="{Binding Character}" VerticalTextAlignment="Center"/>
+                                    <HorizontalStackLayout Spacing="20">
+                                        <Button Text="Изменить" MinimumWidthRequest="100" Clicked="ChangeCharacter"/>
+                                        <Button Text="Удалить" MinimumWidthRequest="100" Clicked="DeleteCharacter"/>
+                                    </HorizontalStackLayout>
+                                </FlexLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

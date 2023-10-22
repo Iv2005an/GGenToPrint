@@ -10,7 +10,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         BindingContext = viewModel;
-        this.ViewModel = viewModel;
+        ViewModel = viewModel;
         ViewModel.RefreshCommand.Execute(null);
     }
 

@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:GGenToPrint.Resources.Views.MainPage"
-             xmlns:viewModels="clr-namespace:GGenToPrint.Resources.ViewModels"
              xmlns:controls="clr-namespace:GGenToPrint.Resources.Controls"
              xmlns:sheet="clr-namespace:GGenToPrint.Resources.Drawables.Sheet"
+             xmlns:viewModels="clr-namespace:GGenToPrint.Resources.ViewModels"
              x:DataType="viewModels:MainPageViewModel"
              x:Class="GGenToPrint.Resources.Views.MainPage.MainPage">
     <ContentPage.Resources>
