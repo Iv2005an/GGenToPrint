@@ -62,7 +62,6 @@
 		<None Remove="Resources\Views\MainPageFolder\" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Resources\Drawables\" />
 		<Folder Include="Resources\Drawables\Sheet\" />
 	</ItemGroup>
 	<ItemGroup>

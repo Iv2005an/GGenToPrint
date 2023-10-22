@@ -1,4 +1,5 @@
-﻿using GGenToPrint.Resources.Models;
+﻿using GGenToPrint.Resources.Drawables.Preview;
+using GGenToPrint.Resources.Models;
 using GGenToPrint.Resources.ViewModels;
 
 namespace GGenToPrint.Resources.Views.FontPage;
@@ -83,7 +84,6 @@ public partial class FontPage : ContentPage
             }
         }
     }
-
     async void DeleteCharacter(object sender, EventArgs args)
     {
         var letter = (Letter)((Button)sender).BindingContext;
@@ -92,8 +92,15 @@ public partial class FontPage : ContentPage
             await ViewModel.DeleteCharacterCommand.ExecuteAsync(letter);
         }
     }
-    async void ChangeCharacter(object sender, EventArgs args)
-    {
 
+    void ShowPreview(object sender, TappedEventArgs args)
+    {
+        var oldLetter = (Frame)Characters.Where(character => (
+        (Frame)character).BorderColor != null).FirstOrDefault();
+        if (oldLetter is not null) oldLetter.BorderColor = null;
+        var frame = (Frame)sender;
+        frame.BorderColor = Application.AccentColor;
+        var letter = (Letter)frame.BindingContext;
+        ViewModel.CurrentLetter = letter;
     }
 }

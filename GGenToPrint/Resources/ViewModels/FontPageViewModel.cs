@@ -37,6 +37,12 @@ public partial class FontPageViewModel : ObservableObject
     [ObservableProperty]
     ObservableCollection<Letter> letters;
 
+    [ObservableProperty]
+    Letter currentLetter;
+
+    [ObservableProperty]
+    string commands;
+
     [RelayCommand]
     async Task Refresh()
     {
@@ -66,9 +72,15 @@ public partial class FontPageViewModel : ObservableObject
     {
         if (value is not null)
         {
+            CurrentLetter = null;
             FontName = value.FontName;
             await FontService.ChangeCurrentFont(value);
             Letters = new(await LetterService.GetLetters(value.FontId));
         }
+    }
+
+    partial void OnCurrentLetterChanged(Letter value)
+    {
+        if (value is not null) Commands = value.Commands;
     }
 }

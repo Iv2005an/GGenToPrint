@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:Models="clr-namespace:GGenToPrint.Resources.Models"
+             xmlns:preview="clr-namespace:GGenToPrint.Resources.Drawables.Preview"
+             xmlns:models="clr-namespace:GGenToPrint.Resources.Models"
              xmlns:viewModels="clr-namespace:GGenToPrint.Resources.ViewModels"
              x:DataType="viewModels:FontPageViewModel"
              x:Class="GGenToPrint.Resources.Views.FontPage.FontPage">
@@ -10,6 +11,13 @@
             <ColumnDefinition Width="700"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
+        <preview:PreviewView Grid.Column="1" Margin="50" Commands="{Binding Commands}">
+            <preview:PreviewView.Drawable>
+                <preview:PreviewDrawable/>
+            </preview:PreviewView.Drawable>
+        </preview:PreviewView>
+
         <ScrollView>
             <VerticalStackLayout Margin="50">
                 <Label Text="Шрифты" FontSize="Large" Margin="0,10,0,0"/>
@@ -34,10 +42,13 @@
                         <Button Text="Добавить символ" Clicked="AddCharacter"/>
                     </FlexLayout>
                 </Frame>
-                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Letters}">
+                <VerticalStackLayout x:Name="Characters" BindableLayout.ItemsSource="{Binding Letters}">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="Models:Letter">
+                        <DataTemplate x:DataType="models:Letter">
                             <Frame Margin="0,10,0,0" HeightRequest="75">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ShowPreview"/>
+                                </Frame.GestureRecognizers>
                                 <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                                     <Label Text="{Binding Character}" VerticalTextAlignment="Center"/>
                                     <HorizontalStackLayout Spacing="20">
