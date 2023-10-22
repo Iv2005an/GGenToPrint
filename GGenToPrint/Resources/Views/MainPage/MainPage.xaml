@@ -62,7 +62,7 @@
                                        SliderMaximum="50"
                                        SliderValue="{Binding NumCellsOfHorizontal}"/>
                 <controls:SliderOption OptionName="Размер полей"
-                                       SliderMinimum="1"
+                                       SliderMinimum="0"
                                        SliderMaximum="{Binding NumCellsOfHorizontal, Converter={StaticResource MarginCellsConverter}}"
                                        SliderValue="{Binding NumCellsOfMargin}"/>
 
