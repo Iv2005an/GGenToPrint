@@ -48,6 +48,9 @@ public class PreviewDrawable : IDrawable
             canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
             canvas.DrawLine(left + cellSize * i, top, left + cellSize * i, bottom);
         }
+
+        // Horzontal line
+        canvas.StrokeSize = 3;
         canvas.StrokeColor = Colors.LightBlue;
         canvas.DrawLine(left, top + cellSize * 3, right, top + cellSize * 3);
 
@@ -75,5 +78,6 @@ public class PreviewDrawable : IDrawable
             }
         }
         canvas.StrokeColor = drawColor;
+        canvas.StrokeSize = 1;
     }
 }
