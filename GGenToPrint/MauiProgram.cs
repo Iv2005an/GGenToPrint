@@ -1,8 +1,9 @@
 ﻿using GGenToPrint.Resources.Views.MainPage;
+using GGenToPrint.Resources.Views.FontPage;
+using GGenToPrint.Resources.Views.EditPage;
 using GGenToPrint.Resources.ViewModels;
 using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
-using GGenToPrint.Resources.Views.FontPage;
 
 namespace GGenToPrint;
 
@@ -15,6 +16,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<MainPageViewModel>();
         builder.Services.AddSingleton<FontPage>();
         builder.Services.AddSingleton<FontPageViewModel>();
+        builder.Services.AddSingleton<EditPage>();
+        builder.Services.AddSingleton<EditPageViewModel>();
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

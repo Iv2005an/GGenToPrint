@@ -47,6 +47,7 @@
 	  <MauiXaml Remove="Resources\Fonts\**" />
 	  <None Remove="Resources\Database\**" />
 	  <None Remove="Resources\Fonts\**" />
+	  <None Remove="Resources\Views\EditPage\" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
@@ -63,6 +64,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Resources\Drawables\Sheet\" />
+		<Folder Include="Resources\Views\EditPage\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiXaml Update="Resources\Controls\Controls.xaml">
