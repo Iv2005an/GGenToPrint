@@ -1,6 +1,6 @@
-﻿using GGenToPrint.Resources.Drawables.Preview;
-using GGenToPrint.Resources.Models;
+﻿using GGenToPrint.Resources.Models;
 using GGenToPrint.Resources.ViewModels;
+using GGenToPrint.Resources.Views;
 
 namespace GGenToPrint.Resources.Views.FontPage;
 
@@ -91,6 +91,14 @@ public partial class FontPage : ContentPage
         {
             await ViewModel.DeleteCharacterCommand.ExecuteAsync(letter);
         }
+    }
+    async void ChangeCharacter(object sender, EventArgs args)
+    {
+        var navigationParameters = new Dictionary<string, object>
+    {
+        { "Letter", (Letter)((Button)sender).BindingContext }
+    };
+        await Shell.Current.GoToAsync("editCharacter", navigationParameters);
     }
 
     void ShowPreview(object sender, TappedEventArgs args)
