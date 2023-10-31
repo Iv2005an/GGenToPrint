@@ -9,8 +9,8 @@ public class PreviewView : GraphicsView
     }
     public static readonly BindableProperty CommandsProperty = BindableProperty.Create(
         nameof(Commands), typeof(string), typeof(PreviewView),
-        propertyChanged: NumCellsOfVerticalPropertyChanged);
-    public static void NumCellsOfVerticalPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        propertyChanged: CommandsChanged);
+    public static void CommandsChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not PreviewView { Drawable: PreviewDrawable previewDrawable } previewView)
         {

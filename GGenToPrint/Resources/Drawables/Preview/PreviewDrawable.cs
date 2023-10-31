@@ -75,7 +75,6 @@ public class PreviewDrawable : IDrawable
                         left + command.XCoordinate * cellSize,
                         top + command.YCoordinate * cellSize);
                     lastCommand = command;
-
                 }
             }
         }
