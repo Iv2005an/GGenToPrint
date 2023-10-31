@@ -57,7 +57,7 @@ public class SheetDrawable : IDrawable
         // Margin
         if (NumCellsOfMargin > 0)
         {
-            canvas.StrokeSize = 3;
+            canvas.StrokeSize = 5;
             canvas.StrokeColor = Colors.Red;
             if (SheetPositionIndex == 0)
             {

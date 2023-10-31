@@ -50,12 +50,14 @@ public class PreviewDrawable : IDrawable
         }
 
         // Horzontal line
-        canvas.StrokeSize = 3;
+        canvas.StrokeSize = 5;
         canvas.StrokeColor = Colors.LightBlue;
         canvas.DrawLine(left, top + cellSize * 3, right, top + cellSize * 3);
 
         //Draw character
+        canvas.StrokeSize = 10;
         canvas.StrokeColor = Colors.Blue;
+        canvas.StrokeLineCap = LineCap.Round;
         if (Commands != null)
         {
             Gcommand lastCommand = null;
