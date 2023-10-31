@@ -1,10 +1,12 @@
 ﻿using GGenToPrint.Resources.Models;
 
-namespace GGenToPrint.Resources.Drawables.Preview;
+namespace GGenToPrint.Resources.Drawables.Editor;
 
-public class PreviewDrawable : IDrawable
+public class EditorDrawable : IDrawable
 {
     public string Commands { get; set; }
+
+    public float CellSize { get; set; }
 
     public void Draw(ICanvas canvas, RectF rectF)
     {
@@ -21,7 +23,7 @@ public class PreviewDrawable : IDrawable
         var left = rectF.Left;
         var right = left + smallerSide;
 
-        var cellSize = (right - left) / 6;
+        CellSize = (right - left) / 6;
 
         // Borders
         canvas.DrawLine(left, top, right, top);
@@ -32,14 +34,14 @@ public class PreviewDrawable : IDrawable
         // Cells
         for (byte i = 1; i <= 6; i++)
         {
-            canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
-            canvas.DrawLine(left + cellSize * i, top, left + cellSize * i, bottom);
+            canvas.DrawLine(left, top + CellSize * i, right, top + CellSize * i);
+            canvas.DrawLine(left + CellSize * i, top, left + CellSize * i, bottom);
         }
 
         // Horzontal line
         canvas.StrokeSize = 5;
         canvas.StrokeColor = Colors.LightBlue;
-        canvas.DrawLine(left, top + cellSize * 3, right, top + cellSize * 3);
+        canvas.DrawLine(left, top + CellSize * 3, right, top + CellSize * 3);
 
         //Draw character
         canvas.StrokeSize = 10;
@@ -57,14 +59,15 @@ public class PreviewDrawable : IDrawable
                 else
                 {
                     canvas.DrawLine(
-                        left + lastCommand.XCoordinate * cellSize,
-                        top + lastCommand.YCoordinate * cellSize,
-                        left + command.XCoordinate * cellSize,
-                        top + command.YCoordinate * cellSize);
+                        left + lastCommand.XCoordinate * CellSize,
+                        top + lastCommand.YCoordinate * CellSize,
+                        left + command.XCoordinate * CellSize,
+                        top + command.YCoordinate * CellSize);
                     lastCommand = command;
                 }
             }
         }
+
         canvas.StrokeColor = drawColor;
         canvas.StrokeSize = 1;
     }

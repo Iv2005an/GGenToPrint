@@ -2,13 +2,53 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:view_model="clr-namespace:GGenToPrint.Resources.ViewModels"
+             xmlns:editor="clr-namespace:GGenToPrint.Resources.Drawables.Editor"
              x:Class="GGenToPrint.Resources.Views.EditPage.EditPage"
              x:DataType="view_model:EditPageViewModel"
              Title="Редактирование символа">
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding Character}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="700"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <editor:EditorView Grid.Column="1" Margin="50" Commands="{Binding Commands}" 
+                           StartInteraction="StartInteraction" 
+                           DragInteraction="DragInteraction">
+            <editor:EditorView.Drawable>
+                <editor:EditorDrawable/>
+            </editor:EditorView.Drawable>
+        </editor:EditorView>
+
+        <ScrollView>
+            <VerticalStackLayout Margin="50">
+                <Label Text="{Binding Character}" FontSize="Large" Margin="0,10,0,0" />
+                <Frame Margin="0,10,0,0" HeightRequest="75">
+                    <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
+                        <Label Text="Тип соединения" VerticalTextAlignment="Center"/>
+                        <HorizontalStackLayout>
+                            <Picker x:Name="SheetType"
+                                    WidthRequest="300"
+                                    MinimumHeightRequest="25"
+                                    VerticalOptions="Center"
+                                    SelectedIndex="{Binding ConnectionTypeIndex}">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Без соединений</x:String>
+                                        <x:String>Справа</x:String>
+                                        <x:String>Слева</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </HorizontalStackLayout>
+                    </FlexLayout>
+                </Frame>
+                <FlexLayout Margin="0,20,0,0" AlignContent="Center" JustifyContent="SpaceBetween">
+                    <Button MinimumWidthRequest="175" Text="Отмена" TextColor="Red" Command="{Binding CancelCommand}"/>
+                    <Button MinimumWidthRequest="175" Text="Очистить" TextColor="Red" Command="{Binding ClearCommand}"/>
+                    <Button MinimumWidthRequest="175" Text="Сохранить" Clicked="SaveCommands"/>
+                </FlexLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

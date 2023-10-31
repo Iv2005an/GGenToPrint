@@ -7,13 +7,16 @@ public class Gcommand
         var Commands = new List<Gcommand>();
         foreach (string command in commands.Split('\n'))
         {
-            string[] args = command.Split();
-            Commands.Add(new Gcommand()
+            if (!string.IsNullOrEmpty(command))
             {
-                Gcode = args[0],
-                XCoordinate = (float)Convert.ToDouble(args[1][1..]),
-                YCoordinate = (float)Convert.ToDouble(args[2][1..])
-            });
+                string[] args = command.Split();
+                Commands.Add(new Gcommand()
+                {
+                    Gcode = args[0],
+                    XCoordinate = (float)Convert.ToDouble(args[1][1..]),
+                    YCoordinate = (float)Convert.ToDouble(args[2][1..])
+                });
+            }
         }
         return Commands;
     }

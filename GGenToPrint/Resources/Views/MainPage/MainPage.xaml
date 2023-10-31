@@ -41,7 +41,7 @@
                                 SelectedItem="{Binding CurrentProfile}">
                         </Picker>
                         <Button Text="Добавить" MinimumWidthRequest="100" Clicked="AddProfile"/>
-                        <Button Text="Удалить" MinimumWidthRequest="100" Clicked="DeleteProfile"/>
+                        <Button Text="Удалить" TextColor="Red" MinimumWidthRequest="100" Clicked="DeleteProfile"/>
                     </FlexLayout>
                 </Frame>
 

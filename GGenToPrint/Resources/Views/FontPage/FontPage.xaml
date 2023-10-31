@@ -31,7 +31,7 @@
                                 SelectedItem="{Binding CurrentFont}">
                         </Picker>
                         <Button Text="Добавить" MinimumWidthRequest="100" Clicked="AddFont"/>
-                        <Button Text="Удалить" MinimumWidthRequest="100" Clicked="DeleteFont"/>
+                        <Button Text="Удалить" TextColor="Red" MinimumWidthRequest="100" Clicked="DeleteFont"/>
                     </FlexLayout>
                 </Frame>
 
@@ -53,7 +53,7 @@
                                     <Label Text="{Binding Character}" VerticalTextAlignment="Center"/>
                                     <HorizontalStackLayout Spacing="20">
                                         <Button Text="Изменить" MinimumWidthRequest="100" Clicked="ChangeCharacter"/>
-                                        <Button Text="Удалить" MinimumWidthRequest="100" Clicked="DeleteCharacter"/>
+                                        <Button Text="Удалить" TextColor="Red" MinimumWidthRequest="100" Clicked="DeleteCharacter"/>
                                     </HorizontalStackLayout>
                                 </FlexLayout>
                             </Frame>

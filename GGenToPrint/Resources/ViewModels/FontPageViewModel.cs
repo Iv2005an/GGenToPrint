@@ -82,5 +82,6 @@ public partial class FontPageViewModel : ObservableObject
     partial void OnCurrentLetterChanged(Letter value)
     {
         if (value is not null) Commands = value.Commands;
+        else Commands = null;
     }
 }

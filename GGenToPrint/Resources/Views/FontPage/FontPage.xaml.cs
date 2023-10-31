@@ -94,6 +94,10 @@ public partial class FontPage : ContentPage
     }
     async void ChangeCharacter(object sender, EventArgs args)
     {
+        var oldLetter = (Frame)Characters.Where(character => (
+        (Frame)character).BorderColor != null).FirstOrDefault();
+        if (oldLetter is not null) oldLetter.BorderColor = null;
+
         var navigationParameters = new Dictionary<string, object>
     {
         { "Letter", (Letter)((Button)sender).BindingContext }

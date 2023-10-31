@@ -1,4 +1,5 @@
-﻿using GGenToPrint.Resources.Models;
+﻿using GGenToPrint.Resources.Drawables.Editor;
+using GGenToPrint.Resources.Models;
 using GGenToPrint.Resources.ViewModels;
 
 namespace GGenToPrint.Resources.Views.EditPage;
@@ -19,5 +20,23 @@ public partial class EditPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
         ViewModel = viewModel;
+    }
+
+    void StartInteraction(object sender, TouchEventArgs args)
+    {
+        ViewModel.CellSize = ((EditorDrawable)((EditorView)sender).Drawable).CellSize;
+        ViewModel.StartCommandsChangingCommand.Execute(args.Touches[0]);
+    }
+
+    void DragInteraction(object sender, TouchEventArgs args)
+    {
+        ViewModel.CellSize = ((EditorDrawable)((EditorView)sender).Drawable).CellSize;
+        ViewModel.CommandsChangingCommand.Execute(args.Touches[0]);
+    }
+
+    async void SaveCommands(object sender, EventArgs args)
+    {
+        await DisplayAlert("Сохранение", "Вид буквы сохранён", "ОК");
+        await ViewModel.SaveCommand.ExecuteAsync(null);
     }
 }
