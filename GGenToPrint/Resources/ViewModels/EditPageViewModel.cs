@@ -28,11 +28,11 @@ public partial class EditPageViewModel : ObservableObject
         if (Commands != null)
         {
             var last_command = Gcommand.ParseCommands(Commands).LastOrDefault();
-            var last_x = last_command.XCoordinate;
-            var last_y = last_command.YCoordinate;
-            var new_x = (float)Math.Round(newCoordinates.X / CellSize, 2);
-            var new_y = (float)Math.Round(newCoordinates.Y / CellSize, 2);
-            equalsCommands = last_x == new_x && last_y == new_y;
+            var lastX = last_command.XCoordinate;
+            var lastY = last_command.YCoordinate;
+            var newX = (float)Math.Round(newCoordinates.X / CellSize - 2, 2);
+            var newY = (float)Math.Round(newCoordinates.Y / CellSize, 2);
+            equalsCommands = lastX == newX && lastY == newY;
         }
         return equalsCommands;
     }
@@ -40,10 +40,10 @@ public partial class EditPageViewModel : ObservableObject
     [RelayCommand]
     void StartCommandsChanging(PointF coordinates)
     {
-        if (coordinates.X < CellSize * 6 && coordinates.Y < CellSize * 6)
+        if (coordinates.X < CellSize * 4 && coordinates.Y < CellSize * 4)
         {
             if (!IsEqualCommands(coordinates))
-                Commands += $"G0 X{coordinates.X / CellSize:0.00} Y{coordinates.Y / CellSize:0.00}\n";
+                Commands += $"G0 X{coordinates.X / CellSize - 2:0.00} Y{coordinates.Y / CellSize:0.00}\n";
             outOfBorders = false;
         }
     }
@@ -51,10 +51,10 @@ public partial class EditPageViewModel : ObservableObject
     [RelayCommand]
     void CommandsChanging(PointF coordinates)
     {
-        if (!outOfBorders && coordinates.X < CellSize * 6 && coordinates.Y < CellSize * 6)
+        if (!outOfBorders && coordinates.X < CellSize * 4 && coordinates.Y < CellSize * 4)
         {
             if (!IsEqualCommands(coordinates))
-                Commands += $"G1 X{coordinates.X / CellSize:0.00} Y{coordinates.Y / CellSize:0.00}\n";
+                Commands += $"G1 X{coordinates.X / CellSize - 2:0.00} Y{coordinates.Y / CellSize:0.00}\n";
         }
         else
             outOfBorders = true;

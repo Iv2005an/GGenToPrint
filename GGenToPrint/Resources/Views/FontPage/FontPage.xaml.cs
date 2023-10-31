@@ -99,9 +99,10 @@ public partial class FontPage : ContentPage
         if (oldLetter is not null) oldLetter.BorderColor = null;
 
         var navigationParameters = new Dictionary<string, object>
-    {
-        { "Letter", (Letter)((Button)sender).BindingContext }
-    };
+        {
+            { "Letter", (Letter)((Button)sender).BindingContext }
+        };
+        ViewModel.CurrentLetter = null;
         await Shell.Current.GoToAsync("editCharacter", navigationParameters);
     }
 

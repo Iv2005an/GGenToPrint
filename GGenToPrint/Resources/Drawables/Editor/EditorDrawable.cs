@@ -23,7 +23,7 @@ public class EditorDrawable : IDrawable
         var left = rectF.Left;
         var right = left + smallerSide;
 
-        CellSize = (right - left) / 6;
+        CellSize = (right - left) / 4;
 
         // Borders
         canvas.DrawLine(left, top, right, top);
@@ -32,16 +32,21 @@ public class EditorDrawable : IDrawable
         canvas.DrawLine(left, bottom, left, top);
 
         // Cells
-        for (byte i = 1; i <= 6; i++)
+        for (byte i = 1; i <= 4; i++)
         {
             canvas.DrawLine(left, top + CellSize * i, right, top + CellSize * i);
             canvas.DrawLine(left + CellSize * i, top, left + CellSize * i, bottom);
         }
 
-        // Horzontal line
+        // Template
         canvas.StrokeSize = 5;
         canvas.StrokeColor = Colors.LightBlue;
-        canvas.DrawLine(left, top + CellSize * 3, right, top + CellSize * 3);
+        canvas.DrawLine(left, top + CellSize * 2, right, top + CellSize * 2);
+        canvas.DrawLine(left + CellSize * 2, top, left + CellSize * 2, bottom);
+        canvas.FillColor = Colors.Red;
+        canvas.Alpha = 0.2f;
+        canvas.FillRectangle(left, top, right / 2, bottom);
+        canvas.Alpha = 1f;
 
         //Draw character
         canvas.StrokeSize = 10;
@@ -59,9 +64,9 @@ public class EditorDrawable : IDrawable
                 else
                 {
                     canvas.DrawLine(
-                        left + lastCommand.XCoordinate * CellSize,
+                        left + lastCommand.XCoordinate * CellSize + 2 * CellSize,
                         top + lastCommand.YCoordinate * CellSize,
-                        left + command.XCoordinate * CellSize,
+                        left + command.XCoordinate * CellSize + 2 * CellSize,
                         top + command.YCoordinate * CellSize);
                     lastCommand = command;
                 }

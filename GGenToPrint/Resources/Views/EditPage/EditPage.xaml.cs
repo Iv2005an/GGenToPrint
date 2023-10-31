@@ -36,7 +36,7 @@ public partial class EditPage : ContentPage
 
     async void SaveCommands(object sender, EventArgs args)
     {
-        await DisplayAlert("Сохранение", "Вид буквы сохранён", "ОК");
+        await DisplayAlert("Сохранение", "Вид символа сохранён", "ОК");
         await ViewModel.SaveCommand.ExecuteAsync(null);
     }
 }

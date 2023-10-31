@@ -1,4 +1,6 @@
-﻿namespace GGenToPrint.Resources.Drawables.Sheet;
+﻿using GGenToPrint.Resources.Services;
+
+namespace GGenToPrint.Resources.Drawables.Sheet;
 
 public class SheetView : GraphicsView
 {
@@ -94,6 +96,26 @@ public class SheetView : GraphicsView
         }
 
         sheetDrawable.SheetPositionIndex = (byte)newValue;
+        sheetView.Invalidate();
+    }
+
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
+    public static readonly BindableProperty TextProperty = BindableProperty.Create(
+        nameof(TextProperty), typeof(string), typeof(SheetView),
+        propertyChanged: TextPropertyChanged);
+    public static async void TextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
+        {
+            return;
+        }
+
+        sheetDrawable.Text = (string)newValue;
+        sheetDrawable.Letters = await LetterService.GetLetters((await FontService.GetCurrentFont()).FontId);
         sheetView.Invalidate();
     }
 }

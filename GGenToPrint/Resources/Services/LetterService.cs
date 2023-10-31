@@ -1,6 +1,5 @@
 ﻿using GGenToPrint.Resources.Models;
 using SQLite;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GGenToPrint.Resources.Services;
 

@@ -27,6 +27,13 @@ public static class FontService
         return await Connection.Table<Font>().ToListAsync();
     }
 
+    public static async Task<Font> GetCurrentFont()
+    {
+        await Init();
+
+        return (await GetFonts()).Where(font => font.CurrentFont).FirstOrDefault();
+    }
+
     public static async Task AddFont(Font font)
     {
         await Init();
