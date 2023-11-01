@@ -22,6 +22,9 @@ public partial class EditPageViewModel : ObservableObject
     [ObservableProperty]
     float cellSize;
 
+    [ObservableProperty]
+    float top;
+
     bool IsEqualCommands(PointF newCoordinates)
     {
         bool equalsCommands = false;
@@ -40,10 +43,14 @@ public partial class EditPageViewModel : ObservableObject
     [RelayCommand]
     void StartCommandsChanging(PointF coordinates)
     {
-        if (coordinates.X < CellSize * 4 && coordinates.Y < CellSize * 4)
+        float lineSize = CellSize / 10;
+        if (coordinates.X - lineSize / 2 > 0 &&
+            coordinates.X + lineSize / 2 < CellSize * 4 &&
+            coordinates.Y - lineSize / 2 > Top &&
+            coordinates.Y + lineSize / 2 < CellSize * 4 + Top)
         {
             if (!IsEqualCommands(coordinates))
-                Commands += $"G0 X{coordinates.X / CellSize - 2:0.00} Y{coordinates.Y / CellSize:0.00}\n";
+                Commands += $"G0 X{coordinates.X / CellSize - 2:0.00} Y{(coordinates.Y - Top) / CellSize:0.00}\n";
             outOfBorders = false;
         }
     }
@@ -51,10 +58,15 @@ public partial class EditPageViewModel : ObservableObject
     [RelayCommand]
     void CommandsChanging(PointF coordinates)
     {
-        if (!outOfBorders && coordinates.X < CellSize * 4 && coordinates.Y < CellSize * 4)
+        float lineSize = CellSize / 10;
+        if (!outOfBorders &&
+            coordinates.X - lineSize / 2 > 0 &&
+            coordinates.X + lineSize / 2 < CellSize * 4 &&
+            coordinates.Y - lineSize / 2 > Top &&
+            coordinates.Y + lineSize / 2 < CellSize * 4 + Top)
         {
             if (!IsEqualCommands(coordinates))
-                Commands += $"G1 X{coordinates.X / CellSize - 2:0.00} Y{coordinates.Y / CellSize:0.00}\n";
+                Commands += $"G1 X{coordinates.X / CellSize - 2:0.00} Y{(coordinates.Y - Top) / CellSize:0.00}\n";
         }
         else
             outOfBorders = true;

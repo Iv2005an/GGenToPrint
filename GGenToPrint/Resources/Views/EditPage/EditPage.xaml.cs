@@ -25,12 +25,14 @@ public partial class EditPage : ContentPage
     void StartInteraction(object sender, TouchEventArgs args)
     {
         ViewModel.CellSize = ((EditorDrawable)((EditorView)sender).Drawable).CellSize;
+        ViewModel.Top = ((EditorDrawable)((EditorView)sender).Drawable).Top;
         ViewModel.StartCommandsChangingCommand.Execute(args.Touches[0]);
     }
 
     void DragInteraction(object sender, TouchEventArgs args)
     {
         ViewModel.CellSize = ((EditorDrawable)((EditorView)sender).Drawable).CellSize;
+        ViewModel.Top = ((EditorDrawable)((EditorView)sender).Drawable).Top;
         ViewModel.CommandsChangingCommand.Execute(args.Touches[0]);
     }
 

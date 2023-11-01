@@ -42,11 +42,11 @@ public class PreviewDrawable : IDrawable
         canvas.DrawLine(left + cellSize * 2, top, left + cellSize * 2, bottom);
         canvas.FillColor = Colors.Red;
         canvas.Alpha = 0.2f;
-        canvas.FillRectangle(left, top, right / 2, bottom);
+        canvas.FillRectangle(left, top, smallerSide / 2, smallerSide);
         canvas.Alpha = 1f;
 
         //Draw character
-        canvas.StrokeSize = 10;
+        canvas.StrokeSize = cellSize / 10;
         canvas.StrokeColor = Colors.Blue;
         canvas.StrokeLineCap = LineCap.Round;
         if (Commands != null)
