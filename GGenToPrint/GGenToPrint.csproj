@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
 		<RootNamespace>GGenToPrint</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -22,7 +22,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
 		<CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<ItemGroup>
@@ -35,21 +35,7 @@
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 	</ItemGroup>
 	<ItemGroup>
-	  <AndroidResource Remove="Resources\Database\**" />
-	  <AndroidResource Remove="Resources\Fonts\**" />
-	  <Compile Remove="Resources\Database\**" />
-	  <Compile Remove="Resources\Fonts\**" />
-	  <EmbeddedResource Remove="Resources\Database\**" />
-	  <EmbeddedResource Remove="Resources\Fonts\**" />
-	  <MauiCss Remove="Resources\Database\**" />
-	  <MauiCss Remove="Resources\Fonts\**" />
-	  <MauiXaml Remove="Resources\Database\**" />
-	  <MauiXaml Remove="Resources\Fonts\**" />
-	  <None Remove="Resources\Database\**" />
-	  <None Remove="Resources\Fonts\**" />
-	  <None Remove="Resources\Views\EditPage\" />
-	</ItemGroup>
-	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
@@ -67,14 +53,14 @@
 		<Folder Include="Resources\Views\EditPage\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiXaml Update="Resources\Controls\Controls.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Resources\Styles\Styles.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Resources\Views\MainPage\MainPage.xaml">
-	    <Generator></Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Resources\Controls\Controls.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Resources\Styles\Styles.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Resources\Views\MainPage\MainPage.xaml">
+			<Generator></Generator>
+		</MauiXaml>
 	</ItemGroup>
 </Project>
