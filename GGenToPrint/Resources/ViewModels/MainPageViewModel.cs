@@ -113,41 +113,49 @@ public partial class MainPageViewModel : ObservableObject
     }
     async partial void OnNumCellsOfVerticalChanged(byte value)
     {
+        if (CurrentProfile is null) return;
         CurrentProfile.NumCellsOfVertical = value;
         await ProfileService.UpdateProfile(CurrentProfile);
     }
     async partial void OnNumCellsOfHorizontalChanged(byte value)
     {
+        if (CurrentProfile is null) return;
         CurrentProfile.NumCellsOfHorizontal = value;
         await ProfileService.UpdateProfile(CurrentProfile);
     }
     async partial void OnNumCellsOfMarginChanged(byte value)
     {
+        if (CurrentProfile is null) return;
         CurrentProfile.NumCellsOfMargin = value;
         await ProfileService.UpdateProfile(CurrentProfile);
     }
     async partial void OnSheetTypeIndexChanged(byte value)
     {
+        if (CurrentProfile is null) return;
         CurrentProfile.SheetTypeIndex = value;
         await ProfileService.UpdateProfile(CurrentProfile);
     }
     async partial void OnSheetPositionIndexChanged(byte value)
     {
+        if (CurrentProfile is null) return;
         CurrentProfile.SheetPositionIndex = value;
         await ProfileService.UpdateProfile(CurrentProfile);
     }
     async partial void OnCellSizeChanged(byte value)
     {
+        if (CurrentProfile is null) return;
         CurrentProfile.CellSize = value;
         await ProfileService.UpdateProfile(CurrentProfile);
     }
     async partial void OnLiftForMovingChanged(byte value)
     {
+        if (CurrentProfile is null) return;
         CurrentProfile.LiftForMoving = value;
         await ProfileService.UpdateProfile(CurrentProfile);
     }
     async partial void OnUnevennessOfWritingChanged(bool value)
     {
+        if (CurrentProfile is null) return;
         CurrentProfile.UnevennessOfWriting = value;
         await ProfileService.UpdateProfile(CurrentProfile);
     }
