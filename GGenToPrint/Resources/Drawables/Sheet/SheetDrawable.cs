@@ -76,9 +76,9 @@ public class SheetDrawable : IDrawable
             else if (SheetPositionIndex == 1)
             {
                 canvas.DrawLine(
-                    cellSize * NumCellsOfMargin,
+                    left + cellSize * NumCellsOfMargin,
                     top,
-                    cellSize * NumCellsOfMargin,
+                    left + cellSize * NumCellsOfMargin,
                     bottom);
             }
             canvas.StrokeSize = 1;
