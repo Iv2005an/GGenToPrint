@@ -26,19 +26,7 @@ public class EditorDrawable : IDrawable
         var right = left + smallerSide;
 
         CellSize = (right - left) / 4;
-
-        // Borders
-        canvas.DrawLine(left, Top, right, Top);
-        canvas.DrawLine(right, Top, right, bottom);
-        canvas.DrawLine(right, bottom, left, bottom);
-        canvas.DrawLine(left, bottom, left, Top);
-
-        // Cells
-        for (byte i = 1; i <= 4; i++)
-        {
-            canvas.DrawLine(left, Top + CellSize * i, right, Top + CellSize * i);
-            canvas.DrawLine(left + CellSize * i, Top, left + CellSize * i, bottom);
-        }
+        Cells.Draw(canvas, left, Top, right, bottom, CellSize, 4, 4);
 
         // Template
         canvas.StrokeSize = 5;

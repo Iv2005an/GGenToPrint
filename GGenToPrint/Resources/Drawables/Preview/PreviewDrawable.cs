@@ -8,10 +8,9 @@ public class PreviewDrawable : IDrawable
 
     public void Draw(ICanvas canvas, RectF rectF)
     {
-        // Get color for paint
-        AppTheme appTheme = Application.Current.RequestedTheme;
-        Color drawColor = appTheme == AppTheme.Dark ? Colors.White : Colors.Black;
-        canvas.StrokeColor = drawColor;
+        // Brush settings
+        canvas.StrokeColor = Application.Current.RequestedTheme == AppTheme.Dark ? Colors.White : Colors.Black;
+        canvas.StrokeSize = 1;
 
         // Get draw position
         var smallerSide = rectF.Width < rectF.Height ? rectF.Width : rectF.Height;
@@ -20,20 +19,8 @@ public class PreviewDrawable : IDrawable
         var left = rectF.Left;
         var right = left + smallerSide;
 
-        var cellSize = (right - left) / 4;
-
-        // Borders
-        canvas.DrawLine(left, top, right, top);
-        canvas.DrawLine(right, top, right, bottom);
-        canvas.DrawLine(right, bottom, left, bottom);
-        canvas.DrawLine(left, bottom, left, top);
-
-        // Cells
-        for (byte i = 1; i <= 4; i++)
-        {
-            canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
-            canvas.DrawLine(left + cellSize * i, top, left + cellSize * i, bottom);
-        }
+        float cellSize = (right - left) / 4;
+        Cells.Draw(canvas, left, top, right, bottom, cellSize, 4, 4);
 
         // Template
         canvas.StrokeSize = 5;
@@ -69,7 +56,5 @@ public class PreviewDrawable : IDrawable
                 }
             }
         }
-        canvas.StrokeColor = drawColor;
-        canvas.StrokeSize = 1;
     }
 }

@@ -4,11 +4,11 @@ using GGenToPrint.Resources.ViewModels;
 
 namespace GGenToPrint.Resources.Views.EditPage;
 
-[QueryProperty(nameof(CurrerntLetter), "Letter")]
+[QueryProperty(nameof(CurrentLetter), "Letter")]
 public partial class EditPage : ContentPage
 {
     readonly EditPageViewModel ViewModel;
-    public Letter CurrerntLetter
+    public Letter CurrentLetter
     {
         set
         {
