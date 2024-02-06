@@ -34,15 +34,31 @@ public class SheetDrawable : IDrawable
         var left = rectF.Width / 2 - cellSize * NumCellsOfHorizontal / 2;
         var right = left + cellSize * NumCellsOfHorizontal;
 
-        Cells.Draw(canvas,
-            left, 
-            top, 
-            right, 
-            bottom, 
-            cellSize, 
-            NumCellsOfHorizontal, 
-            NumCellsOfVertical, 
-            SheetTypeIndex == 0);
+        // Borders
+        canvas.DrawLine(left, top, right, top);
+        canvas.DrawLine(right, top, right, bottom);
+        canvas.DrawLine(right, bottom, left, bottom);
+        canvas.DrawLine(left, bottom, left, top);
+
+        // Cells and rows
+        if (SheetTypeIndex == 0)
+        {
+            for (byte i = 1; i < NumCellsOfHorizontal; i++)
+            {
+                canvas.DrawLine(left + cellSize * i, top, left + cellSize * i, bottom);
+            }
+            for (byte i = 1; i < NumCellsOfVertical; i++)
+            {
+                canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
+            }
+        }
+        else if (SheetTypeIndex == 1)
+        {
+            for (byte i = 1; i < NumCellsOfVertical; i++)
+            {
+                canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
+            }
+        }
 
         // Margin
         if (NumCellsOfMargin > 0)

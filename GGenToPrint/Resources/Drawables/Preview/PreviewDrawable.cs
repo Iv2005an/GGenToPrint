@@ -1,6 +1,4 @@
-﻿using GGenToPrint.Resources.Models;
-
-namespace GGenToPrint.Resources.Drawables.Preview;
+﻿namespace GGenToPrint.Resources.Drawables.Preview;
 
 public class PreviewDrawable : IDrawable
 {
@@ -12,49 +10,15 @@ public class PreviewDrawable : IDrawable
         canvas.StrokeColor = Application.Current.RequestedTheme == AppTheme.Dark ? Colors.White : Colors.Black;
         canvas.StrokeSize = 1;
 
-        // Get draw position
-        var smallerSide = rectF.Width < rectF.Height ? rectF.Width : rectF.Height;
-        var top = rectF.Height / 2 - smallerSide / 2;
-        var bottom = top + smallerSide;
-        var left = rectF.Left;
-        var right = left + smallerSide;
-
+        // Get draw parameters
+        float smallerSide = rectF.Width < rectF.Height ? rectF.Width : rectF.Height;
+        float top = rectF.Height / 2 - smallerSide / 2;
+        float bottom = top + smallerSide;
+        float left = rectF.Left;
+        float right = left + smallerSide;
         float cellSize = (right - left) / 4;
-        Cells.Draw(canvas, left, top, right, bottom, cellSize, 4, 4);
 
-        // Template
-        canvas.StrokeSize = 5;
-        canvas.StrokeColor = Colors.LightBlue;
-        canvas.DrawLine(left, top + cellSize * 2, right, top + cellSize * 2);
-        canvas.DrawLine(left + cellSize * 2, top, left + cellSize * 2, bottom);
-        canvas.FillColor = Colors.Red;
-        canvas.Alpha = 0.2f;
-        canvas.FillRectangle(left, top, smallerSide / 2, smallerSide);
-        canvas.Alpha = 1f;
-
-        //Draw character
-        canvas.StrokeSize = cellSize / 10;
-        canvas.StrokeColor = Colors.Blue;
-        canvas.StrokeLineCap = LineCap.Round;
-        if (Commands != null)
-        {
-            Gcommand lastCommand = null;
-            foreach (var command in Gcommand.ParseCommands(Commands))
-            {
-                if (lastCommand is null || command.Gcode == "G0")
-                {
-                    lastCommand = command;
-                }
-                else
-                {
-                    canvas.DrawLine(
-                        left + lastCommand.XCoordinate * cellSize + 2 * cellSize,
-                        top + lastCommand.YCoordinate * cellSize,
-                        left + command.XCoordinate * cellSize + 2 * cellSize,
-                        top + command.YCoordinate * cellSize);
-                    lastCommand = command;
-                }
-            }
-        }
+        CharacterSheet.DrawSheet(canvas, left, top, right, bottom, smallerSide, cellSize);
+        CharacterSheet.DrawCharacter(canvas, top, left, cellSize, Commands);
     }
 }

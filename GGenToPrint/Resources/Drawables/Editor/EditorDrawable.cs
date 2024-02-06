@@ -19,24 +19,15 @@ public class EditorDrawable : IDrawable
         canvas.FontColor = drawColor;
 
         // Get draw position
-        var smallerSide = rectF.Width < rectF.Height ? rectF.Width : rectF.Height;
+        float smallerSide = rectF.Width < rectF.Height ? rectF.Width : rectF.Height;
         Top = rectF.Height / 2 - smallerSide / 2;
-        var bottom = Top + smallerSide;
-        var left = rectF.Left;
-        var right = left + smallerSide;
+        float bottom = Top + smallerSide;
+        float left = rectF.Left;
+        float right = left + smallerSide;
 
         CellSize = (right - left) / 4;
-        Cells.Draw(canvas, left, Top, right, bottom, CellSize, 4, 4);
 
-        // Template
-        canvas.StrokeSize = 5;
-        canvas.StrokeColor = Colors.LightBlue;
-        canvas.DrawLine(left, Top + CellSize * 2, right, Top + CellSize * 2);
-        canvas.DrawLine(left + CellSize * 2, Top, left + CellSize * 2, bottom);
-        canvas.FillColor = Colors.Red;
-        canvas.Alpha = 0.2f;
-        canvas.FillRectangle(left, Top, smallerSide / 2, smallerSide);
-        canvas.Alpha = 1f;
+        CharacterSheet.DrawSheet(canvas, left, Top, right, bottom, smallerSide, CellSize);
 
         //Draw character
         canvas.StrokeSize = CellSize / 10;
