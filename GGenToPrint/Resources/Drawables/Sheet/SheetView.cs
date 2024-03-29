@@ -115,7 +115,7 @@ public class SheetView : GraphicsView
         }
 
         sheetDrawable.Text = (string)newValue;
-        sheetDrawable.Letters = await LetterService.GetLetters((await FontService.GetCurrentFont()).FontId);
+        sheetDrawable.Letters = await (await LetterDatabase.GetInstance()).GetLetters((await (await FontDatabase.GetInstance()).GetCurrentFont()).FontId);
         sheetView.Invalidate();
     }
 }

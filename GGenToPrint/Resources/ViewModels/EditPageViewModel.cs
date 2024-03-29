@@ -14,9 +14,6 @@ public partial class EditPageViewModel : ObservableObject
     string character;
 
     [ObservableProperty]
-    string commands;
-
-    [ObservableProperty]
     byte connectionTypeIndex;
 
     [ObservableProperty]
@@ -25,12 +22,15 @@ public partial class EditPageViewModel : ObservableObject
     [ObservableProperty]
     float top;
 
+    [ObservableProperty]
+    string gCode;
+
     bool IsEqualCommands(PointF newCoordinates)
     {
         bool equalsCommands = false;
-        if (Commands != null)
+        if (GCode != null)
         {
-            var last_command = Gcommand.ParseCommands(Commands).LastOrDefault();
+            var last_command = GCommand.ParseCommands(GCode).LastOrDefault();
             var lastX = last_command.XCoordinate;
             var lastY = last_command.YCoordinate;
             var newX = (float)Math.Round(newCoordinates.X / CellSize - 2, 2);
@@ -41,7 +41,7 @@ public partial class EditPageViewModel : ObservableObject
     }
     bool outOfBorders;
     [RelayCommand]
-    void StartCommandsChanging(PointF coordinates)
+    void StartGCodeChanging(PointF coordinates)
     {
         float lineSize = CellSize / 10;
         if (coordinates.X - lineSize / 2 > 0 &&
@@ -50,13 +50,13 @@ public partial class EditPageViewModel : ObservableObject
             coordinates.Y + lineSize / 2 < CellSize * 4 + Top)
         {
             if (!IsEqualCommands(coordinates))
-                Commands += $"G0 X{coordinates.X / CellSize - 2:0.00} Y{(coordinates.Y - Top) / CellSize:0.00}\n";
+                GCode += $"G0 X{coordinates.X / CellSize - 2:0.00} Y{(coordinates.Y - Top) / CellSize:0.00}\n";
             outOfBorders = false;
         }
     }
 
     [RelayCommand]
-    void CommandsChanging(PointF coordinates)
+    void GCodeChanging(PointF coordinates)
     {
         float lineSize = CellSize / 10;
         if (!outOfBorders &&
@@ -66,7 +66,7 @@ public partial class EditPageViewModel : ObservableObject
             coordinates.Y + lineSize / 2 < CellSize * 4 + Top)
         {
             if (!IsEqualCommands(coordinates))
-                Commands += $"G1 X{coordinates.X / CellSize - 2:0.00} Y{(coordinates.Y - Top) / CellSize:0.00}\n";
+                GCode += $"G1 X{coordinates.X / CellSize - 2:0.00} Y{(coordinates.Y - Top) / CellSize:0.00}\n";
         }
         else
             outOfBorders = true;
@@ -75,32 +75,32 @@ public partial class EditPageViewModel : ObservableObject
     [RelayCommand]
     void Cancel()
     {
-        Commands = CurrentLetter.Commands;
+        GCode = CurrentLetter.GCode;
     }
 
     [RelayCommand]
     void Clear()
     {
-        Commands = null;
+        GCode = null;
     }
 
     [RelayCommand]
     async Task Save()
     {
-        CurrentLetter.Commands = Commands;
-        await LetterService.UpdateLetter(CurrentLetter);
+        CurrentLetter.GCode = GCode;
+        await (await LetterDatabase.GetInstance()).UpdateLetter(CurrentLetter);
     }
 
     partial void OnCurrentLetterChanged(Letter value)
     {
         Character = value.Character;
-        Commands = value.Commands;
+        GCode = value.GCode;
         ConnectionTypeIndex = value.ConnectionType;
     }
 
     async partial void OnConnectionTypeIndexChanged(byte value)
     {
         CurrentLetter.ConnectionType = value;
-        await LetterService.UpdateLetter(CurrentLetter);
+        await (await LetterDatabase.GetInstance()).UpdateLetter(CurrentLetter);
     }
 }

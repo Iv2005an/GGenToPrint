@@ -3,11 +3,24 @@ using SQLite;
 
 namespace GGenToPrint.Resources.Services;
 
-public static class ProfileService
+public class ProfileDatabase
 {
-    static SQLiteAsyncConnection Connection;
+    private ProfileDatabase() { }
 
-    static async Task Init()
+    private static ProfileDatabase instance;
+
+    async public static Task<ProfileDatabase> GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new ProfileDatabase();
+            await instance.Init();
+        }
+        return instance;
+    }
+    private SQLiteAsyncConnection Connection;
+
+    private async Task Init()
     {
         if (Connection is not null)
         {
@@ -21,17 +34,13 @@ public static class ProfileService
         }
     }
 
-    public static async Task<IEnumerable<Profile>> GetProfiles()
+    public async Task<IEnumerable<Profile>> GetProfiles()
     {
-        await Init();
-
         return await Connection.Table<Profile>().ToListAsync();
     }
 
-    public static async Task AddProfile(Profile profile)
+    public async Task AddProfile(Profile profile)
     {
-        await Init();
-
         var profiles = await GetProfiles();
         if (profiles.Any())
         {
@@ -43,19 +52,17 @@ public static class ProfileService
         }
         await Connection.InsertAsync(profile);
     }
-    
-    public static async Task UpdateProfile(Profile updatedProfile)
+
+    public async Task UpdateProfile(Profile updatedProfile)
     {
         await Connection.UpdateAsync(updatedProfile);
     }
 
-    public static async Task DeleteProfile(Profile profile)
+    public async Task DeleteProfile(Profile profile)
     {
-        await Init();
-
         await Connection.DeleteAsync(profile);
         var profiles = (await GetProfiles()).ToList();
-        if (profiles.Any())
+        if (profiles.Count != 0)
         {
             for (byte profileIndex = 0; profileIndex < profiles.Count; profileIndex++)
             {
@@ -71,10 +78,8 @@ public static class ProfileService
         }
     }
 
-    public static async Task DisableCurrentProfile()
+    public async Task DisableCurrentProfile()
     {
-        await Init();
-
         var profiles = await GetProfiles();
         var oldCurrentProfile = profiles.Where(profile => profile.CurrentProfile).FirstOrDefault();
         if (oldCurrentProfile is not null)
@@ -84,10 +89,8 @@ public static class ProfileService
         }
     }
 
-    public static async Task ChangeCurrentProfile(Profile newCurrentProfile)
+    public async Task ChangeCurrentProfile(Profile newCurrentProfile)
     {
-        await Init();
-
         await DisableCurrentProfile();
         newCurrentProfile.CurrentProfile = true;
         await Connection.UpdateAsync(newCurrentProfile);

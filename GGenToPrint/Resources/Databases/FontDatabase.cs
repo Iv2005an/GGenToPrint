@@ -3,15 +3,26 @@ using Font = GGenToPrint.Resources.Models.Font;
 
 namespace GGenToPrint.Resources.Services;
 
-public static class FontService
+public class FontDatabase
 {
-    static SQLiteAsyncConnection Connection;
-    static async Task Init()
+    private FontDatabase() { }
+
+    private static FontDatabase instance;
+
+    async public static Task<FontDatabase> GetInstance()
     {
-        if (Connection is not null)
+        if (instance == null)
         {
-            return;
+            instance = new FontDatabase();
+            await instance.Init();
         }
+        return instance;
+    }
+
+    private SQLiteAsyncConnection Connection;
+
+    private async Task Init()
+    {
         Connection = Database.Connection;
         await Connection.CreateTableAsync<Font>();
         if (!(await GetFonts()).Any())
@@ -20,24 +31,18 @@ public static class FontService
         }
     }
 
-    public static async Task<IEnumerable<Font>> GetFonts()
+    public async Task<IEnumerable<Font>> GetFonts()
     {
-        await Init();
-
         return await Connection.Table<Font>().ToListAsync();
     }
 
-    public static async Task<Font> GetCurrentFont()
+    public async Task<Font> GetCurrentFont()
     {
-        await Init();
-
         return (await GetFonts()).Where(font => font.CurrentFont).FirstOrDefault();
     }
 
-    public static async Task AddFont(Font font)
+    public async Task AddFont(Font font)
     {
-        await Init();
-
         var fonts = await GetFonts();
         if (fonts.Any())
         {
@@ -50,13 +55,11 @@ public static class FontService
         await Connection.InsertAsync(font);
     }
 
-    public static async Task DeleteFont(Font font)
+    public async Task DeleteFont(Font font)
     {
-        await Init();
-
         await Connection.DeleteAsync(font);
         var fonts = (await GetFonts()).ToList();
-        if (fonts.Any())
+        if (fonts.Count != 0)
         {
             for (byte fontIndex = 0; fontIndex < fonts.Count; fontIndex++)
             {
@@ -70,28 +73,25 @@ public static class FontService
         {
             await AddFont(new());
         }
-        var letters = await LetterService.GetAllLetters();
+        var letters = await (await LetterDatabase.GetInstance()).GetAllLetters();
         foreach (var letter in letters)
         {
             if (letter.FontId == font.FontId)
             {
-                await LetterService.DeleteLetter(letter);
+                await (await LetterDatabase.GetInstance()).DeleteLetter(letter);
             }
             else if (letter.FontId > font.FontId)
             {
-                await LetterService.DeleteLetter(letter);
+                await (await LetterDatabase.GetInstance()).DeleteLetter(letter);
                 letter.FontId = (byte)(letter.FontId - 1);
-                await LetterService.AddLetter(letter);
+                await (await LetterDatabase.GetInstance()).AddLetter(letter);
             }
         }
     }
 
-    public static async Task DisableCurrentFont()
+    public async Task DisableCurrentFont()
     {
-        await Init();
-
-        var fonts = await GetFonts();
-        var oldCurrentFont = fonts.Where(font => font.CurrentFont).FirstOrDefault();
+        var oldCurrentFont = (await GetFonts()).Where(font => font.CurrentFont).FirstOrDefault();
         if (oldCurrentFont is not null)
         {
             oldCurrentFont.CurrentFont = false;
@@ -99,10 +99,8 @@ public static class FontService
         }
     }
 
-    public static async Task ChangeCurrentFont(Font newCurrentFont)
+    public async Task ChangeCurrentFont(Font newCurrentFont)
     {
-        await Init();
-
         await DisableCurrentFont();
         newCurrentFont.CurrentFont = true;
         await Connection.UpdateAsync(newCurrentFont);

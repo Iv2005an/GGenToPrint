@@ -1,18 +1,18 @@
 ﻿namespace GGenToPrint.Resources.Models;
 
-public class Gcommand
+public class GCommand
 {
-    public static IEnumerable<Gcommand> ParseCommands(string commands)
+    public static IEnumerable<GCommand> ParseCommands(string commands)
     {
-        var Commands = new List<Gcommand>();
-        foreach (string command in commands.Split('\n'))
+        var Commands = new List<GCommand>();
+        foreach (string gCommand in commands.Split('\n'))
         {
-            if (!string.IsNullOrEmpty(command))
+            if (!string.IsNullOrEmpty(gCommand))
             {
-                string[] args = command.Split();
-                Commands.Add(new Gcommand()
+                string[] args = gCommand.Split();
+                Commands.Add(new GCommand()
                 {
-                    Gcode = args[0],
+                    GCode = args[0],
                     XCoordinate = (float)Convert.ToDouble(args[1][1..]),
                     YCoordinate = (float)Convert.ToDouble(args[2][1..])
                 });
@@ -21,7 +21,7 @@ public class Gcommand
         return Commands;
     }
 
-    public string Gcode { get; set; }
+    public string GCode { get; set; }
     public float XCoordinate { get; set; }
     public float YCoordinate { get; set; }
 }

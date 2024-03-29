@@ -3,35 +3,41 @@ using SQLite;
 
 namespace GGenToPrint.Resources.Services;
 
-public static class LetterService
+public class LetterDatabase
 {
-    static SQLiteAsyncConnection Connection;
+    private LetterDatabase() { }
 
-    static async Task Init()
+    private static LetterDatabase instance;
+
+    async public static Task<LetterDatabase> GetInstance()
     {
-        if (Connection is not null)
+        if (instance == null)
         {
-            return;
+            instance = new LetterDatabase();
+            await instance.Init();
         }
+        return instance;
+    }
+    private SQLiteAsyncConnection Connection;
+
+    private async Task Init()
+    {
         Connection = Database.Connection;
         await Connection.CreateTableAsync<Letter>();
     }
 
-    public static async Task<IEnumerable<Letter>> GetAllLetters()
+    public async Task<IEnumerable<Letter>> GetAllLetters()
     {
         return await Connection.Table<Letter>().ToListAsync();
     }
 
-    public static async Task<IEnumerable<Letter>> GetLetters(byte fontId)
+    public async Task<IEnumerable<Letter>> GetLetters(byte fontId)
     {
-        await Init();
-
         return await Connection.Table<Letter>().Where(
             letter => letter.FontId == fontId).ToListAsync();
     }
-    public static async Task AddLetter(Letter letter)
+    public async Task AddLetter(Letter letter)
     {
-        await Init();
         var letters = await GetAllLetters();
         if (letters.Any())
         {
@@ -43,13 +49,11 @@ public static class LetterService
         }
         await Connection.InsertAsync(letter);
     }
-    public static async Task DeleteLetter(Letter letter)
+    public async Task DeleteLetter(Letter letter)
     {
-        await Init();
-
         await Connection.DeleteAsync(letter);
         var letters = (await GetAllLetters()).ToList();
-        if (letters.Any())
+        if (letters.Count != 0)
         {
             for (int letterIndex = 0; letterIndex < letters.Count; letterIndex++)
             {
@@ -59,7 +63,7 @@ public static class LetterService
             await Connection.InsertAllAsync(letters);
         }
     }
-    public static async Task UpdateLetter(Letter updatedLetter)
+    public async Task UpdateLetter(Letter updatedLetter)
     {
         await Connection.UpdateAsync(updatedLetter);
     }

@@ -2,21 +2,21 @@
 
 public class EditorView : GraphicsView
 {
-    public string Commands
+    public string GCode
     {
-        get => (string)GetValue(CommandsProperty);
-        set => SetValue(CommandsProperty, value);
+        get => (string)GetValue(GCodeProperty);
+        set => SetValue(GCodeProperty, value);
     }
-    public static readonly BindableProperty CommandsProperty = BindableProperty.Create(
-        nameof(Commands), typeof(string), typeof(EditorView),
-        propertyChanged: CommandsChanged);
-    public static void CommandsChanged(BindableObject bindable, object oldValue, object newValue)
+    public static readonly BindableProperty GCodeProperty = BindableProperty.Create(
+        nameof(GCode), typeof(string), typeof(EditorView),
+        propertyChanged: GCodeChanged);
+    public static void GCodeChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not EditorView { Drawable: EditorDrawable editorDrawable } editorView)
         {
             return;
         }
-        editorDrawable.Commands = (string)newValue;
+        editorDrawable.GCode = (string)newValue;
         editorView.Invalidate();
     }
 }

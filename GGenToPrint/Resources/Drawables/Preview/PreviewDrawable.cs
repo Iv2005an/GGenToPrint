@@ -2,7 +2,7 @@
 
 public class PreviewDrawable : IDrawable
 {
-    public string Commands { get; set; }
+    public string GCode { get; set; }
 
     public void Draw(ICanvas canvas, RectF rectF)
     {
@@ -19,6 +19,6 @@ public class PreviewDrawable : IDrawable
         float cellSize = (right - left) / 4;
 
         CharacterSheet.DrawSheet(canvas, left, top, right, bottom, smallerSide, cellSize);
-        CharacterSheet.DrawCharacter(canvas, top, left, cellSize, Commands);
+        CharacterSheet.DrawCharacter(canvas, left, top, cellSize, GCode);
     }
 }

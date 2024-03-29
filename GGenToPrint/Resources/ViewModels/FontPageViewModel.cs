@@ -22,15 +22,15 @@ public partial class FontPageViewModel : ObservableObject
     async Task AddFont(string fontName)
     {
         CurrentFont.FontName = fontName;
-        await FontService.DisableCurrentFont();
-        await FontService.AddFont(CurrentFont);
+        await (await FontDatabase.GetInstance()).DisableCurrentFont();
+        await (await FontDatabase.GetInstance()).AddFont(CurrentFont);
         await RefreshCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]
     async Task DeleteFont()
     {
-        await FontService.DeleteFont(CurrentFont);
+        await (await FontDatabase.GetInstance()).DeleteFont(CurrentFont);
         await RefreshCommand.ExecuteAsync(null);
     }
 
@@ -41,19 +41,19 @@ public partial class FontPageViewModel : ObservableObject
     Letter currentLetter;
 
     [ObservableProperty]
-    string commands;
+    string gCode;
 
     [RelayCommand]
     async Task Refresh()
     {
-        Fonts = new(await FontService.GetFonts());
+        Fonts = new(await (await FontDatabase.GetInstance()).GetFonts());
         CurrentFont = Fonts.Where(font => font.CurrentFont).FirstOrDefault();
     }
 
     [RelayCommand]
     async Task AddCharacter(string character)
     {
-        await LetterService.AddLetter(new()
+        await (await LetterDatabase.GetInstance()).AddLetter(new()
         {
             Character = character,
             FontId = CurrentFont.FontId
@@ -64,7 +64,7 @@ public partial class FontPageViewModel : ObservableObject
     [RelayCommand]
     async Task DeleteCharacter(Letter letter)
     {
-        await LetterService.DeleteLetter(letter);
+        await (await LetterDatabase.GetInstance()).DeleteLetter(letter);
         await RefreshCommand.ExecuteAsync(null);
     }
 
@@ -74,14 +74,14 @@ public partial class FontPageViewModel : ObservableObject
         {
             CurrentLetter = null;
             FontName = value.FontName;
-            await FontService.ChangeCurrentFont(value);
-            Letters = new(await LetterService.GetLetters(value.FontId));
+            await (await FontDatabase.GetInstance()).ChangeCurrentFont(value);
+            Letters = new(await (await LetterDatabase.GetInstance()).GetLetters(value.FontId));
         }
     }
 
     partial void OnCurrentLetterChanged(Letter value)
     {
-        if (value is not null) Commands = value.Commands;
-        else Commands = null;
+        if (value is not null) GCode = value.GCode;
+        else GCode = null;
     }
 }

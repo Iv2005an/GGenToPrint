@@ -2,22 +2,22 @@
 
 public class PreviewView : GraphicsView
 {
-    public string Commands
+    public string GCode
     {
-        get => (string)GetValue(CommandsProperty);
-        set => SetValue(CommandsProperty, value);
+        get => (string)GetValue(GCodeProperty);
+        set => SetValue(GCodeProperty, value);
     }
-    public static readonly BindableProperty CommandsProperty = BindableProperty.Create(
-        nameof(Commands), typeof(string), typeof(PreviewView),
-        propertyChanged: CommandsChanged);
-    public static void CommandsChanged(BindableObject bindable, object oldValue, object newValue)
+    public static readonly BindableProperty GCodeProperty = BindableProperty.Create(
+        nameof(GCode), typeof(string), typeof(PreviewView),
+        propertyChanged: GCodeChanged);
+    public static void GCodeChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not PreviewView { Drawable: PreviewDrawable previewDrawable } previewView)
         {
             return;
         }
 
-        previewDrawable.Commands = (string)newValue;
+        previewDrawable.GCode = (string)newValue;
         previewView.Invalidate();
     }
 }

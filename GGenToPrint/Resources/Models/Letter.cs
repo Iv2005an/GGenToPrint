@@ -15,8 +15,8 @@ public class Letter
     [Column("character")]
     public string Character { get; set; }
 
-    [Column("commands")]
-    public string Commands { get; set; }
+    [Column("g_code")]
+    public string GCode { get; set; }
 
     [Column("connection_type")]
     public byte ConnectionType { get; set; }

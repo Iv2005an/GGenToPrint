@@ -1,5 +1,4 @@
-﻿using GGenToPrint.Resources.Services;
-using GGenToPrint.Resources.ViewModels;
+﻿using GGenToPrint.Resources.ViewModels;
 
 namespace GGenToPrint.Resources.Views.MainPage;
 

@@ -17,8 +17,7 @@ public class SheetDrawable : IDrawable
         canvas.StrokeSize = 1;
 
         // Get color for paint
-        AppTheme appTheme = Application.Current.RequestedTheme;
-        Color drawColor = appTheme == AppTheme.Dark ? Colors.White : Colors.Black;
+        Color drawColor = Application.Current.RequestedTheme == AppTheme.Dark ? Colors.White : Colors.Black;
         canvas.StrokeColor = drawColor;
 
         // Get cell size
@@ -47,17 +46,10 @@ public class SheetDrawable : IDrawable
             {
                 canvas.DrawLine(left + cellSize * i, top, left + cellSize * i, bottom);
             }
-            for (byte i = 1; i < NumCellsOfVertical; i++)
-            {
-                canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
-            }
         }
-        else if (SheetTypeIndex == 1)
+        for (byte i = 1; i < NumCellsOfVertical; i++)
         {
-            for (byte i = 1; i < NumCellsOfVertical; i++)
-            {
-                canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
-            }
+            canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
         }
 
         // Margin
@@ -96,21 +88,21 @@ public class SheetDrawable : IDrawable
             foreach (var character in Text)
             {
                 var letter = Letters.Where(letter => letter.Character[0] == character).FirstOrDefault();
-                if (letter is not null && letter.Commands is not null)
+                if (letter is not null && letter.GCode is not null)
                 {
                     float maxX = 0;
-                    Gcommand lastCommand = null;
-                    foreach (var command in Gcommand.ParseCommands(letter.Commands))
+                    GCommand lastCommand = null;
+                    foreach (var gCommand in GCommand.ParseCommands(letter.GCode))
                     {
                         canvas.StrokeColor = Colors.Blue;
                         canvas.StrokeSize = cellSize / 10;
-                        var x = command.XCoordinate * cellSize + xOffset;
+                        var x = gCommand.XCoordinate * cellSize + xOffset;
                         if (x > NumCellsOfHorizontal * cellSize - cellSize / 20)
                         {
                             x = NumCellsOfHorizontal * cellSize - cellSize / 20;
                             canvas.StrokeColor = Colors.Red;
                         }
-                        var y = command.YCoordinate * cellSize + yOffset;
+                        var y = gCommand.YCoordinate * cellSize + yOffset;
                         if (y > NumCellsOfVertical * cellSize - cellSize / 20)
                         {
                             y = NumCellsOfVertical * cellSize - cellSize / 20;
@@ -119,9 +111,9 @@ public class SheetDrawable : IDrawable
 
                         if (x > maxX) maxX = x;
 
-                        if (lastCommand is null || command.Gcode == "G0")
+                        if (lastCommand is null || gCommand.GCode == "G0")
                         {
-                            lastCommand = command;
+                            lastCommand = gCommand;
                         }
                         else
                         {
@@ -130,7 +122,7 @@ public class SheetDrawable : IDrawable
                                 top + y,
                                 left + x,
                                 top + y);
-                            lastCommand = command;
+                            lastCommand = gCommand;
                         }
                     }
                     xOffset = maxX;

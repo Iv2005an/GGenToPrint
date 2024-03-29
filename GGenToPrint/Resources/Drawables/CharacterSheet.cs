@@ -49,28 +49,28 @@ namespace GGenToPrint.Resources.Drawables
             canvas.FillRectangle(left, top, smallestSide / 2, smallestSide);
             canvas.Alpha = 1f;
         }
-        static public void DrawCharacter(ICanvas canvas, float top, float left, float cellSize, string Commands)
+        static public void DrawCharacter(ICanvas canvas, float left, float top, float cellSize, string GCode)
         {
             canvas.StrokeSize = cellSize / 10;
             canvas.StrokeColor = Colors.Blue;
             canvas.StrokeLineCap = LineCap.Round;
-            if (Commands != null)
+            if (GCode != null)
             {
-                Gcommand lastCommand = null;
-                foreach (var command in Gcommand.ParseCommands(Commands))
+                GCommand lastCommand = null;
+                foreach (var gCommand in GCommand.ParseCommands(GCode))
                 {
-                    if (lastCommand is null || command.Gcode == "G0")
+                    if (lastCommand is null || gCommand.GCode == "G0")
                     {
-                        lastCommand = command;
+                        lastCommand = gCommand;
                     }
                     else
                     {
                         canvas.DrawLine(
                             left + lastCommand.XCoordinate * cellSize + 2 * cellSize,
                             top + lastCommand.YCoordinate * cellSize,
-                            left + command.XCoordinate * cellSize + 2 * cellSize,
-                            top + command.YCoordinate * cellSize);
-                        lastCommand = command;
+                            left + gCommand.XCoordinate * cellSize + 2 * cellSize,
+                            top + gCommand.YCoordinate * cellSize);
+                        lastCommand = gCommand;
                     }
                 }
             }

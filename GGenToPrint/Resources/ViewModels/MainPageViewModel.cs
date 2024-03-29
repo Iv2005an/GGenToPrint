@@ -46,7 +46,7 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     async Task Refresh()
     {
-        Profiles = new(await ProfileService.GetProfiles());
+        Profiles = new(await (await ProfileDatabase.GetInstance()).GetProfiles());
         CurrentProfile = Profiles.Where(profile => profile.CurrentProfile).FirstOrDefault();
     }
 
@@ -54,15 +54,16 @@ public partial class MainPageViewModel : ObservableObject
     async Task AddProfile(string profileName)
     {
         CurrentProfile.ProfileName = profileName;
-        await ProfileService.DisableCurrentProfile();
-        await ProfileService.AddProfile(CurrentProfile);
+        ProfileDatabase profileDatabase = await ProfileDatabase.GetInstance();
+        await profileDatabase.DisableCurrentProfile();
+        await profileDatabase.AddProfile(CurrentProfile);
         await RefreshCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]
     async Task DeleteProfile()
     {
-        await ProfileService.DeleteProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).DeleteProfile(CurrentProfile);
         await RefreshCommand.ExecuteAsync(null);
     }
 
@@ -102,61 +103,61 @@ public partial class MainPageViewModel : ObservableObject
             CellSize = value.CellSize;
             LiftForMoving = value.LiftForMoving;
             UnevennessOfWriting = value.UnevennessOfWriting;
-            await ProfileService.ChangeCurrentProfile(value);
+            await (await ProfileDatabase.GetInstance()).ChangeCurrentProfile(value);
         }
     }
     async partial void OnSavePathChanged(string value)
     {
         SavePath = value.TrimStart();
         CurrentProfile.SavePath = SavePath;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
     async partial void OnNumCellsOfVerticalChanged(byte value)
     {
         if (CurrentProfile is null) return;
         CurrentProfile.NumCellsOfVertical = value;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
     async partial void OnNumCellsOfHorizontalChanged(byte value)
     {
         if (CurrentProfile is null) return;
         CurrentProfile.NumCellsOfHorizontal = value;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
     async partial void OnNumCellsOfMarginChanged(byte value)
     {
         if (CurrentProfile is null) return;
         CurrentProfile.NumCellsOfMargin = value;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
     async partial void OnSheetTypeIndexChanged(byte value)
     {
         if (CurrentProfile is null) return;
         CurrentProfile.SheetTypeIndex = value;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
     async partial void OnSheetPositionIndexChanged(byte value)
     {
         if (CurrentProfile is null) return;
         CurrentProfile.SheetPositionIndex = value;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
     async partial void OnCellSizeChanged(byte value)
     {
         if (CurrentProfile is null) return;
         CurrentProfile.CellSize = value;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
     async partial void OnLiftForMovingChanged(byte value)
     {
         if (CurrentProfile is null) return;
         CurrentProfile.LiftForMoving = value;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
     async partial void OnUnevennessOfWritingChanged(bool value)
     {
         if (CurrentProfile is null) return;
         CurrentProfile.UnevennessOfWriting = value;
-        await ProfileService.UpdateProfile(CurrentProfile);
+        await (await ProfileDatabase.GetInstance()).UpdateProfile(CurrentProfile);
     }
 }

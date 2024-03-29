@@ -12,7 +12,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <preview:PreviewView Grid.Column="1" Margin="50" Commands="{Binding Commands}">
+        <preview:PreviewView Grid.Column="1" Margin="50" GCode="{Binding GCode}">
             <preview:PreviewView.Drawable>
                 <preview:PreviewDrawable/>
             </preview:PreviewView.Drawable>
