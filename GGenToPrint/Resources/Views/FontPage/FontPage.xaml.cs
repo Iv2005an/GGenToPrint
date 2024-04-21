@@ -56,22 +56,22 @@ public partial class FontPage : ContentPage
         }
     }
 
-    async void AddCharacter(object sender, EventArgs args)
+    async void AddSymbol(object sender, EventArgs args)
     {
-        var character = await DisplayPromptAsync(
+        var symbolToAdd = await DisplayPromptAsync(
             "Добавление символа",
             "Введите символ",
             "Добавить",
             "Отмена",
             "Символ", 1
             );
-        if (character is not null)
+        if (symbolToAdd is not null)
         {
-            if (character != string.Empty)
+            if (symbolToAdd != string.Empty)
             {
-                if (!ViewModel.Letters.Where(letter => letter.Character == character).Any())
+                if (!ViewModel.Symbols.Where(symbol => symbol.Sign == symbolToAdd).Any())
                 {
-                    ViewModel.AddCharacterCommand.Execute(character);
+                    ViewModel.AddSymbolCommand.Execute(symbolToAdd);
                 }
                 else
                 {
@@ -84,36 +84,36 @@ public partial class FontPage : ContentPage
             }
         }
     }
-    async void DeleteCharacter(object sender, EventArgs args)
+    async void DeleteSymbol(object sender, EventArgs args)
     {
-        var letter = (Letter)((Button)sender).BindingContext;
-        if (await DisplayAlert("Удаление символа", $"Удалить символ \"{letter.Character}\"?", "Да", "Нет"))
+        var symbol = (Symbol)((Button)sender).BindingContext;
+        if (await DisplayAlert("Удаление символа", $"Удалить символ \"{symbol.Sign}\"?", "Да", "Нет"))
         {
-            await ViewModel.DeleteCharacterCommand.ExecuteAsync(letter);
+            await ViewModel.DeleteSymbolCommand.ExecuteAsync(symbol);
         }
     }
-    async void ChangeCharacter(object sender, EventArgs args)
+    async void ChangeSymbol(object sender, EventArgs args)
     {
-        var oldLetter = (Frame)Characters.Where(character => (
-        (Frame)character).BorderColor != null).FirstOrDefault();
-        if (oldLetter is not null) oldLetter.BorderColor = null;
+        var oldSymbol = (Frame)Symbols.Where(symbol => (
+        (Frame)symbol).BorderColor != null).FirstOrDefault();
+        if (oldSymbol is not null) oldSymbol.BorderColor = null;
 
         var navigationParameters = new Dictionary<string, object>
         {
-            { "Letter", (Letter)((Button)sender).BindingContext }
+            { "Symbol", (Symbol)((Button)sender).BindingContext }
         };
-        ViewModel.CurrentLetter = null;
-        await Shell.Current.GoToAsync("editCharacter", navigationParameters);
+        ViewModel.CurrentSymbol = null;
+        await Shell.Current.GoToAsync("editSymbol", navigationParameters);
     }
 
-    void ShowPreview(object sender, TappedEventArgs args)
+    void ShowSymbolSheet(object sender, TappedEventArgs args)
     {
-        var oldLetter = (Frame)Characters.Where(character => (
-        (Frame)character).BorderColor != null).FirstOrDefault();
-        if (oldLetter is not null) oldLetter.BorderColor = null;
+        var oldSymbol = (Frame)Symbols.Where(symbol => (
+        (Frame)symbol).BorderColor != null).FirstOrDefault();
+        if (oldSymbol is not null) oldSymbol.BorderColor = null;
         var frame = (Frame)sender;
         frame.BorderColor = Application.AccentColor;
-        var letter = (Letter)frame.BindingContext;
-        ViewModel.CurrentLetter = letter;
+        var symbol = (Symbol)frame.BindingContext;
+        ViewModel.CurrentSymbol = symbol;
     }
 }

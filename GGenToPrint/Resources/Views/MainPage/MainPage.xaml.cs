@@ -1,4 +1,5 @@
-﻿using GGenToPrint.Resources.ViewModels;
+﻿using GGenToPrint.Resources.Drawables.Sheet;
+using GGenToPrint.Resources.ViewModels;
 
 namespace GGenToPrint.Resources.Views.MainPage;
 
@@ -15,11 +16,10 @@ public partial class MainPage : ContentPage
 
     async void AddProfile(object sender, EventArgs args)
     {
-        var profilesCount = ViewModel.Profiles.Count;
-        if (profilesCount < 256)
+        byte profilesCount = (byte)ViewModel.Profiles.Count;
+        if (profilesCount < 255)
         {
-
-            var profileName = await DisplayPromptAsync(
+            string profileName = await DisplayPromptAsync(
                 "Добавление профиля",
                 "Введите имя профиля",
                 "Добавить",
@@ -53,5 +53,24 @@ public partial class MainPage : ContentPage
         {
             await ViewModel.DeleteProfileCommand.ExecuteAsync(null);
         }
+    }
+
+    async void SaveGCode(object sender, EventArgs args)
+    {
+        try
+        {
+            await ViewModel.SaveGCodeCommand.ExecuteAsync(null);
+        }
+        catch (IOException ex)
+        {
+            if (ex is DirectoryNotFoundException)
+                await DisplayAlert("Сохранение", "Директория не найдена", "ОК");
+            else if (ex is DriveNotFoundException)
+                await DisplayAlert("Сохранение", "Диск не найден", "ОК");
+            else
+                await DisplayAlert("Сохранение", "Ошибка сохранения файла", "ОК");
+            return;
+        }
+        await DisplayAlert("Сохранение", "Код сохранён в файл", "ОК");
     }
 }

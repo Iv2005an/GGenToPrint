@@ -1,19 +1,19 @@
 ﻿using SQLite;
 using Font = GGenToPrint.Resources.Models.Font;
 
-namespace GGenToPrint.Resources.Services;
+namespace GGenToPrint.Resources.Databases;
 
-public class FontDatabase
+public class FontsDatabase
 {
-    private FontDatabase() { }
+    private FontsDatabase() { }
 
-    private static FontDatabase instance;
+    private static FontsDatabase instance;
 
-    async public static Task<FontDatabase> GetInstance()
+    async public static Task<FontsDatabase> GetInstance()
     {
         if (instance == null)
         {
-            instance = new FontDatabase();
+            instance = new FontsDatabase();
             await instance.Init();
         }
         return instance;
@@ -38,7 +38,7 @@ public class FontDatabase
 
     public async Task<Font> GetCurrentFont()
     {
-        return (await GetFonts()).Where(font => font.CurrentFont).FirstOrDefault();
+        return (await GetFonts()).FirstOrDefault(font => font.CurrentFont);
     }
 
     public async Task AddFont(Font font)
@@ -73,25 +73,25 @@ public class FontDatabase
         {
             await AddFont(new());
         }
-        var letters = await (await LetterDatabase.GetInstance()).GetAllLetters();
-        foreach (var letter in letters)
+        var symbols = await (await SymbolsDatabase.GetInstance()).GetAllSymbols();
+        foreach (var symbol in symbols)
         {
-            if (letter.FontId == font.FontId)
+            if (symbol.FontId == font.FontId)
             {
-                await (await LetterDatabase.GetInstance()).DeleteLetter(letter);
+                await (await SymbolsDatabase.GetInstance()).DeleteSymbol(symbol);
             }
-            else if (letter.FontId > font.FontId)
+            else if (symbol.FontId > font.FontId)
             {
-                await (await LetterDatabase.GetInstance()).DeleteLetter(letter);
-                letter.FontId = (byte)(letter.FontId - 1);
-                await (await LetterDatabase.GetInstance()).AddLetter(letter);
+                await (await SymbolsDatabase.GetInstance()).DeleteSymbol(symbol);
+                symbol.FontId = (byte)(symbol.FontId - 1);
+                await (await SymbolsDatabase.GetInstance()).AddSymbol(symbol);
             }
         }
     }
 
     public async Task DisableCurrentFont()
     {
-        var oldCurrentFont = (await GetFonts()).Where(font => font.CurrentFont).FirstOrDefault();
+        var oldCurrentFont = (await GetFonts()).FirstOrDefault(font => font.CurrentFont);
         if (oldCurrentFont is not null)
         {
             oldCurrentFont.CurrentFont = false;

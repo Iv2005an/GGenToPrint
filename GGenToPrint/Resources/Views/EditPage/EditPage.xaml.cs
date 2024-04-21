@@ -1,18 +1,18 @@
-﻿using GGenToPrint.Resources.Drawables.Editor;
+using GGenToPrint.Resources.Drawables.SymbolSheet;
 using GGenToPrint.Resources.Models;
 using GGenToPrint.Resources.ViewModels;
 
 namespace GGenToPrint.Resources.Views.EditPage;
 
-[QueryProperty(nameof(CurrentLetter), "Letter")]
+[QueryProperty(nameof(CurrentSymbol), "Symbol")]
 public partial class EditPage : ContentPage
 {
     readonly EditPageViewModel ViewModel;
-    public Letter CurrentLetter
+    public Symbol CurrentSymbol
     {
         set
         {
-            ViewModel.CurrentLetter = value;
+            ViewModel.CurrentSymbol = value;
         }
     }
     public EditPage(EditPageViewModel viewModel)
@@ -22,23 +22,27 @@ public partial class EditPage : ContentPage
         ViewModel = viewModel;
     }
 
+    void SetSheetDrawableArgs(object sender)
+    {
+        SymbolSheetDrawable symbolSheet = (SymbolSheetDrawable)((SymbolSheetView)sender).Drawable;
+        ViewModel.CellSize = symbolSheet.CellSize;
+        ViewModel.Left = symbolSheet.Left;
+        ViewModel.Top = symbolSheet.Top;
+    }
     void StartInteraction(object sender, TouchEventArgs args)
     {
-        ViewModel.CellSize = ((EditorDrawable)((EditorView)sender).Drawable).CellSize;
-        ViewModel.Top = ((EditorDrawable)((EditorView)sender).Drawable).Top;
+        SetSheetDrawableArgs(sender);
         ViewModel.StartGCodeChangingCommand.Execute(args.Touches[0]);
     }
-
     void DragInteraction(object sender, TouchEventArgs args)
     {
-        ViewModel.CellSize = ((EditorDrawable)((EditorView)sender).Drawable).CellSize;
-        ViewModel.Top = ((EditorDrawable)((EditorView)sender).Drawable).Top;
+        SetSheetDrawableArgs(sender);
         ViewModel.GCodeChangingCommand.Execute(args.Touches[0]);
     }
 
     async void SaveCommands(object sender, EventArgs args)
     {
-        await DisplayAlert("Сохранение", "Вид символа сохранён", "ОК");
         await ViewModel.SaveCommand.ExecuteAsync(null);
+        await DisplayAlert("Сохранение", "Вид символа сохранён", "ОК");
     }
 }

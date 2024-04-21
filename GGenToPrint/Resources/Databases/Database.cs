@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace GGenToPrint.Resources.Services;
+namespace GGenToPrint.Resources.Databases;
 
 public static class Database
 {

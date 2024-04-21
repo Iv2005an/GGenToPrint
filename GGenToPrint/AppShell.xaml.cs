@@ -7,6 +7,6 @@ public partial class AppShell : Shell
     public AppShell()
     {
         InitializeComponent();
-        Routing.RegisterRoute("editCharacter", typeof(EditPage));
+        Routing.RegisterRoute("editSymbol", typeof(EditPage));
     }
 }

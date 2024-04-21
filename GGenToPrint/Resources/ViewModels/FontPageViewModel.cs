@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GGenToPrint.Resources.Models;
-using GGenToPrint.Resources.Services;
+using GGenToPrint.Resources.Databases;
 using System.Collections.ObjectModel;
 using Font = GGenToPrint.Resources.Models.Font;
 
@@ -18,53 +18,53 @@ public partial class FontPageViewModel : ObservableObject
     [ObservableProperty]
     string fontName;
 
+    [ObservableProperty]
+    ObservableCollection<Symbol> symbols;
+
+    [ObservableProperty]
+    Symbol currentSymbol;
+
+    [ObservableProperty]
+    string symbolGCode;
+
+    [RelayCommand]
+    async Task Refresh()
+    {
+        Fonts = new(await (await FontsDatabase.GetInstance()).GetFonts());
+        CurrentFont = Fonts.Where(font => font.CurrentFont).FirstOrDefault();
+    }
+
     [RelayCommand]
     async Task AddFont(string fontName)
     {
         CurrentFont.FontName = fontName;
-        await (await FontDatabase.GetInstance()).DisableCurrentFont();
-        await (await FontDatabase.GetInstance()).AddFont(CurrentFont);
+        await (await FontsDatabase.GetInstance()).DisableCurrentFont();
+        await (await FontsDatabase.GetInstance()).AddFont(CurrentFont);
         await RefreshCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]
     async Task DeleteFont()
     {
-        await (await FontDatabase.GetInstance()).DeleteFont(CurrentFont);
+        await (await FontsDatabase.GetInstance()).DeleteFont(CurrentFont);
         await RefreshCommand.ExecuteAsync(null);
     }
 
-    [ObservableProperty]
-    ObservableCollection<Letter> letters;
-
-    [ObservableProperty]
-    Letter currentLetter;
-
-    [ObservableProperty]
-    string gCode;
-
     [RelayCommand]
-    async Task Refresh()
+    async Task AddSymbol(string symbol)
     {
-        Fonts = new(await (await FontDatabase.GetInstance()).GetFonts());
-        CurrentFont = Fonts.Where(font => font.CurrentFont).FirstOrDefault();
-    }
-
-    [RelayCommand]
-    async Task AddCharacter(string character)
-    {
-        await (await LetterDatabase.GetInstance()).AddLetter(new()
+        await (await SymbolsDatabase.GetInstance()).AddSymbol(new()
         {
-            Character = character,
+            Sign = symbol,
             FontId = CurrentFont.FontId
         });
         await RefreshCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]
-    async Task DeleteCharacter(Letter letter)
+    async Task DeleteSymbol(Symbol symbol)
     {
-        await (await LetterDatabase.GetInstance()).DeleteLetter(letter);
+        await (await SymbolsDatabase.GetInstance()).DeleteSymbol(symbol);
         await RefreshCommand.ExecuteAsync(null);
     }
 
@@ -72,16 +72,16 @@ public partial class FontPageViewModel : ObservableObject
     {
         if (value is not null)
         {
-            CurrentLetter = null;
+            CurrentSymbol = null;
             FontName = value.FontName;
-            await (await FontDatabase.GetInstance()).ChangeCurrentFont(value);
-            Letters = new(await (await LetterDatabase.GetInstance()).GetLetters(value.FontId));
+            await (await FontsDatabase.GetInstance()).ChangeCurrentFont(value);
+            Symbols = new(await (await SymbolsDatabase.GetInstance()).GetSymbols(value.FontId));
         }
     }
 
-    partial void OnCurrentLetterChanged(Letter value)
+    partial void OnCurrentSymbolChanged(Symbol value)
     {
-        if (value is not null) GCode = value.GCode;
-        else GCode = null;
+        if (value is not null) SymbolGCode = value.GCode;
+        else SymbolGCode = null;
     }
 }

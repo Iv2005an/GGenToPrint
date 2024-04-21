@@ -2,26 +2,26 @@
 
 public class GCommand
 {
-    public static IEnumerable<GCommand> ParseCommands(string commands)
+    public byte GType { get; set; }
+    public float XCoordinate { get; set; }
+    public float YCoordinate { get; set; }
+
+    public static IEnumerable<GCommand> ParseCommands(string gCode)
     {
-        var Commands = new List<GCommand>();
-        foreach (string gCommand in commands.Split('\n'))
+        List<GCommand> gCommands = [];
+        foreach (string gCommand in gCode.Split('\n'))
         {
             if (!string.IsNullOrEmpty(gCommand))
             {
                 string[] args = gCommand.Split();
-                Commands.Add(new GCommand()
+                gCommands.Add(new GCommand()
                 {
-                    GCode = args[0],
+                    GType = Convert.ToByte(args[0][1..]),
                     XCoordinate = (float)Convert.ToDouble(args[1][1..]),
                     YCoordinate = (float)Convert.ToDouble(args[2][1..])
                 });
             }
         }
-        return Commands;
+        return gCommands;
     }
-
-    public string GCode { get; set; }
-    public float XCoordinate { get; set; }
-    public float YCoordinate { get; set; }
 }

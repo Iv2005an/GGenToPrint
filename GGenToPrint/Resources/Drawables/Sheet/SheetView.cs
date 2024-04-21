@@ -1,4 +1,5 @@
-﻿using GGenToPrint.Resources.Services;
+﻿using GGenToPrint.Resources.Databases;
+using GGenToPrint.Resources.Models;
 
 namespace GGenToPrint.Resources.Drawables.Sheet;
 
@@ -11,14 +12,10 @@ public class SheetView : GraphicsView
     }
     public static readonly BindableProperty NumCellsOfVerticalProperty = BindableProperty.Create(
         nameof(NumCellsOfVertical), typeof(byte), typeof(SheetView),
-        propertyChanged: NumCellsOfVerticalPropertyChanged);
-    public static void NumCellsOfVerticalPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        propertyChanged: OnNumCellsOfVerticalPropertyChanged);
+    public static void OnNumCellsOfVerticalPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
-        {
-            return;
-        }
-
+        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView) return;
         sheetDrawable.NumCellsOfVertical = (byte)newValue;
         sheetView.Invalidate();
     }
@@ -30,14 +27,10 @@ public class SheetView : GraphicsView
     }
     public static readonly BindableProperty NumCellsOfHorizontalProperty = BindableProperty.Create(
         nameof(NumCellsOfHorizontal), typeof(byte), typeof(SheetView),
-        propertyChanged: NumCellsOfHorizontalPropertyChanged);
-    public static void NumCellsOfHorizontalPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        propertyChanged: OnNumCellsOfHorizontalPropertyChanged);
+    public static void OnNumCellsOfHorizontalPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
-        {
-            return;
-        }
-
+        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView) return;
         sheetDrawable.NumCellsOfHorizontal = (byte)newValue;
         sheetView.Invalidate();
     }
@@ -49,14 +42,10 @@ public class SheetView : GraphicsView
     }
     public static readonly BindableProperty NumCellsOfMarginProperty = BindableProperty.Create(
         nameof(NumCellsOfMargin), typeof(byte), typeof(SheetView),
-        propertyChanged: NumCellsOfMarginPropertyChanged);
-    public static void NumCellsOfMarginPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        propertyChanged: OnNumCellsOfMarginPropertyChanged);
+    public static void OnNumCellsOfMarginPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
-        {
-            return;
-        }
-
+        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView) return;
         sheetDrawable.NumCellsOfMargin = (byte)newValue;
         sheetView.Invalidate();
     }
@@ -68,14 +57,10 @@ public class SheetView : GraphicsView
     }
     public static readonly BindableProperty SheetTypeIndexProperty = BindableProperty.Create(
         nameof(SheetTypeIndex), typeof(byte), typeof(SheetView),
-        propertyChanged: SheetTypePropertyChanged);
-    public static void SheetTypePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        propertyChanged: OnSheetTypePropertyChanged);
+    public static void OnSheetTypePropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
-        {
-            return;
-        }
-
+        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView) return;
         sheetDrawable.SheetTypeIndex = (byte)newValue;
         sheetView.Invalidate();
     }
@@ -87,14 +72,10 @@ public class SheetView : GraphicsView
     }
     public static readonly BindableProperty SheetPositionIndexProperty = BindableProperty.Create(
         nameof(SheetPositionIndex), typeof(byte), typeof(SheetView),
-        propertyChanged: SheetPositionIndexPropertyChanged);
-    public static void SheetPositionIndexPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        propertyChanged: OnSheetPositionIndexPropertyChanged);
+    public static void OnSheetPositionIndexPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
-        {
-            return;
-        }
-
+        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView) return;
         sheetDrawable.SheetPositionIndex = (byte)newValue;
         sheetView.Invalidate();
     }
@@ -106,16 +87,26 @@ public class SheetView : GraphicsView
     }
     public static readonly BindableProperty TextProperty = BindableProperty.Create(
         nameof(TextProperty), typeof(string), typeof(SheetView),
-        propertyChanged: TextPropertyChanged);
-    public static async void TextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        propertyChanged: OnTextPropertyChanged);
+    public static void OnTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView)
-        {
-            return;
-        }
+        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView) return;
+        sheetDrawable.Text = newValue.ToString().TrimEnd();
+        sheetView.Invalidate();
+    }
 
-        sheetDrawable.Text = (string)newValue;
-        sheetDrawable.Letters = await (await LetterDatabase.GetInstance()).GetLetters((await (await FontDatabase.GetInstance()).GetCurrentFont()).FontId);
+    public IEnumerable<Symbol> Symbols
+    {
+        get => (IEnumerable<Symbol>)GetValue(SymbolsProperty);
+        set => SetValue(SymbolsProperty, value);
+    }
+    public static readonly BindableProperty SymbolsProperty = BindableProperty.Create(
+        nameof(Symbols), typeof(IEnumerable<Symbol>), typeof(SheetView),
+        propertyChanged: OnSymbolsPropertyChanged);
+    public static void OnSymbolsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is not SheetView { Drawable: SheetDrawable sheetDrawable } sheetView) return;
+        sheetDrawable.Symbols = (IEnumerable<Symbol>)newValue;
         sheetView.Invalidate();
     }
 }

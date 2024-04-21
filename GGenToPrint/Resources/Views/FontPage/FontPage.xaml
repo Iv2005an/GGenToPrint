@@ -1,59 +1,57 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:preview="clr-namespace:GGenToPrint.Resources.Drawables.Preview"
-             xmlns:models="clr-namespace:GGenToPrint.Resources.Models"
-             xmlns:viewModels="clr-namespace:GGenToPrint.Resources.ViewModels"
-             x:DataType="viewModels:FontPageViewModel"
-             x:Class="GGenToPrint.Resources.Views.FontPage.FontPage">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:symbolSheet="clr-namespace:GGenToPrint.Resources.Drawables.SymbolSheet"
+    xmlns:models="clr-namespace:GGenToPrint.Resources.Models"
+    xmlns:viewModels="clr-namespace:GGenToPrint.Resources.ViewModels"
+    x:DataType="viewModels:FontPageViewModel"
+    x:Class="GGenToPrint.Resources.Views.FontPage.FontPage">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="700"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="700" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
-        <preview:PreviewView Grid.Column="1" Margin="50" GCode="{Binding GCode}">
-            <preview:PreviewView.Drawable>
-                <preview:PreviewDrawable/>
-            </preview:PreviewView.Drawable>
-        </preview:PreviewView>
 
         <ScrollView>
             <VerticalStackLayout Margin="50">
-                <Label Text="Шрифты" FontSize="Large" Margin="0,10,0,0"/>
+                <Label Text="Шрифты" FontSize="Large" Margin="0,10,0,0" />
                 <Frame Margin="0,10,0,0" HeightRequest="75">
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Picker WidthRequest="300"
-                                MinimumHeightRequest="25"
-                                VerticalOptions="Center"
-                                ItemsSource="{Binding Fonts}"
-                                ItemDisplayBinding="{Binding FontName}"
-                                SelectedItem="{Binding CurrentFont}">
+                            MinimumHeightRequest="25"
+                            VerticalOptions="Center"
+                            ItemsSource="{Binding Fonts}"
+                            ItemDisplayBinding="{Binding FontName}"
+                            SelectedItem="{Binding CurrentFont}">
                         </Picker>
-                        <Button Text="Добавить" MinimumWidthRequest="100" Clicked="AddFont"/>
-                        <Button Text="Удалить" TextColor="Red" MinimumWidthRequest="100" Clicked="DeleteFont"/>
+                        <Button Text="Добавить" MinimumWidthRequest="100" Clicked="AddFont" />
+                        <Button Text="Удалить" TextColor="Red" MinimumWidthRequest="100"
+                            Clicked="DeleteFont" />
                     </FlexLayout>
                 </Frame>
 
-                <Label Text="Символы" FontSize="Large" Margin="0,10,0,0"/>
+                <Label Text="Символы" FontSize="Large" Margin="0,10,0,0" />
                 <Frame Margin="0,10,0,0" HeightRequest="75">
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
-                        <Label Text="Символы" VerticalTextAlignment="Center"/>
-                        <Button Text="Добавить символ" Clicked="AddCharacter"/>
+                        <Label Text="Символы" VerticalTextAlignment="Center" />
+                        <Button Text="Добавить символ" Clicked="AddSymbol" />
                     </FlexLayout>
                 </Frame>
-                <VerticalStackLayout x:Name="Characters" BindableLayout.ItemsSource="{Binding Letters}">
+                <VerticalStackLayout x:Name="Symbols"
+                    BindableLayout.ItemsSource="{Binding Symbols}">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="models:Letter">
+                        <DataTemplate x:DataType="models:Symbol">
                             <Frame Margin="0,10,0,0" HeightRequest="75">
                                 <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="ShowPreview"/>
+                                    <TapGestureRecognizer Tapped="ShowSymbolSheet" />
                                 </Frame.GestureRecognizers>
                                 <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
-                                    <Label Text="{Binding Character}" VerticalTextAlignment="Center"/>
+                                    <Label Text="{Binding Sign}" VerticalTextAlignment="Center" />
                                     <HorizontalStackLayout Spacing="20">
-                                        <Button Text="Изменить" MinimumWidthRequest="100" Clicked="ChangeCharacter"/>
-                                        <Button Text="Удалить" TextColor="Red" MinimumWidthRequest="100" Clicked="DeleteCharacter"/>
+                                        <Button Text="Изменить" MinimumWidthRequest="100"
+                                            Clicked="ChangeSymbol" />
+                                        <Button Text="Удалить" TextColor="Red"
+                                            MinimumWidthRequest="100" Clicked="DeleteSymbol" />
                                     </HorizontalStackLayout>
                                 </FlexLayout>
                             </Frame>
@@ -62,5 +60,11 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
+
+        <symbolSheet:SymbolSheetView Grid.Column="1" Margin="50" SymbolGCode="{Binding SymbolGCode}">
+            <symbolSheet:SymbolSheetView.Drawable>
+                <symbolSheet:SymbolSheetDrawable />
+            </symbolSheet:SymbolSheetView.Drawable>
+        </symbolSheet:SymbolSheetView>
     </Grid>
 </ContentPage>

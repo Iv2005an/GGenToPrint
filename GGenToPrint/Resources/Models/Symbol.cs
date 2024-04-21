@@ -2,18 +2,18 @@
 
 namespace GGenToPrint.Resources.Models;
 
-[Table("letters")]
-public class Letter
+[Table("symbols")]
+public class Symbol
 {
-    [Column("letter_id"), PrimaryKey]
-    public int LetterId { get; set; }
+    [Column("symbol_id"), PrimaryKey]
+    public int SymbolId { get; set; }
 
     [Column("font_id")]
     public byte FontId { get; set; }
         = 0;
 
-    [Column("character")]
-    public string Character { get; set; }
+    [Column("sign")]
+    public string Sign { get; set; }
 
     [Column("g_code")]
     public string GCode { get; set; }

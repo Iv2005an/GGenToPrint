@@ -1,6 +1,4 @@
-﻿using GGenToPrint.Resources.Services;
-
-namespace GGenToPrint;
+﻿namespace GGenToPrint;
 
 public partial class App : Application
 {

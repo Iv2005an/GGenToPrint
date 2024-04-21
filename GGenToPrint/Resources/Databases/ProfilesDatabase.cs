@@ -1,19 +1,19 @@
 ﻿using GGenToPrint.Resources.Models;
 using SQLite;
 
-namespace GGenToPrint.Resources.Services;
+namespace GGenToPrint.Resources.Databases;
 
-public class ProfileDatabase
+public class ProfilesDatabase
 {
-    private ProfileDatabase() { }
+    private ProfilesDatabase() { }
 
-    private static ProfileDatabase instance;
+    private static ProfilesDatabase instance;
 
-    async public static Task<ProfileDatabase> GetInstance()
+    async public static Task<ProfilesDatabase> GetInstance()
     {
         if (instance == null)
         {
-            instance = new ProfileDatabase();
+            instance = new ProfilesDatabase();
             await instance.Init();
         }
         return instance;
@@ -81,7 +81,7 @@ public class ProfileDatabase
     public async Task DisableCurrentProfile()
     {
         var profiles = await GetProfiles();
-        var oldCurrentProfile = profiles.Where(profile => profile.CurrentProfile).FirstOrDefault();
+        var oldCurrentProfile = profiles.FirstOrDefault(profile => profile.CurrentProfile);
         if (oldCurrentProfile is not null)
         {
             oldCurrentProfile.CurrentProfile = false;

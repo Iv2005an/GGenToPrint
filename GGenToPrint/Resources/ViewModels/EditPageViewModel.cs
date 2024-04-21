@@ -1,106 +1,104 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GGenToPrint.Resources.Models;
-using GGenToPrint.Resources.Services;
+using GGenToPrint.Resources.Databases;
 
 namespace GGenToPrint.Resources.ViewModels;
 
 public partial class EditPageViewModel : ObservableObject
 {
     [ObservableProperty]
-    Letter currentLetter;
+    Symbol currentSymbol;
 
     [ObservableProperty]
-    string character;
+    string sign;
 
     [ObservableProperty]
     byte connectionTypeIndex;
 
     [ObservableProperty]
-    float cellSize;
+    float left;
 
     [ObservableProperty]
     float top;
 
     [ObservableProperty]
-    string gCode;
+    float cellSize;
 
-    bool IsEqualCommands(PointF newCoordinates)
+    [ObservableProperty]
+    string symbolGCode;
+
+    PointF GetEditSymbolGridCoordinate(PointF coordinates)
+    {
+        return new PointF(
+            (float)Math.Round((coordinates.Y - Top) / CellSize - 2, 2),
+            (float)Math.Round((coordinates.X - Left) / CellSize - 2, 2));
+    }
+
+    bool IsEqualCoordinates(PointF coordinates)
     {
         bool equalsCommands = false;
-        if (GCode != null)
+        if (SymbolGCode != null)
         {
-            var last_command = GCommand.ParseCommands(GCode).LastOrDefault();
-            var lastX = last_command.XCoordinate;
-            var lastY = last_command.YCoordinate;
-            var newX = (float)Math.Round(newCoordinates.X / CellSize - 2, 2);
-            var newY = (float)Math.Round(newCoordinates.Y / CellSize, 2);
-            equalsCommands = lastX == newX && lastY == newY;
+            GCommand lastCommand = GCommand.ParseCommands(SymbolGCode).LastOrDefault();
+            PointF editSymbolGridCoordinates = GetEditSymbolGridCoordinate(coordinates);
+            equalsCommands = lastCommand.XCoordinate == editSymbolGridCoordinates.X && lastCommand.YCoordinate == editSymbolGridCoordinates.Y;
         }
         return equalsCommands;
     }
-    bool outOfBorders;
+
+    void AddGCodeCommand(PointF coordinates, byte gCommandType)
+    {
+        PointF editSymbolGridCoordinates = GetEditSymbolGridCoordinate(coordinates);
+        if (editSymbolGridCoordinates.X >= -2 && editSymbolGridCoordinates.X <= 2 &&
+            editSymbolGridCoordinates.Y >= -2 && editSymbolGridCoordinates.Y <= 2)
+        {
+            if (!IsEqualCoordinates(coordinates))
+                SymbolGCode += $"G{gCommandType} X{editSymbolGridCoordinates.X:0.00} Y{editSymbolGridCoordinates.Y:0.00}\n";
+        }
+    }
+
     [RelayCommand]
     void StartGCodeChanging(PointF coordinates)
     {
-        float lineSize = CellSize / 10;
-        if (coordinates.X - lineSize / 2 > 0 &&
-            coordinates.X + lineSize / 2 < CellSize * 4 &&
-            coordinates.Y - lineSize / 2 > Top &&
-            coordinates.Y + lineSize / 2 < CellSize * 4 + Top)
-        {
-            if (!IsEqualCommands(coordinates))
-                GCode += $"G0 X{coordinates.X / CellSize - 2:0.00} Y{(coordinates.Y - Top) / CellSize:0.00}\n";
-            outOfBorders = false;
-        }
+        AddGCodeCommand(coordinates, 0);
     }
 
     [RelayCommand]
     void GCodeChanging(PointF coordinates)
     {
-        float lineSize = CellSize / 10;
-        if (!outOfBorders &&
-            coordinates.X - lineSize / 2 > 0 &&
-            coordinates.X + lineSize / 2 < CellSize * 4 &&
-            coordinates.Y - lineSize / 2 > Top &&
-            coordinates.Y + lineSize / 2 < CellSize * 4 + Top)
-        {
-            if (!IsEqualCommands(coordinates))
-                GCode += $"G1 X{coordinates.X / CellSize - 2:0.00} Y{(coordinates.Y - Top) / CellSize:0.00}\n";
-        }
-        else
-            outOfBorders = true;
+        AddGCodeCommand(coordinates, 1);
     }
 
     [RelayCommand]
     void Cancel()
     {
-        GCode = CurrentLetter.GCode;
+        SymbolGCode = CurrentSymbol.GCode;
     }
 
     [RelayCommand]
     void Clear()
     {
-        GCode = null;
+        SymbolGCode = null;
     }
 
     [RelayCommand]
     async Task Save()
     {
-        CurrentLetter.GCode = GCode;
-        await (await LetterDatabase.GetInstance()).UpdateLetter(CurrentLetter);
+        CurrentSymbol.GCode = SymbolGCode;
+        await (await SymbolsDatabase.GetInstance()).UpdateSymbol(CurrentSymbol);
     }
 
-    partial void OnCurrentLetterChanged(Letter value)
+    partial void OnCurrentSymbolChanged(Symbol value)
     {
-        Character = value.Character;
-        GCode = value.GCode;
+        Sign = value.Sign;
+        SymbolGCode = value.GCode;
         ConnectionTypeIndex = value.ConnectionType;
     }
 
     async partial void OnConnectionTypeIndexChanged(byte value)
     {
-        CurrentLetter.ConnectionType = value;
-        await (await LetterDatabase.GetInstance()).UpdateLetter(CurrentLetter);
+        CurrentSymbol.ConnectionType = value;
+        await (await SymbolsDatabase.GetInstance()).UpdateSymbol(CurrentSymbol);
     }
 }

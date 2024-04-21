@@ -10,49 +10,28 @@ public class SheetDrawable : IDrawable
     public byte SheetTypeIndex { get; set; }
     public byte SheetPositionIndex { get; set; }
     public string Text { get; set; }
-    public IEnumerable<Letter> Letters { get; set; }
+    public IEnumerable<Symbol> Symbols { get; set; }
 
     public void Draw(ICanvas canvas, RectF rectF)
     {
-        canvas.StrokeSize = 1;
+        float padding = 16;
+        float width = rectF.Width - padding * 2;
+        float height = rectF.Height - padding * 2;
+        float cellSize = width / NumCellsOfHorizontal;
+        if (NumCellsOfVertical * cellSize > height)
+            cellSize = height / NumCellsOfVertical;
+        float left = width / 2 - cellSize * NumCellsOfHorizontal / 2 + padding;
+        float top = height / 2 - cellSize * NumCellsOfVertical / 2 + padding;
+        float right = left + cellSize * NumCellsOfHorizontal;
+        float bottom = top + cellSize * NumCellsOfVertical;
 
-        // Get color for paint
-        Color drawColor = Application.Current.RequestedTheme == AppTheme.Dark ? Colors.White : Colors.Black;
-        canvas.StrokeColor = drawColor;
+        SheetDrawer.DrawLayout(
+            canvas,
+            left, top, right, bottom,
+            cellSize,
+            NumCellsOfHorizontal, NumCellsOfVertical,
+            SheetTypeIndex == 1);
 
-        // Get cell size
-        float cellSize = rectF.Width / NumCellsOfHorizontal;
-        if (NumCellsOfVertical * cellSize > rectF.Height)
-        {
-            cellSize = rectF.Height / NumCellsOfVertical;
-        }
-
-        // Get draw position
-        var top = rectF.Height / 2 - cellSize * NumCellsOfVertical / 2;
-        var bottom = top + cellSize * NumCellsOfVertical;
-        var left = rectF.Width / 2 - cellSize * NumCellsOfHorizontal / 2;
-        var right = left + cellSize * NumCellsOfHorizontal;
-
-        // Borders
-        canvas.DrawLine(left, top, right, top);
-        canvas.DrawLine(right, top, right, bottom);
-        canvas.DrawLine(right, bottom, left, bottom);
-        canvas.DrawLine(left, bottom, left, top);
-
-        // Cells and rows
-        if (SheetTypeIndex == 0)
-        {
-            for (byte i = 1; i < NumCellsOfHorizontal; i++)
-            {
-                canvas.DrawLine(left + cellSize * i, top, left + cellSize * i, bottom);
-            }
-        }
-        for (byte i = 1; i < NumCellsOfVertical; i++)
-        {
-            canvas.DrawLine(left, top + cellSize * i, right, top + cellSize * i);
-        }
-
-        // Margin
         if (NumCellsOfMargin > 0)
         {
             canvas.StrokeSize = 5;
@@ -73,61 +52,89 @@ public class SheetDrawable : IDrawable
                     left + cellSize * NumCellsOfMargin,
                     bottom);
             }
-            canvas.StrokeSize = 1;
-            canvas.StrokeColor = drawColor;
         }
 
-        // Text
-        if (Text is not null && Letters is not null)
+        if (Text is not null && Symbols is not null)
         {
-            canvas.StrokeLineCap = LineCap.Round;
-
             float xOffset = 0;
-            float yOffset = 0;
-
-            foreach (var character in Text)
+            float yOffset = cellSize * 2;
+            PathF textPath = new();
+            PathF startPointPath = new();
+            PathF outPath = new();
+            PointF lastOut = new();
+            bool firstOut = true;
+            foreach (char s in Text)
             {
-                var letter = Letters.Where(letter => letter.Character[0] == character).FirstOrDefault();
-                if (letter is not null && letter.GCode is not null)
+                bool firstDraw = true;
+                switch (s)
                 {
-                    float maxX = 0;
-                    GCommand lastCommand = null;
-                    foreach (var gCommand in GCommand.ParseCommands(letter.GCode))
-                    {
-                        canvas.StrokeColor = Colors.Blue;
-                        canvas.StrokeSize = cellSize / 10;
-                        var x = gCommand.XCoordinate * cellSize + xOffset;
-                        if (x > NumCellsOfHorizontal * cellSize - cellSize / 20)
+                    case ' ':
+                        xOffset += cellSize * 1;
+                        break;
+                    case '\t':
+                        xOffset += cellSize * 4;
+                        break;
+                    case '\n':
+                        xOffset = 0;
+                        yOffset += cellSize * 2;
+                        break;
+                    default:
+                        float maxX = 0;
+                        Symbol currentSymbol = Symbols.FirstOrDefault(symbol => symbol.Sign == s.ToString());
+                        if (currentSymbol is not null)
                         {
-                            x = NumCellsOfHorizontal * cellSize - cellSize / 20;
-                            canvas.StrokeColor = Colors.Red;
-                        }
-                        var y = gCommand.YCoordinate * cellSize + yOffset;
-                        if (y > NumCellsOfVertical * cellSize - cellSize / 20)
-                        {
-                            y = NumCellsOfVertical * cellSize - cellSize / 20;
-                            canvas.StrokeColor = Colors.Red;
-                        }
+                            foreach (GCommand gCommand in GCommand.ParseCommands(currentSymbol.GCode))
+                            {
+                                float x = left + gCommand.YCoordinate * cellSize + xOffset;
+                                float y = top + gCommand.XCoordinate * cellSize + yOffset;
 
-                        if (x > maxX) maxX = x;
+                                if (maxX < gCommand.YCoordinate) maxX = gCommand.YCoordinate;
 
-                        if (lastCommand is null || gCommand.GCode == "G0")
-                        {
-                            lastCommand = gCommand;
+                                if (x > right || y > bottom || x < left || y < top)
+                                {
+                                    if (x < left) x = left;
+                                    if (y < top) y = top;
+                                    if (x > right) x = right;
+                                    if (y > bottom) y = bottom;
+                                    if (firstOut || x != lastOut.X && y != lastOut.Y) outPath.MoveTo(x, y);
+                                    else outPath.LineTo(x, y);
+                                    lastOut.X = x;
+                                    lastOut.Y = y;
+                                    firstOut = false;
+                                }
+                                else
+                                {
+                                    if (gCommand.GType == 0)
+                                    {
+                                        textPath.MoveTo(x, y);
+                                        startPointPath.AppendCircle(x, y, cellSize / 50);
+                                    }
+                                    else if (firstDraw)
+                                    {
+                                        textPath.MoveTo(x, y);
+                                    }
+                                    else if (gCommand.GType == 1)
+                                    {
+                                        textPath.LineTo(x, y);
+                                    }
+                                    firstDraw = false;
+                                    firstOut = true;
+                                }
+                            }
+                            xOffset += maxX * cellSize + cellSize / 4;
                         }
-                        else
-                        {
-                            canvas.DrawLine(
-                                left + x,
-                                top + y,
-                                left + x,
-                                top + y);
-                            lastCommand = gCommand;
-                        }
-                    }
-                    xOffset = maxX;
+                        break;
                 }
             }
+            canvas.StrokeSize = cellSize / 10;
+            canvas.StrokeColor = Colors.Blue;
+            canvas.StrokeLineCap = LineCap.Round;
+            canvas.StrokeLineJoin = LineJoin.Round;
+            canvas.DrawPath(textPath);
+            canvas.StrokeColor = Colors.Green;
+            canvas.DrawPath(startPointPath);
+            canvas.StrokeColor = Colors.Red;
+            canvas.DrawPath(outPath);
         }
     }
 }
