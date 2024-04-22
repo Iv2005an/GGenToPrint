@@ -36,8 +36,8 @@ public class SymbolSheetDrawable : IDrawable
         PathF startPointPath = new();
         foreach (GCommand gCommand in GCommand.ParseCommands(SymbolGCode))
         {
-            float x = Top + gCommand.YCoordinate * CellSize + CellSize * 2;
-            float y = Left + gCommand.XCoordinate * CellSize + CellSize * 2;
+            float x = Left + gCommand.YCoordinate * CellSize + CellSize * 2;
+            float y = Top + gCommand.XCoordinate * CellSize + CellSize * 2;
             if (gCommand.GType == 0)
             {
                 drawPath.MoveTo(x, y);
