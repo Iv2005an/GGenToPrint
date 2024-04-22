@@ -74,7 +74,7 @@ public class SheetDrawable : IDrawable
                     case '\t':
                         xOffset += cellSize * 4;
                         break;
-                    case '\n':
+                    case '\n' or '\r':
                         xOffset = 0;
                         yOffset += cellSize * 2;
                         break;

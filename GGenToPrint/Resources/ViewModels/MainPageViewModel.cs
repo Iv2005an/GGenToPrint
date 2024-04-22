@@ -99,7 +99,7 @@ public partial class MainPageViewModel : ObservableObject
     async Task SaveGCode()
     {
         string gCode = ";Текст:\n";
-        foreach (string line in Text.Split('\n'))
+        foreach (string line in Text.Split('\n', '\r'))
         {
             string commentLine = line.TrimEnd();
             if (!string.IsNullOrEmpty(commentLine))
@@ -123,7 +123,7 @@ public partial class MainPageViewModel : ObservableObject
                 case '\t':
                     yOffset += CellSize * 4;
                     break;
-                case '\n':
+                case '\n' or '\r':
                     xOffset += CellSize * 2;
                     yOffset = 0;
                     break;
