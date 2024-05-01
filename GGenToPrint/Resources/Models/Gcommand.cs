@@ -8,6 +8,7 @@ public class GCommand
 
     public static IEnumerable<GCommand> ParseCommands(string gCode)
     {
+        if (gCode is null) return [];
         List<GCommand> gCommands = [];
         foreach (string gCommand in gCode.Split('\n'))
         {
