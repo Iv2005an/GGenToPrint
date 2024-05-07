@@ -31,15 +31,11 @@ public class FontsDatabase
         }
     }
 
-    public async Task<IEnumerable<Font>> GetFonts()
-    {
-        return await Connection.Table<Font>().ToListAsync();
-    }
+    public async Task<IEnumerable<Font>> GetFonts() =>
+        await Connection.Table<Font>().ToListAsync();
 
-    public async Task<Font> GetCurrentFont()
-    {
-        return (await GetFonts()).FirstOrDefault(font => font.CurrentFont);
-    }
+    public async Task<Font> GetCurrentFont() =>
+        (await GetFonts()).FirstOrDefault(font => font.CurrentFont);
 
     public async Task AddFont(Font font)
     {
@@ -69,17 +65,13 @@ public class FontsDatabase
             await Connection.DeleteAllAsync<Font>();
             await Connection.InsertAllAsync(fonts);
         }
-        else
-        {
-            await AddFont(new());
-        }
+        else await AddFont(new());
+
         var symbols = await (await SymbolsDatabase.GetInstance()).GetAllSymbols();
         foreach (var symbol in symbols)
         {
             if (symbol.FontId == font.FontId)
-            {
                 await (await SymbolsDatabase.GetInstance()).DeleteSymbol(symbol);
-            }
             else if (symbol.FontId > font.FontId)
             {
                 await (await SymbolsDatabase.GetInstance()).DeleteSymbol(symbol);

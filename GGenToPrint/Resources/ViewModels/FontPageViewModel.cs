@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GGenToPrint.Resources.Models;
 using GGenToPrint.Resources.Databases;
+using GGenToPrint.Resources.Models;
 using System.Collections.ObjectModel;
 using Font = GGenToPrint.Resources.Models.Font;
 

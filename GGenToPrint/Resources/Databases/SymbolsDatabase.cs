@@ -26,16 +26,11 @@ public class SymbolsDatabase
         await Connection.CreateTableAsync<Symbol>();
     }
 
-    public async Task<IEnumerable<Symbol>> GetAllSymbols()
-    {
-        return await Connection.Table<Symbol>().ToListAsync();
-    }
+    public async Task<IEnumerable<Symbol>> GetAllSymbols() =>
+        await Connection.Table<Symbol>().ToListAsync();
 
-    public async Task<IEnumerable<Symbol>> GetSymbols(byte fontId)
-    {
-        return await Connection.Table<Symbol>().Where(
-            symbol => symbol.FontId == fontId).ToListAsync();
-    }
+    public async Task<IEnumerable<Symbol>> GetSymbols(byte fontId) =>
+        await Connection.Table<Symbol>().Where(symbol => symbol.FontId == fontId).ToListAsync();
     public async Task AddSymbol(Symbol symbol)
     {
         var symbols = await GetAllSymbols();
@@ -63,8 +58,6 @@ public class SymbolsDatabase
             await Connection.InsertAllAsync(symbols);
         }
     }
-    public async Task UpdateSymbol(Symbol updatedSymbol)
-    {
+    public async Task UpdateSymbol(Symbol updatedSymbol) =>
         await Connection.UpdateAsync(updatedSymbol);
-    }
 }

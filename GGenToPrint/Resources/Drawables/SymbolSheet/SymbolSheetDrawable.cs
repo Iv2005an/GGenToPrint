@@ -52,7 +52,7 @@ public class SymbolSheetDrawable : IDrawable
         canvas.StrokeColor = Colors.Blue;
         canvas.StrokeLineCap = LineCap.Round;
         canvas.StrokeLineJoin = LineJoin.Round;
-        
+
         canvas.DrawPath(drawPath);
         canvas.StrokeColor = Colors.Green;
         canvas.DrawPath(startPointPath);

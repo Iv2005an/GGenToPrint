@@ -1,5 +1,4 @@
-﻿using GGenToPrint.Resources.Drawables.Sheet;
-using GGenToPrint.Resources.ViewModels;
+﻿using GGenToPrint.Resources.ViewModels;
 
 namespace GGenToPrint.Resources.Views.MainPage;
 
@@ -57,6 +56,16 @@ public partial class MainPage : ContentPage
 
     async void SaveGCode(object sender, EventArgs args)
     {
+        if (string.IsNullOrEmpty(ViewModel.SavePath))
+        {
+            await DisplayAlert("Ошибка", "Введите путь", "ОК");
+            return;
+        }
+        if (string.IsNullOrEmpty(ViewModel.Text))
+        {
+            await DisplayAlert("Ошибка", "Введите текст", "ОК");
+            return;
+        }
         try
         {
             await ViewModel.SaveGCodeCommand.ExecuteAsync(null);
@@ -64,11 +73,11 @@ public partial class MainPage : ContentPage
         catch (IOException ex)
         {
             if (ex is DirectoryNotFoundException)
-                await DisplayAlert("Сохранение", "Директория не найдена", "ОК");
+                await DisplayAlert("Ошибка", "Директория не найдена", "ОК");
             else if (ex is DriveNotFoundException)
-                await DisplayAlert("Сохранение", "Диск не найден", "ОК");
+                await DisplayAlert("Ошибка", "Диск не найден", "ОК");
             else
-                await DisplayAlert("Сохранение", "Ошибка сохранения файла", "ОК");
+                await DisplayAlert("Ошибка", "Ошибка сохранения файла", "ОК");
             return;
         }
         await DisplayAlert("Сохранение", "Код сохранён в файл", "ОК");

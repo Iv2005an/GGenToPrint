@@ -34,7 +34,7 @@ public class SheetDrawable : IDrawable
 
         if (NumCellsOfMargin > 0)
         {
-            canvas.StrokeSize = 5;
+            canvas.StrokeSize = cellSize / 4;
             canvas.StrokeColor = Colors.Red;
             if (SheetPositionIndex == 0)
             {
@@ -109,14 +109,8 @@ public class SheetDrawable : IDrawable
                                         textPath.MoveTo(x, y);
                                         startPointPath.AppendCircle(x, y, cellSize / 50);
                                     }
-                                    else if (firstDraw)
-                                    {
-                                        textPath.MoveTo(x, y);
-                                    }
-                                    else if (gCommand.GType == 1)
-                                    {
-                                        textPath.LineTo(x, y);
-                                    }
+                                    else if (firstDraw) textPath.MoveTo(x, y);
+                                    else if (gCommand.GType == 1) textPath.LineTo(x, y);
                                     firstDraw = false;
                                     firstOut = true;
                                 }

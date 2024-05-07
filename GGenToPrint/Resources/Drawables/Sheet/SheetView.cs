@@ -1,5 +1,4 @@
-﻿using GGenToPrint.Resources.Databases;
-using GGenToPrint.Resources.Models;
+﻿using GGenToPrint.Resources.Models;
 
 namespace GGenToPrint.Resources.Drawables.Sheet;
 

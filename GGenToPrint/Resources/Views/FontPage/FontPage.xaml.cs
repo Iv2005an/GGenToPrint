@@ -1,6 +1,5 @@
 ﻿using GGenToPrint.Resources.Models;
 using GGenToPrint.Resources.ViewModels;
-using GGenToPrint.Resources.Views;
 
 namespace GGenToPrint.Resources.Views.FontPage;
 
@@ -92,7 +91,7 @@ public partial class FontPage : ContentPage
             await ViewModel.DeleteSymbolCommand.ExecuteAsync(symbol);
         }
     }
-    async void ChangeSymbol(object sender, EventArgs args)
+    async void EditSymbol(object sender, EventArgs args)
     {
         var oldSymbol = (Frame)Symbols.Where(symbol => (
         (Frame)symbol).BorderColor != null).FirstOrDefault();

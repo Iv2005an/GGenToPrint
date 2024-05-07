@@ -1,11 +1,7 @@
-using GGenToPrint.Resources.Models;
-
 namespace GGenToPrint.Resources.Drawables;
 
 public static class SheetDrawer
 {
-    public static Color BrushColor => Application.Current.RequestedTheme == AppTheme.Dark ? Colors.White : Colors.Black;
-
     public static void DrawLayout(
         ICanvas canvas,
         float left, float top, float right, float bottom,
@@ -34,14 +30,13 @@ public static class SheetDrawer
                 layout.LineTo(left + cellSize * i, bottom);
             }
         }
-        canvas.StrokeColor = BrushColor;
+        const float strokeSize = 1;
+        canvas.StrokeColor = Application.Current.RequestedTheme == AppTheme.Dark ? Colors.White : Colors.Black;
         canvas.Alpha = 0.5f;
-        canvas.StrokeSize = 1;
+        canvas.StrokeSize = strokeSize;
         canvas.DrawPath(layout);
         canvas.Alpha = 1f;
 
-        float strokeSize = 2;
-        canvas.StrokeSize = strokeSize;
         canvas.StrokeColor = Colors.Green;
         canvas.DrawLine(left, top + strokeSize / 2, right, top + strokeSize / 2);
         canvas.StrokeColor = Colors.Red;
@@ -63,6 +58,7 @@ public static class SheetDrawer
 
         canvas.StrokeSize = 5;
         canvas.StrokeColor = Colors.LightBlue;
+        canvas.StrokeLineCap = LineCap.Butt;
         canvas.DrawPath(crosshair);
 
         canvas.FillColor = Colors.Red;

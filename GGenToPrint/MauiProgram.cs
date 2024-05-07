@@ -1,9 +1,9 @@
-﻿using GGenToPrint.Resources.Views.MainPage;
-using GGenToPrint.Resources.Views.FontPage;
-using GGenToPrint.Resources.Views.EditPage;
+﻿using CommunityToolkit.Maui;
 using GGenToPrint.Resources.ViewModels;
+using GGenToPrint.Resources.Views.EditPage;
+using GGenToPrint.Resources.Views.FontPage;
+using GGenToPrint.Resources.Views.MainPage;
 using Microsoft.Extensions.Logging;
-using CommunityToolkit.Maui;
 using System.Globalization;
 
 namespace GGenToPrint;

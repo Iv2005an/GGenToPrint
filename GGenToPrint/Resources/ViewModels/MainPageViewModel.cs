@@ -1,11 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
-using GGenToPrint.Resources.Models;
-using GGenToPrint.Resources.Databases;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Storage;
-using CommunityToolkit.Maui.Core.Primitives;
-using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GGenToPrint.Resources.Databases;
+using GGenToPrint.Resources.Models;
+using System.Collections.ObjectModel;
 
 namespace GGenToPrint.Resources.ViewModels;
 
@@ -145,10 +144,7 @@ public partial class MainPageViewModel : ObservableObject
                                 gCode += $"G0 X{x:0.00} Y{y:0.00} Z{LiftForMoving} F6000\n";
                                 gCode += $"G0 X{x:0.00} Y{y:0.00} Z0 F6000\n";
                             }
-                            else if (gCommand.GType == 1)
-                            {
-                                gCode += $"G1 X{x:0.00} Y{y:0.00} Z0 F3600\n";
-                            }
+                            else if (gCommand.GType == 1) gCode += $"G1 X{x:0.00} Y{y:0.00} Z0 F3600\n";
                         }
                         yOffset += maxY * CellSize + CellSize / 4;
                     }

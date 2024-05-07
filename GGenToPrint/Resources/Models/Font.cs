@@ -9,11 +9,11 @@ public class Font
     public byte FontId { get; set; }
         = 0;
 
-    [Column("current_font")]
+    [Column("current_font"), NotNull]
     public bool CurrentFont { get; set; }
         = true;
 
-    [Column("font_name")]
+    [Column("font_name"), NotNull]
     public string FontName { get; set; }
         = "Шрифт 1";
 }
