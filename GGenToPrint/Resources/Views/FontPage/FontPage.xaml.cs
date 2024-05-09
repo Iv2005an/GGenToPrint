@@ -38,13 +38,13 @@ public partial class FontPage : ContentPage
                 }
                 else
                 {
-                    await DisplayAlert("Ошибка", "Пустое имя пользователя", "ОК");
+                    await DisplayAlert("Ошибка", "Введите имя шрифта", "ОК");
                 }
             }
         }
         else
         {
-            await DisplayAlert("Ошибка", "Превышено количество пользователей", "ОК");
+            await DisplayAlert("Ошибка", "Превышено количество шрифтов", "ОК");
         }
     }
     async void DeleteFont(object sender, EventArgs args)
@@ -57,30 +57,27 @@ public partial class FontPage : ContentPage
 
     async void AddSymbol(object sender, EventArgs args)
     {
-        var symbolToAdd = await DisplayPromptAsync(
+        var symbolToAdd = (await DisplayPromptAsync(
             "Добавление символа",
             "Введите символ",
             "Добавить",
             "Отмена",
             "Символ", 1
-            );
-        if (symbolToAdd is not null)
+            )).Trim();
+        if (!string.IsNullOrEmpty(symbolToAdd))
         {
-            if (symbolToAdd != string.Empty)
+            if (!ViewModel.Symbols.Where(symbol => symbol.Sign == symbolToAdd).Any())
             {
-                if (!ViewModel.Symbols.Where(symbol => symbol.Sign == symbolToAdd).Any())
-                {
-                    ViewModel.AddSymbolCommand.Execute(symbolToAdd);
-                }
-                else
-                {
-                    await DisplayAlert("Ошибка", "Введен повторяющийся символ", "ОК");
-                }
+                ViewModel.AddSymbolCommand.Execute(symbolToAdd);
             }
             else
             {
-                await DisplayAlert("Ошибка", "Не введён символ", "ОК");
+                await DisplayAlert("Ошибка", "Повторяющийся символ", "ОК");
             }
+        }
+        else
+        {
+            await DisplayAlert("Ошибка", "Введите символ", "ОК");
         }
     }
     async void DeleteSymbol(object sender, EventArgs args)

@@ -36,7 +36,7 @@ public partial class MainPage : ContentPage
                 }
                 else
                 {
-                    await DisplayAlert("Ошибка", "Пустое имя пользователя", "ОК");
+                    await DisplayAlert("Ошибка", "Введите имя профиля", "ОК");
                 }
             }
         }
