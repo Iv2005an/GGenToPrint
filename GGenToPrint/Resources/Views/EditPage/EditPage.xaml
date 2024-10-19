@@ -18,7 +18,7 @@
                 <Frame Margin="0,10,0,0" HeightRequest="75">
                     <FlexLayout AlignContent="Center" JustifyContent="SpaceBetween">
                         <Button MinimumWidthRequest="175" Text="Отмена" TextColor="Red"
-                            Command="{Binding CancelCommand}" />
+                            Clicked="Cancel" />
                         <Button MinimumWidthRequest="175" Text="Очистить" TextColor="Red"
                             Command="{Binding ClearCommand}" />
                         <Button MinimumWidthRequest="175" Text="Сохранить" Clicked="SaveCommands" />

@@ -56,12 +56,6 @@ public partial class EditPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    void Cancel()
-    {
-        SymbolGCode = CurrentSymbol.GCode;
-    }
-
-    [RelayCommand]
     void Clear()
     {
         SymbolGCode = null;

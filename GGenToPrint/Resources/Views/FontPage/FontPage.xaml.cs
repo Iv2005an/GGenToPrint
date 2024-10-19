@@ -99,7 +99,7 @@ public partial class FontPage : ContentPage
             { "Symbol", (Symbol)((Button)sender).BindingContext }
         };
         ViewModel.CurrentSymbol = null;
-        await Shell.Current.GoToAsync("editSymbol", navigationParameters);
+        await Shell.Current.GoToAsync("///editPage", navigationParameters);
     }
 
     void ShowSymbolSheet(object sender, TappedEventArgs args)

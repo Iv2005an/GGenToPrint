@@ -40,9 +40,12 @@ public partial class EditPage : ContentPage
         ViewModel.GCodeChangingCommand.Execute(args.Touches[0]);
     }
 
+    async void Cancel(object sender, EventArgs args) =>
+        await Shell.Current.GoToAsync("///fontPage");
+
     async void SaveCommands(object sender, EventArgs args)
     {
         await ViewModel.SaveCommand.ExecuteAsync(null);
-        await DisplayAlert("Сохранение", "Вид символа сохранён", "ОК");
+        await Shell.Current.GoToAsync("///fontPage");
     }
 }
